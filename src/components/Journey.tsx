@@ -19,12 +19,10 @@ function StepVisual({ index }: { index: number }) {
   if (index === 0) {
     return (
       <div className="space-y-3" aria-hidden="true">
-        {trailers.map((trailer, i) => (
+        {trailers.map((trailer) => (
           <div
             key={trailer.slug}
-            className={`flex items-center justify-between rounded-xl border px-4 py-3 ${
-              i === 0 ? 'border-electric bg-electric/10' : 'border-line bg-panel'
-            }`}
+            className="flex items-center justify-between rounded-xl border border-electric bg-electric/10 px-4 py-3"
           >
             <span className="text-chrome">{trailer.name}</span>
             <span className="display blue-text text-2xl">{trailer.price}</span>
@@ -79,7 +77,7 @@ function StepVisual({ index }: { index: number }) {
         animate={{ x: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
       >
-        <TrailerGlyph kind="cage" className="h-40 w-auto" />
+        <TrailerGlyph className="h-40 w-auto" />
       </motion.div>
       <p className="display text-2xl text-chrome">Hitch up. Tow away.</p>
     </div>

@@ -1,7 +1,5 @@
-// TODO(client): REFERENCE PRICING AND SPECS ONLY.
-// Names, prices, rates and specs below mirror a comparable trailer-hire site and must be
-// replaced with the client's real fleet before launch. The extra-hour rate for the car
-// trailer is an assumption used only by the hire estimator.
+// TODO(client): the price below is REFERENCE PRICING from a comparable trailer-hire site.
+// Confirm the real rate and the trailer's size and capacity before launch.
 export interface Rate {
   /** Hours covered by the first block. */
   firstBlockHours: number;
@@ -14,7 +12,8 @@ export interface Rate {
 export interface Trailer {
   slug: string;
   name: string;
-  kind: 'cage' | 'car' | 'bike';
+  /** Number of identical trailers in the fleet. */
+  quantity: number;
   price: string;
   priceNote: string;
   rate: Rate;
@@ -25,36 +24,15 @@ export interface Trailer {
 
 export const trailers: readonly Trailer[] = [
   {
-    slug: '8x5-tilt-cage-trailer',
-    name: '8 x 5 Tilt Cage Trailer',
-    kind: 'cage',
+    slug: 'tandem-cage-trailer',
+    name: 'Tandem Cage Trailer',
+    quantity: 3,
     price: 'From $5',
     priceNote: 'per hour',
     rate: { firstBlockHours: 1, firstBlockPrice: 5, extraHourPrice: 5 },
-    blurb: 'The everyday workhorse for furniture, green waste, building supplies and bulky loads.',
-    specs: ['8 x 5 ft deck', 'Caged sides', 'Tilting deck for easy unloading'],
-    goodFor: ['House moves', 'Green waste & tip runs', 'Landscaping supplies'],
-  },
-  {
-    slug: 'tilt-car-trailer',
-    name: '3.5t Tilt Car Trailer',
-    kind: 'car',
-    price: '$80',
-    priceNote: 'for the first 3 hours',
-    rate: { firstBlockHours: 3, firstBlockPrice: 80, extraHourPrice: 20 },
-    blurb: 'Move project cars, track cars and breakdowns with a tilt bed that makes loading simple.',
-    specs: ['3.5 tonne rated', 'Tilt bed for low-angle loading'],
-    goodFor: ['Project cars', 'Track days', 'Vehicle breakdowns'],
-  },
-  {
-    slug: 'motorbike-trailer',
-    name: 'Motorbike Trailer',
-    kind: 'bike',
-    price: 'From $5',
-    priceNote: 'per hour',
-    rate: { firstBlockHours: 1, firstBlockPrice: 5, extraHourPrice: 5 },
-    blurb: 'A stable, secure trailer for carrying bikes to the track, the trail or the workshop.',
-    specs: ['Built to hold bikes upright', 'Easy to tow'],
-    goodFor: ['Track & trail days', 'Workshop runs', 'Bike moves'],
+    blurb:
+      'A galvanised tandem-axle cage trailer for furniture, green waste, building supplies and bulky loads.',
+    specs: ['Galvanised steel', 'Tandem axle', 'Mesh cage sides'],
+    goodFor: ['House and unit moves', 'Green waste and tip runs', 'Landscaping and building supplies'],
   },
 ];

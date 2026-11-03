@@ -25,7 +25,7 @@ const body = Barlow({
 });
 
 const description =
-  'Self-service trailer hire in Sydney. Book online, verify once, get your access code and tow away. Cage, car and motorbike trailers.';
+  'Self-service trailer hire in Sydney. Book online, verify once, get your access code and tow away. Galvanised tandem cage trailers.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -67,6 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             image: `${site.url}/logo.png`,
             areaServed: site.region,
             ...(site.phone ? { telephone: site.phone } : {}),
+            ...(site.abn ? { taxID: site.abn } : {}),
             ...(site.email ? { email: site.email } : {}),
           }}
         />

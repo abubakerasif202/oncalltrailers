@@ -33,7 +33,7 @@ export default function HomePage() {
                 The <span className="blue-text">fleet</span>
               </>
             }
-            intro="Pick the trailer that fits the job. Every trailer books the same way: online, in minutes."
+            intro="Three identical galvanised cage trailers at one pickup point. Book one online in minutes."
           />
           <FleetShowcase />
         </div>

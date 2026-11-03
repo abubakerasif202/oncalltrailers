@@ -8,7 +8,7 @@ import { SectionHeading } from '@/components/SectionHeading';
 export const metadata: Metadata = {
   title: 'Trailers',
   description:
-    'Cage, car and motorbike trailers for self-service hire in Sydney. Check live availability and book online.',
+    'Galvanised tandem cage trailers for self-service hire in Sydney. Check live availability and book online.',
   alternates: { canonical: '/trailers' },
 };
 
@@ -22,7 +22,7 @@ export default function TrailersPage() {
               Our <span className="blue-text">trailers</span>
             </>
           }
-          intro="Choose the right trailer for the job, then book it below."
+          intro="Our galvanised tandem cage trailer, ready for your next load. Book it below."
         />
         <FleetShowcase />
 

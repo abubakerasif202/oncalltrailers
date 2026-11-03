@@ -57,6 +57,7 @@ export function Footer() {
       </div>
       <p className="mx-auto mt-12 max-w-7xl text-sm text-mute">
         © {new Date().getFullYear()} {site.name}. All rights reserved.
+        {site.abn && <> ABN {site.abn}.</>}
       </p>
     </footer>
   );

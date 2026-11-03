@@ -1,10 +1,11 @@
-// TODO(client): replace every null / placeholder below with the client's real details.
+// TODO(client): still missing: email, pickup address and Instagram (null fields are hidden on the site).
 export interface SiteInfo {
   name: string;
   tagline: string;
   url: string;
   region: string;
   phone: string | null;
+  abn: string | null;
   email: string | null;
   pickupAddress: string | null;
   instagram: string | null;
@@ -15,7 +16,8 @@ export const site: SiteInfo = {
   tagline: 'Ready when you are',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.oncalltrailers.com.au',
   region: 'Sydney, NSW',
-  phone: null,
+  phone: '+61 490 176 809',
+  abn: '80 807 007 887',
   email: null,
   pickupAddress: null,
   instagram: null,

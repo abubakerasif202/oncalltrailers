@@ -13,6 +13,7 @@ export function HireEstimator() {
 
   const trailer = trailers.find((t) => t.slug === slug) ?? trailers[0];
   const total = estimateHire(trailer.rate, hours);
+  const canChoose = trailers.length > 1;
 
   const target = useMotionValue(total);
   const spring = useSpring(target, { stiffness: 110, damping: 20 });
@@ -26,36 +27,40 @@ export function HireEstimator() {
     <div className="card-edge rounded-3xl p-6 sm:p-10">
       <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div>
-          <p className="mb-3 text-sm font-semibold text-mute" id={`${sliderId}-group`}>
-            Choose a trailer
-          </p>
-          <div role="radiogroup" aria-labelledby={`${sliderId}-group`} className="flex flex-wrap gap-2">
-            {trailers.map((t) => {
-              const active = t.slug === slug;
-              return (
-                <button
-                  key={t.slug}
-                  type="button"
-                  role="radio"
-                  aria-checked={active}
-                  onClick={() => setSlug(t.slug)}
-                  className="relative min-h-11 rounded-full border border-line px-4 py-2 text-sm font-semibold text-chrome transition-colors hover:border-electric"
-                >
-                  {active && (
-                    <motion.span
-                      layoutId="estimator-pill"
-                      className="absolute inset-0 rounded-full bg-electric"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative">{t.name}</span>
-                </button>
-              );
-            })}
-          </div>
+          {canChoose && (
+            <>
+              <p className="mb-3 text-sm font-semibold text-mute" id={`${sliderId}-group`}>
+                Choose a trailer
+              </p>
+              <div role="radiogroup" aria-labelledby={`${sliderId}-group`} className="mb-9 flex flex-wrap gap-2">
+                {trailers.map((t) => {
+                  const active = t.slug === slug;
+                  return (
+                    <button
+                      key={t.slug}
+                      type="button"
+                      role="radio"
+                      aria-checked={active}
+                      onClick={() => setSlug(t.slug)}
+                      className="relative min-h-11 rounded-full border border-line px-4 py-2 text-sm font-semibold text-chrome transition-colors hover:border-electric"
+                    >
+                      {active && (
+                        <motion.span
+                          layoutId="estimator-pill"
+                          className="absolute inset-0 rounded-full bg-electric"
+                          transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                        />
+                      )}
+                      <span className="relative">{t.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </>
+          )}
 
-          <label htmlFor={sliderId} className="mb-3 mt-9 flex items-baseline justify-between text-sm font-semibold text-mute">
-            <span>How long do you need it?</span>
+          <label htmlFor={sliderId} className="mb-3 flex items-baseline justify-between text-sm font-semibold text-mute">
+            <span>How long do you need the {trailer.name.toLowerCase()}?</span>
             <span className="display text-3xl text-white">{formatDuration(hours)}</span>
           </label>
           <input

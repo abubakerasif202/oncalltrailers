@@ -27,8 +27,8 @@ Set these in the hosting provider's environment settings. Never commit real valu
 
 All of these are placeholders and need the client's real details.
 
-- [ ] **Fleet, prices and specs:** `src/data/trailers.ts` (reference pricing only; the car trailer's extra-hour rate is an assumption used by the estimator).
-- [ ] **Business details:** `src/data/site.ts` (phone, email, pickup address, Instagram). Empty fields are hidden on the site.
+- [ ] **Price, size and capacity:** `src/data/trailers.ts`. The fleet is 3 identical galvanised tandem cage trailers; the $5/hour rate is reference pricing only and the trailer's size and capacity are not stated yet.
+- [ ] **Business details:** `src/data/site.ts`. Phone and ABN are set; still missing email, pickup address and Instagram. Empty fields are hidden on the site.
 - [ ] **FAQ answers:** `src/data/content.ts`, checked against the client's real policies.
 - [ ] **Rental terms and privacy pages:** not included, so no legal text is invented. Add them from the client's documents.
 - [ ] **Lockii widget id:** `NEXT_PUBLIC_LOCKII_ID`.
