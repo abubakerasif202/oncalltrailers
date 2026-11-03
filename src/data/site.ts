@@ -21,6 +21,9 @@ export const site: SiteInfo = {
   instagram: null,
 };
 
+/** Search engines are blocked unless NEXT_PUBLIC_ALLOW_INDEXING is exactly "true". */
+export const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING === 'true';
+
 export interface NavItem {
   href: string;
   label: string;

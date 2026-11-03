@@ -19,7 +19,9 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run test`.
 | `NEXT_PUBLIC_LOCKII_ID` | The `data-lockii-id` value from the client's Lockii embed snippet. While empty, the booking section shows a placeholder panel. |
 | `NEXT_PUBLIC_SITE_URL` | Public site URL, used for canonical links, sitemap and structured data. Defaults to `https://www.oncalltrailers.com.au`. |
 
-Set both in the hosting provider's environment settings. Never commit real values.
+| `NEXT_PUBLIC_ALLOW_INDEXING` | Set to `true` at launch. Anything else (including unset) serves `noindex` and `Disallow: /` so the placeholder site stays out of search results. |
+
+Set these in the hosting provider's environment settings. Never commit real values.
 
 ## Before launch
 
@@ -31,6 +33,7 @@ All of these are placeholders and need the client's real details.
 - [ ] **Rental terms and privacy pages:** not included, so no legal text is invented. Add them from the client's documents.
 - [ ] **Lockii widget id:** `NEXT_PUBLIC_LOCKII_ID`.
 - [ ] **Domain:** confirm `NEXT_PUBLIC_SITE_URL`.
+- [ ] **Go live for search:** set `NEXT_PUBLIC_ALLOW_INDEXING=true` and redeploy. Until then the site is `noindex`.
 
 ## Structure
 

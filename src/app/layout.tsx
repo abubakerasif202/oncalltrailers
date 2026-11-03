@@ -6,7 +6,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { MotionProvider } from '@/components/MotionProvider';
 import { ScrollProgress } from '@/components/ScrollProgress';
 import { StickyBook } from '@/components/StickyBook';
-import { site } from '@/data/site';
+import { allowIndexing, site } from '@/data/site';
 import './globals.css';
 
 const display = Barlow_Condensed({
@@ -44,6 +44,8 @@ export const metadata: Metadata = {
     images: [{ url: '/og.png', width: 1200, height: 630, alt: `${site.name} crest` }],
   },
   alternates: { canonical: '/' },
+  // Stays out of search results until NEXT_PUBLIC_ALLOW_INDEXING=true is set at launch.
+  robots: allowIndexing ? undefined : { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
