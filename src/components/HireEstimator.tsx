@@ -24,7 +24,7 @@ export function HireEstimator() {
   }, [total, target]);
 
   return (
-    <div className="card-edge rounded-3xl p-6 sm:p-10">
+    <div className="panel p-6 sm:p-10">
       <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
         <div>
           {canChoose && (

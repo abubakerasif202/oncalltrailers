@@ -8,10 +8,10 @@ import {
   useScroll,
   useTransform,
 } from 'motion/react';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { steps } from '@/data/content';
 import { trailers } from '@/data/trailers';
-import { TrailerGlyph } from './TrailerGlyph';
 
 const COUNT = steps.length;
 
@@ -73,11 +73,12 @@ function StepVisual({ index }: { index: number }) {
   return (
     <div className="flex flex-col items-center gap-4" aria-hidden="true">
       <motion.div
+        className="overflow-hidden rounded-xl"
         initial={{ x: -60, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
       >
-        <TrailerGlyph className="h-40 w-auto" />
+        <Image src="/trailer-photo.jpg" alt="" width={925} height={345} sizes="(min-width: 1024px) 40vw, 90vw" className="h-auto w-full" />
       </motion.div>
       <p className="display text-2xl text-chrome">Hitch up. Tow away.</p>
     </div>
@@ -96,7 +97,7 @@ function JourneyPanel({ index }: { index: number }) {
         <h3 className="display -mt-2 text-4xl text-white sm:text-6xl">{step.title}</h3>
         <p className="mt-4 max-w-md text-lg text-mute">{step.body}</p>
       </div>
-      <div className="card-edge rounded-2xl p-6 sm:p-8">
+      <div className="panel p-6 sm:p-8">
         <StepVisual index={index} />
       </div>
     </div>
@@ -107,7 +108,7 @@ function StaticSteps() {
   return (
     <ol className="mx-auto grid max-w-7xl gap-6 px-5 sm:px-8 lg:grid-cols-3">
       {steps.map((step, i) => (
-        <li key={step.title} className="card-edge rounded-2xl p-6">
+        <li key={step.title} className="panel p-6">
           <p className="display blue-text text-6xl" aria-hidden="true">
             {i + 1}
           </p>

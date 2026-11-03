@@ -1,19 +1,19 @@
 'use client';
 
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from 'motion/react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import type { PointerEvent } from 'react';
+import { Icon } from './Icon';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const container = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.13, delayChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
 };
 
 const rise = {
-  hidden: { y: '110%' },
+  hidden: { y: '115%' },
   show: { y: 0, transition: { duration: 0.9, ease: EASE } },
 };
 
@@ -22,99 +22,87 @@ const fade = {
   show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
 };
 
+const promises = ['Premium trailer hire', 'Fast booking', 'Unattended pickup'] as const;
+
 export function Hero() {
   const reduce = useReducedMotion();
-  const px = useMotionValue(0);
-  const py = useMotionValue(0);
-  const rotateY = useSpring(useTransform(px, [-0.5, 0.5], [-12, 12]), { stiffness: 100, damping: 20 });
-  const rotateX = useSpring(useTransform(py, [-0.5, 0.5], [10, -10]), { stiffness: 100, damping: 20 });
-
-  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
-    if (reduce) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    px.set((event.clientX - rect.left) / rect.width - 0.5);
-    py.set((event.clientY - rect.top) / rect.height - 0.5);
-  }
-
-  function handlePointerLeave() {
-    px.set(0);
-    py.set(0);
-  }
+  const { scrollY } = useScroll();
+  const sceneY = useTransform(scrollY, [0, 700], [0, reduce ? 0 : 70]);
 
   return (
-    <section className="relative overflow-hidden px-5 pb-20 pt-32 sm:px-8 lg:pb-28 lg:pt-40">
+    <section className="relative isolate overflow-hidden pt-28 lg:pt-32">
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 opacity-[0.08]"
-        style={{
-          backgroundImage:
-            'linear-gradient(var(--color-electric-hi) 1px, transparent 1px), linear-gradient(90deg, var(--color-electric-hi) 1px, transparent 1px)',
-          backgroundSize: '56px 56px',
-          maskImage: 'radial-gradient(ellipse at 72% 30%, black, transparent 70%)',
-        }}
+        className="absolute inset-0 -z-20 bg-[radial-gradient(900px_500px_at_80%_20%,rgb(42_127_255/0.18),transparent_65%)]"
       />
 
-      <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-        <motion.div variants={container} initial="hidden" animate="show">
-          <h1 className="display text-[clamp(3.6rem,10.5vw,8rem)]">
-            <span className="block overflow-hidden pb-[0.08em] pr-4">
-              <motion.span variants={rise} className="chrome-text block">
-                Ready when
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden pb-[0.08em] pr-4">
-              <motion.span variants={rise} className="blue-text block">
-                you are.
-              </motion.span>
-            </span>
-          </h1>
+      <motion.div
+        className="relative mx-auto flex min-h-[560px] max-w-7xl flex-col justify-center px-5 pb-10 sm:px-8 lg:min-h-[700px] lg:pb-24"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
+        <h1 className="display text-[clamp(4.6rem,13vw,10.5rem)] leading-[0.86]">
+          <span className="block overflow-hidden pb-[0.05em] pr-4">
+            <motion.span variants={rise} className="block">
+              <span className="chrome-text">On</span> <span className="blue-text">Call</span>
+            </motion.span>
+          </span>
+          <span className="block overflow-hidden pb-[0.05em] pr-4">
+            <motion.span variants={rise} className="chrome-text block text-[0.6em]">
+              Trailers
+            </motion.span>
+          </span>
+        </h1>
 
-          <motion.p variants={fade} className="mt-7 max-w-xl text-lg leading-relaxed text-mute sm:text-xl">
-            Self-service trailer hire in Sydney. Book online, verify once, get your access code and
-            tow away. No counter, no queue.
-          </motion.p>
-
-          <motion.div variants={fade} className="mt-9 flex flex-wrap gap-4">
-            <Link href="/trailers#book" className="btn btn-primary">
-              Book a trailer
-            </Link>
-            <Link href="/trailers" className="btn btn-ghost">
-              View the fleet
-            </Link>
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          className="relative mx-auto w-full max-w-md [perspective:1100px] lg:max-w-none"
-          initial={{ opacity: 0, scale: 0.8, rotate: -4 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 1.1, delay: 0.3, ease: EASE }}
-          onPointerMove={handlePointerMove}
-          onPointerLeave={handlePointerLeave}
+        <motion.p
+          variants={fade}
+          className="display mt-5 w-fit border-y border-electric/60 bg-electric/10 px-6 py-2 text-xl tracking-[0.22em] text-chrome sm:text-3xl"
         >
-          <motion.div
-            aria-hidden="true"
-            className="absolute inset-6 rounded-full bg-electric/30 blur-[90px]"
-            animate={reduce ? undefined : { opacity: [0.45, 0.9, 0.45], scale: [0.94, 1.1, 0.94] }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          <motion.div
-            style={reduce ? undefined : { rotateX, rotateY }}
-            animate={reduce ? undefined : { y: [0, -14, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <Image
-              src="/logo.png"
-              alt="On Call Trailers crest: a galvanised cage trailer in front of the Sydney skyline. Ready when you are."
-              width={720}
-              height={720}
-              priority
-              sizes="(min-width: 1024px) 40vw, 90vw"
-              className="relative h-auto w-full drop-shadow-[0_30px_60px_rgba(42,127,255,0.35)]"
-            />
-          </motion.div>
+          Ready when you are
+        </motion.p>
+
+        <motion.ul
+          variants={fade}
+          className="mt-6 flex max-w-xl flex-col gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-chrome sm:flex-row sm:flex-wrap sm:gap-y-2"
+        >
+          {promises.map((item, i) => (
+            <li key={item} className={i > 0 ? 'sm:ml-4 sm:border-l sm:border-line sm:pl-4' : undefined}>
+              {item}
+            </li>
+          ))}
+        </motion.ul>
+
+        <motion.div variants={fade} className="mt-9 flex flex-wrap gap-4">
+          <Link href="/trailers#book" className="btn btn-primary">
+            <Icon name="calendar" className="h-5 w-5" />
+            Book a trailer now
+          </Link>
+          <Link href="/how-it-works" className="btn btn-outline">
+            <Icon name="play" className="h-5 w-5" />
+            How it works
+          </Link>
         </motion.div>
-      </div>
+      </motion.div>
+
+      <motion.div
+        aria-hidden="true"
+        className="hero-scene relative -z-10 -mt-2 lg:absolute lg:bottom-0 lg:right-0 lg:mt-0 lg:w-[62%]"
+        style={{ y: sceneY }}
+        initial={{ opacity: 0, scale: 1.07 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.8, ease: EASE }}
+      >
+        <Image
+          src="/hero-scene.jpg"
+          alt=""
+          width={972}
+          height={470}
+          priority
+          sizes="(min-width: 1024px) 64vw, 100vw"
+          className="h-auto w-full"
+        />
+      </motion.div>
     </section>
   );
 }

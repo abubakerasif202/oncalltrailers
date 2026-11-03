@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { navItems, site } from '@/data/site';
+import { Icon } from './Icon';
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -12,16 +13,24 @@ export function Header() {
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, 'change', (value) => setCompact(value > 24));
 
+  const telHref = site.phone ? `tel:${site.phone.replace(/\s/g, '')}` : null;
+
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        compact ? 'border-b border-line bg-ink/80 py-2 backdrop-blur-xl' : 'py-4'
+        compact ? 'border-b border-line bg-ink/85 py-2 backdrop-blur-xl' : 'bg-gradient-to-b from-ink/90 to-transparent py-3'
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
         <Link href="/" aria-label={`${site.name} home`} className="flex items-center gap-3">
-          <Image src="/logo.png" alt="" width={52} height={52} className="h-12 w-12" />
-          <span className="display text-2xl text-white">
+          <Image
+            src="/logo.png"
+            alt=""
+            width={72}
+            height={72}
+            className={`transition-all duration-300 ${compact ? 'h-12 w-12' : 'h-16 w-16'}`}
+          />
+          <span className="display hidden text-2xl text-white sm:block">
             On Call <span className="blue-text">Trailers</span>
           </span>
         </Link>
@@ -31,16 +40,29 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="group relative py-2 font-semibold text-chrome transition-colors hover:text-white"
+              className="group relative py-2 text-sm font-semibold uppercase tracking-[0.12em] text-chrome transition-colors hover:text-white"
             >
               {item.label}
               <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 bg-electric transition-transform duration-300 group-hover:scale-x-100" />
             </Link>
           ))}
+        </nav>
+
+        <div className="hidden items-center gap-3 md:flex">
+          {telHref && site.phone && (
+            <a
+              href={telHref}
+              className="hidden items-center gap-2 rounded-lg border border-chrome/40 bg-ink/50 px-4 py-2 font-semibold text-white transition-colors hover:border-electric lg:flex"
+            >
+              <Icon name="phone" className="h-5 w-5 text-electric-hi" />
+              {site.phone}
+            </a>
+          )}
           <Link href="/trailers#book" className="btn btn-primary !px-5 !py-2.5 !text-base">
+            <Icon name="calendar" className="h-5 w-5" />
             Book now
           </Link>
-        </nav>
+        </div>
 
         <button
           type="button"

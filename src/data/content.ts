@@ -1,3 +1,5 @@
+import type { IconName } from '@/components/Icon';
+
 export interface Step {
   title: string;
   body: string;
@@ -19,16 +21,16 @@ export const steps: readonly Step[] = [
 ];
 
 export interface Perk {
+  icon: IconName;
   title: string;
   body: string;
 }
 
-// Only claims that follow from the self-service booking flow itself.
 export const perks: readonly Perk[] = [
-  { title: 'Self-service pickup', body: 'Collect and return without waiting on anyone.' },
-  { title: 'Book in minutes', body: 'Live availability, instant confirmation, pay online.' },
-  { title: 'Extend online', body: 'Need longer? Extend your hire from your phone.' },
-  { title: 'Locally run', body: 'A Sydney trailer hire business you can contact directly.' },
+  { icon: 'clock', title: 'Flexible hire options', body: 'Hire by the hour and extend online' },
+  { icon: 'shield', title: 'Built to last', body: 'Galvanised steel, clean and road-ready' },
+  { icon: 'pin', title: 'Convenient Sydney pickup', body: 'Easy access and self-serve pickup' },
+  { icon: 'people', title: 'Local support', body: 'A real team when you need it' },
 ];
 
 export interface Faq {
