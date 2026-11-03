@@ -57,7 +57,7 @@ export function Hero() {
 
         <motion.p
           variants={fade}
-          className="display mt-5 w-fit border-y border-electric/60 bg-electric/10 px-6 py-2 text-xl tracking-[0.22em] text-chrome sm:text-3xl"
+          className="display mt-5 w-fit bg-gradient-to-r from-electric/45 via-electric/20 to-electric/5 px-9 py-2 text-xl tracking-[0.22em] text-white [clip-path:polygon(18px_0,100%_0,calc(100%-18px)_100%,0_100%)] sm:text-3xl"
         >
           Ready when you are
         </motion.p>

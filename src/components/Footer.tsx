@@ -4,7 +4,8 @@ import { navItems, site } from '@/data/site';
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-panel/60 px-5 pb-28 pt-14 sm:px-8 md:pb-14">
+    <footer className="relative border-t border-electric/25 bg-panel/60 px-5 pb-28 pt-16 sm:px-8 md:pb-14">
+      <div aria-hidden="true" className="plate absolute inset-x-0 top-0 h-2 opacity-70" />
       <div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1.2fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-4">

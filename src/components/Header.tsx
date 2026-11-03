@@ -18,7 +18,9 @@ export function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        compact ? 'border-b border-line bg-ink/85 py-2 backdrop-blur-xl' : 'bg-gradient-to-b from-ink/90 to-transparent py-3'
+        compact
+          ? 'border-b border-electric/30 bg-ink/85 py-2 backdrop-blur-xl'
+          : 'border-b border-electric/20 bg-gradient-to-b from-ink/90 to-ink/20 py-3 shadow-[0_1px_0_rgb(227_234_245/0.07)]'
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-5 sm:px-8">
@@ -26,9 +28,11 @@ export function Header() {
           <Image
             src="/logo.png"
             alt=""
-            width={72}
-            height={72}
-            className={`transition-all duration-300 ${compact ? 'h-12 w-12' : 'h-16 w-16'}`}
+            width={96}
+            height={96}
+            className={`transition-all duration-300 ${
+              compact ? 'h-12 w-12' : 'h-20 w-20 drop-shadow-[0_0_18px_rgb(42_127_255/0.6)]'
+            }`}
           />
           <span className="display hidden text-2xl text-white sm:block">
             On Call <span className="blue-text">Trailers</span>
@@ -36,11 +40,13 @@ export function Header() {
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
-          {navItems.map((item) => (
+          {navItems.map((item, i) => (
             <Link
               key={item.href}
               href={item.href}
-              className="group relative py-2 text-sm font-semibold uppercase tracking-[0.12em] text-chrome transition-colors hover:text-white"
+              className={`group relative py-2 text-sm font-semibold uppercase tracking-[0.12em] text-chrome transition-colors hover:text-white ${
+                i > 0 ? 'border-l border-electric/30 pl-8' : ''
+              }`}
             >
               {item.label}
               <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 bg-electric transition-transform duration-300 group-hover:scale-x-100" />
