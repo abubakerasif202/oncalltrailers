@@ -46,8 +46,8 @@ export function FeaturePanels() {
           <Image
             src="/trailer-photo.jpg"
             alt="Galvanised tandem-axle cage trailer parked on wet tarmac in front of the Sydney skyline at night"
-            width={925}
-            height={345}
+            width={1340}
+            height={500}
             sizes="(min-width: 1024px) 30vw, 100vw"
             className="h-auto w-full"
           />

@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     siteName: site.name,
     locale: 'en_AU',
     type: 'website',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: `${site.name} crest` }],
+    images: [{ url: '/og.jpg', width: 1200, height: 630, alt: `${site.name} galvanised cage trailer in front of the Sydney skyline` }],
   },
   alternates: { canonical: '/' },
   // Stays out of search results until NEXT_PUBLIC_ALLOW_INDEXING=true is set at launch.

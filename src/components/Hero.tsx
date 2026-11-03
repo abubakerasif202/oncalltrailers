@@ -27,7 +27,7 @@ const promises = ['Premium trailer hire', 'Fast booking', 'Unattended pickup'] a
 export function Hero() {
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
-  const sceneY = useTransform(scrollY, [0, 700], [0, reduce ? 0 : 70]);
+  const sceneY = useTransform(scrollY, [0, 700], [0, reduce ? 0 : 24]);
 
   return (
     <section className="relative isolate overflow-hidden pt-28 lg:pt-32">
@@ -87,19 +87,19 @@ export function Hero() {
 
       <motion.div
         aria-hidden="true"
-        className="hero-scene relative -z-10 -mt-2 lg:absolute lg:bottom-0 lg:right-0 lg:mt-0 lg:w-[62%]"
+        className="hero-scene relative -z-10 -ml-[48%] mt-2 w-[148%] max-w-none lg:absolute lg:bottom-0 lg:right-0 lg:ml-0 lg:mt-0 lg:w-[86%]"
         style={{ y: sceneY }}
-        initial={{ opacity: 0, scale: 1.07 }}
+        initial={{ opacity: 0, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.8, ease: EASE }}
       >
         <Image
           src="/hero-scene.jpg"
           alt=""
-          width={972}
-          height={470}
+          width={1916}
+          height={821}
           priority
-          sizes="(min-width: 1024px) 64vw, 100vw"
+          sizes="(min-width: 1024px) 86vw, 148vw"
           className="h-auto w-full"
         />
       </motion.div>

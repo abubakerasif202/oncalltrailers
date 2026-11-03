@@ -78,7 +78,7 @@ function StepVisual({ index }: { index: number }) {
         animate={{ x: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
       >
-        <Image src="/trailer-photo.jpg" alt="" width={925} height={345} sizes="(min-width: 1024px) 40vw, 90vw" className="h-auto w-full" />
+        <Image src="/trailer-photo.jpg" alt="" width={1340} height={500} sizes="(min-width: 1024px) 40vw, 90vw" className="h-auto w-full" />
       </motion.div>
       <p className="display text-2xl text-chrome">Hitch up. Tow away.</p>
     </div>
