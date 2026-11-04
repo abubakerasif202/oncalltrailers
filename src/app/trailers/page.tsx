@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import trailerSide from '@/assets/trailer-side.webp';
 import { Estimator } from '@/components/Estimator';
-import { ArrowIcon } from '@/components/Icons';
 import { LockiiBooking } from '@/components/LockiiBooking';
 import { Lines, Reveal } from '@/components/Reveal';
 import { trailers } from '@/data/trailers';
@@ -59,18 +58,17 @@ export default function TrailersPage() {
             <div className="price-line" style={{ marginTop: 'var(--space-xl)' }}>
               <span className="label">From</span>
               <span className="fig">${trailer.rate.firstBlockPrice}</span>
-              <span className="label">per hour, demo reference pricing</span>
+              <span className="label">per hour · demo reference pricing</span>
             </div>
             <p className="note" style={{ marginTop: 'var(--space-md)' }}>
-              Demo reference pricing, not an offer. Dimensions and load capacity await confirmation.
+              Demo reference pricing — not an offer. Dimensions and load capacity await confirmation.
             </p>
             <div className="actions" style={{ marginTop: 'var(--space-xl)' }}>
               <a href="#book" className="btn btn--primary">
                 Plan hire
               </a>
               <Link href="/trailers/tandem-cage-trailer" className="btn btn--ghost">
-                Explore trailer details
-                <ArrowIcon className="btn__icon" />
+                Explore trailer details ↗
               </Link>
             </div>
           </Reveal>

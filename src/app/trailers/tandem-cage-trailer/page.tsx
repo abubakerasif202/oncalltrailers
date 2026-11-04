@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import harbour from '@/assets/hero-harbour.webp';
-import { ArrowIcon } from '@/components/Icons';
 import { Lines, Reveal } from '@/components/Reveal';
 import { trailers } from '@/data/trailers';
 
@@ -19,13 +18,11 @@ export default function TrailerPage() {
       <section className="page-hero">
         <div className="container">
           <Link href="/trailers" className="link back">
-            Back to the fleet
+            ← Back to the fleet
           </Link>
+          <p className="eyebrow">Three in the fleet · Sydney</p>
           <Lines as="h1" lines={['Tandem Cage', 'Trailer']} />
           <p className="lead hero__lead">{trailer.blurb}</p>
-          <p className="label" style={{ marginTop: 'var(--space-lg)' }}>
-            Three in the fleet, Sydney
-          </p>
         </div>
       </section>
 
@@ -65,7 +62,10 @@ export default function TrailerPage() {
 
       <section className="section band">
         <div className="container split">
-          <Lines as="h2" lines={['Check the fit.', 'Then plan the trip.']} />
+          <div>
+            <p className="eyebrow">Plan your hire</p>
+            <Lines as="h2" lines={['Check the fit.', 'Then plan the trip.']} />
+          </div>
           <Reveal>
             <p className="lead" style={{ color: 'var(--color-ink-2)' }}>
               Dimensions, tare weight, load capacity and final rates are awaiting owner confirmation. Check your vehicle
@@ -76,11 +76,10 @@ export default function TrailerPage() {
             </p>
             <div className="actions" style={{ marginTop: 'var(--space-xl)' }}>
               <Link href="/trailers#book" className="btn btn--primary">
-                View booking options
-                <ArrowIcon className="btn__icon" />
+                View booking options ↗
               </Link>
               <Link href="/contact" className="btn btn--ghost">
-                Ask about suitability
+                Ask about suitability →
               </Link>
             </div>
           </Reveal>

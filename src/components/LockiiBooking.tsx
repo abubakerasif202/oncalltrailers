@@ -10,7 +10,7 @@ export function LockiiBooking() {
   if (!widgetId) {
     return (
       <div className="placeholder">
-        <h3 className="display">Booking preview, not yet connected</h3>
+        <h3 className="display">Booking preview — not yet connected</h3>
         <p>
           This is a demonstration website. Live availability, payment and collection access are not enabled. The Lockii
           booking calendar will appear here once the owner connects their account.

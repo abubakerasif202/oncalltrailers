@@ -36,7 +36,7 @@ export const faqs: readonly Faq[] = [
 export const hotspots = [
   {
     n: '01',
-    label: 'Structural cage',
+    label: 'Structural Cage',
     title: '600mm Galvanised Steel Mesh',
     body: 'Hot-dip galvanised anti-corrosion welded mesh with heavy-duty perimeter tie rails and dual secure locking pins.',
     x: 62,
@@ -45,7 +45,7 @@ export const hotspots = [
   },
   {
     n: '02',
-    label: 'Suspension and axles',
+    label: 'Suspension & Axles',
     title: 'Heavy-Duty Tandem Axle Assembly',
     body: 'Solid 45mm square axles with rocker-roller load-sharing slipper springs and integrated mechanical disc braking system.',
     x: 74,
@@ -54,7 +54,7 @@ export const hotspots = [
   },
   {
     n: '03',
-    label: 'Loading gate',
+    label: 'Loading Gate',
     title: 'Full-Width Drop-Down Ramp',
     body: 'Heavy-gauge drop-down rear gate designed for rapid roll-on loading of furniture, lawnmowers, and building materials.',
     x: 94,
@@ -63,7 +63,7 @@ export const hotspots = [
   },
   {
     n: '04',
-    label: 'ADR coupling',
+    label: 'ADR Coupling',
     title: '50mm Quick-Release Ball Coupling',
     body: 'Australian Standard 50mm override ball coupling equipped with ADR-approved twin high-tensile safety chains and D-shackles.',
     x: 5,
@@ -209,14 +209,12 @@ export const durationTabs: readonly DurationOption[] = [
   { label: '7 Days', hours: 168 },
 ];
 
-export const durationSelect: readonly DurationOption[] = [
+export const sliderTicks = [
   { label: '1 Hour', hours: 1 },
-  { label: '4 hrs', hours: 4 },
   { label: '24 Hours', hours: 24 },
   { label: '48 Hours', hours: 48 },
   { label: '3 Days (72h)', hours: 72 },
-  { label: '7 Days', hours: 168 },
-];
+] as const;
 
 export const addons = [
   { id: 'straps', label: 'Ratchet Straps', price: 10 },

@@ -1,10 +1,12 @@
 /* Hallmark · shape: Feature Stack · genre: atmospheric · theme: brand (Midnight system) · redesign: full · draw: 4a0a41 (hero and nav swapped: the material is one photograph and a four-link site)
  * paper: oklch(13% 0.04 258) · accent: oklch(66% 0.2 256) · display: Barlow Condensed · body: Barlow · hero: Stage · nav: edge bar, wordmark left, one action right · footer: statement · signature: the night-harbour trailer scrubs forward as you scroll while the hire price counts up
  * axes: dark/display-condensed/chromatic-blue · posture: committed · contrast: pass · fold: pass · v2.0.0 */
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V4 · weakest: E, motion is richer than the Midnight theme's single settle because the user asked for enterprise-grade animation; it stays on transform and opacity with a reduced-motion fallback */
+/* Hallmark · pre-emit critique: P4 H4 E5 S4 R4 V4 · weakest: S, the owner's original eyebrows, uppercase condensed type, glow and glass effects are restored at their explicit request, which the Floor would otherwise cut */
 /* Hallmark · waive 8 · the fleet, how it works, hitching checks, booking and FAQ sequence is the owner's page order, kept · each section is recomposed, not reordered */
+/* Hallmark · waive 54 · the owner asked for the original eyebrow labels, uppercase type and effects restored · owner's own trailers, fleet and booking copy */
 /* Hallmark · answered F8 · the user asked for richer scroll motion; each page holds at most one pinned scroll scene, the rest are one shared reveal */
 @import "tailwindcss" source("../");
 @import "../styles/tokens.css";
 @import "../styles/base.css" layer(base);
 @import "../styles/site.css";
+@import "../styles/effects.css";

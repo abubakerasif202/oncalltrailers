@@ -6,8 +6,11 @@ import { useCallback, useRef, useState } from 'react';
 import trailerSide from '@/assets/trailer-side.webp';
 import { hotspots } from '@/data/content';
 
+const PINNED = '(min-width: 61rem) and (prefers-reduced-motion: no-preference)';
+
 /**
- * One pinned scroll scene: as the section scrolls, the camera pushes in on each part of the trailer in turn.
+ * One pinned scroll scene: as the section scrolls, the camera pushes in on each part of the trailer in turn,
+ * a laser line scans the frame and a telemetry card opens beside the active radar hotspot.
  * Hotspots are buttons too. Without scripting, or with reduced motion, it is a plain image and a list.
  */
 export function Anatomy() {
@@ -16,8 +19,7 @@ export function Anatomy() {
   const { scrollYProgress } = useScroll({ target: section, offset: ['start start', 'end end'] });
 
   useMotionValueEvent(scrollYProgress, 'change', (progress) => {
-    const pinned = window.matchMedia('(min-width: 61rem) and (prefers-reduced-motion: no-preference)').matches;
-    if (!pinned) return;
+    if (!window.matchMedia(PINNED).matches) return;
     const index = Math.min(hotspots.length - 1, Math.max(0, Math.floor(progress * hotspots.length)));
     setActive((current) => (current === index ? current : index));
   });
@@ -25,14 +27,14 @@ export function Anatomy() {
   const goTo = useCallback((index: number) => {
     setActive(index);
     const node = section.current;
-    const pinned = window.matchMedia('(min-width: 61rem) and (prefers-reduced-motion: no-preference)').matches;
-    if (!node || !pinned) return;
+    if (!node || !window.matchMedia(PINNED).matches) return;
     const travel = node.offsetHeight - window.innerHeight;
     const top = node.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top: top + (travel * (index + 0.5)) / hotspots.length, behavior: 'smooth' });
   }, []);
 
   const current = hotspots[active];
+  const leftSide = current.x > 55;
 
   return (
     <div className="anatomy" ref={section} id="anatomy">
@@ -68,6 +70,22 @@ export function Anatomy() {
                 </button>
               ))}
             </div>
+            <div className="laser" aria-hidden="true" />
+            <div
+              className="hud"
+              aria-hidden="true"
+              style={{
+                left: `${current.x}%`,
+                top: `${Math.min(Math.max(current.y, 28), 72)}%`,
+                transform: leftSide ? 'translate(calc(-100% - 48px), -50%)' : 'translate(48px, -50%)',
+              }}
+            >
+              <p className="label">
+                {current.n} · {current.label}
+              </p>
+              <h3 className="display">{current.title}</h3>
+              <p>{current.body}</p>
+            </div>
           </div>
           <div className="anatomy__list" style={{ marginTop: 'var(--space-xl)' }}>
             {hotspots.map((spot, index) => (
@@ -75,7 +93,7 @@ export function Anatomy() {
                 <h3>{spot.title}</h3>
                 <p>{spot.body}</p>
                 <p className="label">
-                  {spot.n} {spot.label}
+                  {spot.n} · {spot.label}
                 </p>
               </div>
             ))}

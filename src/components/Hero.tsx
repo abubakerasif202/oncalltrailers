@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import harbour from '@/assets/hero-harbour.webp';
-import { ArrowIcon } from './Icons';
 
 const facts = [
   { label: 'Fleet', value: 'Three tandem cage trailers' },
@@ -30,16 +29,25 @@ export function Hero() {
           priority
           sizes="100vw"
         />
+        <div className="hero__lit">
+          <Image src={harbour} alt="" sizes="100vw" />
+        </div>
       </motion.div>
+      <div className="streak" style={{ top: '38%' }} aria-hidden="true" />
+      <div className="streak" style={{ top: '52%' }} aria-hidden="true" />
+      <div className="streak" style={{ top: '66%' }} aria-hidden="true" />
       <div className="hero__shade" aria-hidden="true" />
 
       <motion.div className="container hero__content" style={{ y: contentY, opacity: contentOpacity }}>
+        <p className="eyebrow" style={{ marginBottom: 0 }}>
+          Sydney · Self-service trailer hire
+        </p>
         <h1 className="hero__title">
           <span className="line" style={{ '--line-delay': '150ms' } as React.CSSProperties}>
-            <span>The right trailer.</span>
+            <span className="shimmer-text">The right trailer.</span>
           </span>{' '}
           <span className="line" style={{ '--line-delay': '290ms' } as React.CSSProperties}>
-            <span>Ready when you are.</span>
+            <span className="blue-text">Ready when you are.</span>
           </span>
         </h1>
         <p className="hero__lead">
@@ -47,8 +55,7 @@ export function Hero() {
         </p>
         <div className="actions">
           <Link href="/trailers#book" className="btn btn--primary">
-            Find your trailer
-            <ArrowIcon className="btn__icon" />
+            Find your trailer ↗
           </Link>
           <a href="#fleet" className="btn btn--ghost">
             Explore our fleet

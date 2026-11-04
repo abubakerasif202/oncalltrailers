@@ -30,6 +30,9 @@
   --color-accent-2: oklch(73% 0.16 254);
   --color-accent-ink: oklch(13% 0.04 258);
   --color-focus: oklch(82% 0.12 240);
+  --color-cyan: oklch(81% 0.14 213);
+  --color-chrome: oklch(81% 0.015 255);
+  --color-electric: oklch(62% 0.21 257);
   --font-display: var(--font-display-next), "Arial Narrow", ui-sans-serif, sans-serif;
   --font-body: var(--font-body-next), ui-sans-serif, system-ui, sans-serif;
   --font-outlier: var(--font-body);
@@ -68,7 +71,7 @@
   --z-toast: 500;
   --z-tooltip: 600;
   --rule-hair: 1px;
-  --display-weight: 800;
+  --display-weight: 700;
 }
 @media (max-width: 60rem) { :root { --gutter: 24px; --section-gap-s: 80px; --section-gap: 96px; --section-gap-l: 120px; } }
 @media (max-width: 40rem) { :root { --gutter: 16px; --section-gap-s: 56px; --section-gap: 72px; --section-gap-l: 96px; --gap-columns: 16px; } }

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowIcon } from '@/components/Icons';
 import { Lines, Reveal } from '@/components/Reveal';
 import { site } from '@/data/site';
 
@@ -48,7 +47,6 @@ export default function ContactPage() {
             <div className="actions" style={{ marginTop: 'var(--space-2xl)' }}>
               <Link href="/trailers#book" className="btn btn--primary">
                 Book a trailer
-                <ArrowIcon className="btn__icon" />
               </Link>
             </div>
           </Reveal>

@@ -40,12 +40,13 @@ export function Estimator() {
             aria-valuetext={hoursLabel(hours)}
           />
           <div className="range__marks" aria-hidden="true">
-            <span>1 hr</span>
-            <span>3 days</span>
+            <span style={{ left: 0 }}>1 hr</span>
+            <span style={{ left: '100%', transform: 'translateX(-100%)' }}>3 days</span>
           </div>
         </div>
       </div>
 
+      <div className="beam" data-tilt>
       <div className="quote">
         <p className="label">Demo reference pricing</p>
         <p className="fig" aria-live="polite" aria-atomic="true">
@@ -57,7 +58,8 @@ export function Estimator() {
         <Link href="/trailers#book" className="btn btn--primary">
           Check availability
         </Link>
-        <p className="note">Demonstration only. Not a quote. Rates await owner approval.</p>
+        <p className="note">Demonstration only — not a quote. Rates await owner approval.</p>
+      </div>
       </div>
     </div>
   );

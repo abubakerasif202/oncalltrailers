@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import { Enhance } from '@/components/Enhance';
+import { Particles } from '@/components/Particles';
+import { Road } from '@/components/Road';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
@@ -85,7 +87,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to main content
         </a>
-        <div className="progress" aria-hidden="true" />
+        <Road />
+        <Particles />
         <Header />
         <main id="main">{children}</main>
         <Footer />

@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 interface StepItem {
   title: string;
   body: string;
+  meta?: string;
 }
 
 /** Numbered stages beside a meter that fills as the list scrolls past. Full without scripting. */
@@ -37,7 +38,10 @@ export function Steps({ items, level = 3 }: { items: readonly StepItem[]; level?
             <span className="num">{String(index + 1).padStart(2, '0')}</span>
             <Heading>{item.title}</Heading>
           </div>
-          <p>{item.body}</p>
+          <div>
+            <p>{item.body}</p>
+            {item.meta ? <p className="label" style={{ marginTop: 'var(--space-md)' }}>{item.meta}</p> : null}
+          </div>
         </li>
       ))}
       </ol>
