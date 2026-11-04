@@ -3,7 +3,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Dialog } from 'radix-ui';
+import { AnimatedDialogContent } from './AnimatedDialogContent';
 import logo from '@/assets/logo-mark.webp';
 import { navItems, site } from '@/data/site';
 import { PhoneIcon } from './Icons';
@@ -19,6 +21,7 @@ const drawerLinks = [
 
 export function Header() {
   const pathname = usePathname();
+  const brandRef = useRef<HTMLAnchorElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -30,18 +33,17 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    if (!open) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open]);
+    const desktop = window.matchMedia('(min-width: 60.001rem)');
+    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
+    desktop.addEventListener('change', closeOnDesktop);
+    return () => desktop.removeEventListener('change', closeOnDesktop);
+  }, []);
 
   return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
     <header className="site-header" data-scrolled={scrolled} data-open={open}>
       <div className="container site-header__bar">
-        <Link href="/" className="brand">
+        <Link href="/" className="brand" ref={brandRef}>
           <Image src={logo} alt="" width={48} height={48} priority />
           <span className="brand__text">
             <span className="brand__name">{site.name}</span>
@@ -58,24 +60,29 @@ export function Header() {
         <Link href="/trailers#book" className="btn btn--primary btn--sm">
           Book now
         </Link>
-        <button
-          type="button"
-          className="menu-btn"
-          aria-expanded={open}
-          aria-controls="drawer"
-          onClick={() => setOpen((value) => !value)}
-        >
-          {open ? 'Close' : 'Menu'}
-        </button>
+        <Dialog.Trigger asChild>
+          <button type="button" className="menu-btn">Menu</button>
+        </Dialog.Trigger>
       </div>
-      <div id="drawer" className="drawer" data-open={open} data-lenis-prevent>
-        <div className="drawer__links">
+      <AnimatedDialogContent open={open} className="drawer" overlayClassName="drawer-overlay"
+        onCloseAutoFocus={(event) => {
+          if (window.matchMedia('(min-width: 60.001rem)').matches) {
+            event.preventDefault();
+            brandRef.current?.focus();
+          }
+        }}>
+        <Dialog.Title className="visually-hidden">Site navigation</Dialog.Title>
+        <Dialog.Description className="visually-hidden">Explore On Call Trailers and plan your hire.</Dialog.Description>
+        <Dialog.Close asChild>
+          <button type="button" className="menu-btn drawer__close">Close</button>
+        </Dialog.Close>
+        <nav className="drawer__links" aria-label="Mobile">
           {drawerLinks.map((item) => (
-            <Link key={item.href} href={item.href} className="drawer__link" onClick={() => setOpen(false)}>
+            <Link key={item.href} href={item.href} className="drawer__link" aria-current={pathname === item.href ? 'page' : undefined} onClick={() => setOpen(false)}>
               {item.label}
             </Link>
           ))}
-        </div>
+        </nav>
         <div className="drawer__meta">
           <p>
             <strong>Sydney Metro 24/7 Pickup</strong>
@@ -91,7 +98,8 @@ export function Header() {
             Find Your Trailer
           </Link>
         </div>
-      </div>
+      </AnimatedDialogContent>
     </header>
+    </Dialog.Root>
   );
 }

@@ -134,3 +134,12 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: clip; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* Portalled Radix surfaces share the existing drawer and reservation styling. */
+.dialog-overlay { position: fixed; inset: 0; z-index: var(--z-modal); background: color-mix(in oklab, var(--color-paper) 85%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.modal { position: fixed; inset: 0; z-index: calc(var(--z-modal) + 1); height: fit-content; }
+.modal__body > .eyebrow { padding-right: 44px; }
+@media (max-width: 60rem) {
+  .drawer[data-open="true"] { position: fixed; inset: 76px 0 0; z-index: calc(var(--z-modal) + 1); margin: 0; align-content: start; }
+  .drawer__close { display: inline-flex; justify-self: end; }
+}

@@ -1,6 +1,8 @@
 'use client';
 
-import { useId, useRef, useState } from 'react';
+import { useId, useState } from 'react';
+import { Dialog } from 'radix-ui';
+import { AnimatedDialogContent } from './AnimatedDialogContent';
 import { addons, durationTabs, sliderTicks } from '@/data/content';
 import { site } from '@/data/site';
 import { formatAud } from '@/lib/estimate';
@@ -26,7 +28,7 @@ function describe(hours: number): string {
 /** Duration, equipment and a live demonstration rate. The rate is a demonstration, not a quote. */
 export function Configurator() {
   const uid = useId();
-  const dialog = useRef<HTMLDialogElement>(null);
+  const [open, setOpen] = useState(false);
   const [hours, setHours] = useState(4);
   const [chosen, setChosen] = useState<Record<string, boolean>>({});
 
@@ -35,6 +37,7 @@ export function Configurator() {
   const tel = site.phone?.replace(/\s/g, '');
 
   return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
     <div className="calc">
       <div className="calc__controls">
         <div className="segments" role="group" aria-label="Hire duration">
@@ -101,35 +104,35 @@ export function Configurator() {
             {formatAud(Math.round(total))}
           </p>
           <p className="label">Tandem Cage Trailer · {describe(hours)}</p>
-          <button type="button" className="btn btn--primary" onClick={() => dialog.current?.showModal()}>
+          <Dialog.Trigger asChild>
+          <button type="button" className="btn btn--primary">
             Book with Lockii ↗
           </button>
+          </Dialog.Trigger>
           <p className="note">Self-service 24/7 PIN code pickup · Demonstration rate</p>
         </div>
       </div>
 
-      <dialog
-        ref={dialog}
-        className="modal"
-        data-lenis-prevent
-        aria-labelledby={`${uid}-modal-title`}
-        onClick={(event) => {
-          if (event.target === dialog.current) dialog.current?.close();
-        }}
-      >
+      <AnimatedDialogContent open={open} className="modal">
         <div className="modal__body">
-          <button type="button" className="modal__close" aria-label="Close" onClick={() => dialog.current?.close()}>
+          <Dialog.Close asChild>
+          <button type="button" className="modal__close" aria-label="Close reservation">
             ×
           </button>
+          </Dialog.Close>
           <p className="eyebrow" style={{ color: 'var(--color-cyan)' }}>
             Lockii Rental Management System
           </p>
-          <h3 id={`${uid}-modal-title`} className="display" style={{ fontSize: 'var(--text-display-s)' }}>
+          <Dialog.Title asChild>
+          <h3 className="display" style={{ fontSize: 'var(--text-display-s)' }}>
             Self-Service Trailer Reservation
           </h3>
+          </Dialog.Title>
+          <Dialog.Description asChild>
           <p className="note" style={{ marginTop: 'var(--space-md)' }}>
             Direct connection to On Call Trailers&rsquo; Lockii automated booking gateway.
           </p>
+          </Dialog.Description>
           <ol className="modal__list">
             <li>
               <strong>Trailer Specification</strong>
@@ -152,12 +155,15 @@ export function Configurator() {
                 Call {site.phone} ↗
               </a>
             ) : null}
-            <button type="button" className="btn btn--ghost" onClick={() => dialog.current?.close()}>
+            <Dialog.Close asChild>
+            <button type="button" className="btn btn--ghost">
               Return to fleet
             </button>
+            </Dialog.Close>
           </div>
         </div>
-      </dialog>
+      </AnimatedDialogContent>
     </div>
+    </Dialog.Root>
   );
 }

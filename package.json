@@ -8,20 +8,24 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && node scripts/normalize-export.mjs",
     "start": "npx serve out",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
-    "test": "vitest run"
+    "lint": "eslint . --ignore-pattern \"assets/**\" --ignore-pattern \".remember/tmp/**\"",
+    "test": "vitest run && node --test scripts/normalize-export.test.mjs",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "lenis": "^1.3.27",
     "motion": "^12.23.24",
     "next": "16.4.1",
+    "radix-ui": "^1.8.1",
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.1",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
