@@ -1,5 +1,7 @@
 {
-  "outputDirectory": "public",
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": "out",
   "cleanUrls": true,
   "trailingSlash": false
 }

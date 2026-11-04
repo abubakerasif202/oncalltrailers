@@ -1,36 +1,35 @@
 'use client';
 
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { site } from '@/data/site';
 
-/** Mobile-only Book and Call bar that slides up once the visitor starts scrolling. */
+/** A booking bar that slides in once the hero has gone and leaves before the footer. */
 export function StickyBook() {
-  const [show, setShow] = useState(false);
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, 'change', (value) => setShow(value > 400));
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const update = () => {
+      const past = window.scrollY > window.innerHeight * 0.85;
+      const footer = document.querySelector('.site-footer');
+      const nearFooter = footer ? footer.getBoundingClientRect().top < window.innerHeight : false;
+      setVisible(past && !nearFooter);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, []);
 
   return (
-    <AnimatePresence>
-      {show && (
-        <motion.div
-          className="fixed inset-x-0 bottom-0 z-40 flex gap-3 border-t border-line bg-ink/90 p-3 backdrop-blur-xl md:hidden"
-          initial={{ y: '100%' }}
-          animate={{ y: 0 }}
-          exit={{ y: '100%' }}
-          transition={{ type: 'spring', stiffness: 260, damping: 28 }}
-        >
-          {site.phone && (
-            <a href={`tel:${site.phone.replace(/\s/g, '')}`} className="btn btn-ghost flex-1 !px-4">
-              Call
-            </a>
-          )}
-          <Link href="/trailers#book" className="btn btn-primary flex-[2]">
-            Book a trailer
-          </Link>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <div className="sticky-book" data-visible={visible} aria-hidden={!visible}>
+      <span>Self-service trailer hire in {site.region}</span>
+      <Link href="/trailers#book" className="btn btn--primary btn--sm" tabIndex={visible ? 0 : -1}>
+        Book now
+      </Link>
+    </div>
   );
 }

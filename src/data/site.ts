@@ -23,8 +23,8 @@ export const site: SiteInfo = {
   instagram: null,
 };
 
-/** Search engines are blocked unless NEXT_PUBLIC_ALLOW_INDEXING is exactly "true". */
-export const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING === 'true';
+/** The live site is indexable today (its robots.txt allows all). Set NEXT_PUBLIC_ALLOW_INDEXING=false to block it. */
+export const allowIndexing = process.env.NEXT_PUBLIC_ALLOW_INDEXING !== 'false';
 
 export interface NavItem {
   href: string;

@@ -8,8 +8,8 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "echo static build ready",
-    "start": "next start",
+    "build": "next build",
+    "start": "npx serve out",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run"

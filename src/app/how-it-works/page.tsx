@@ -1,38 +1,82 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Journey } from '@/components/Journey';
-import { ValueStrip } from '@/components/ValueStrip';
+import { ArrowIcon, PhoneIcon } from '@/components/Icons';
+import { Lines, Reveal } from '@/components/Reveal';
+import { Steps } from '@/components/Steps';
+import { guideSteps, hitchChecklist } from '@/data/content';
+import { site } from '@/data/site';
 
 export const metadata: Metadata = {
-  title: 'How it works',
-  description:
-    'Self-service trailer hire in three steps: book online, verify your identity and get your code, then collect and tow.',
+  title: { absolute: `How It Works | ${site.name} Sydney` },
   alternates: { canonical: '/how-it-works' },
 };
 
 export default function HowItWorksPage() {
+  const tel = site.phone?.replace(/\s/g, '');
   return (
     <>
-      <div className="px-5 pt-36 sm:px-8">
-        <div className="mx-auto max-w-7xl">
-          <h1 className="display text-6xl text-white sm:text-8xl">
-            How it <span className="blue-text">works</span>
-          </h1>
-          <p className="mt-5 max-w-2xl text-xl text-mute">
-            From booking to towing in three steps, with nobody to wait for.
+      <section className="page-hero">
+        <div className="container">
+          <Lines as="h1" lines={['How it works']} />
+          <p className="lead hero__lead">
+            Four straightforward steps from booking to collection. Transparent rates, 24/7 smart lockbox access, and
+            road-ready tandem trailers ready when you are.
           </p>
         </div>
-      </div>
+      </section>
 
-      <Journey />
+      <section className="section--s">
+        <div className="container">
+          <Steps level={2} items={guideSteps.map((step) => ({ title: step.title, body: `${step.body} ${step.meta}.` }))} />
+        </div>
+      </section>
 
-      <ValueStrip />
+      <section className="section band">
+        <div className="container">
+          <div className="section__head split">
+            <Lines as="h2" lines={['The 60-Second', 'Hitching Checklist']} />
+            <p className="lead" style={{ color: 'var(--color-ink-2)' }}>
+              Safety is our primary priority. Before towing onto public Sydney roads, take one minute to verify these
+              essential hitching points:
+            </p>
+          </div>
+          <ol className="checks">
+            {hitchChecklist.map((item, index) => (
+              <Reveal as="li" delay={index * 0.05} key={item.title}>
+                <span className="mark">{String(index + 1).padStart(2, '0')}</span>
+                <h3 className="display">{item.title}</h3>
+                <p>{item.body}</p>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </section>
 
-      <div className="px-5 py-24 text-center sm:px-8">
-        <Link href="/trailers#book" className="btn btn-primary">
-          Book a trailer
-        </Link>
-      </div>
+      <section className="section">
+        <div className="container split">
+          <div>
+            <Lines as="h2" lines={['Straightforward', 'Returns']} />
+          </div>
+          <Reveal>
+            <p className="lead" style={{ color: 'var(--color-ink-2)' }}>
+              Returning is just as easy as pickup. Park in your assigned bay, sweep the trailer floor, lock the coupling,
+              and return the key to the smart lockbox.
+            </p>
+            <div className="actions" style={{ marginTop: 'var(--space-xl)' }}>
+              <Link href="/trailers#book" className="btn btn--primary">
+                Book Your Trailer Now
+                <ArrowIcon className="btn__icon" />
+              </Link>
+              {site.phone && tel ? (
+                <a href={`tel:${tel}`} className="btn btn--ghost">
+                  <PhoneIcon className="btn__icon" />
+                  Speak With Our Team ({site.phone})
+                </a>
+              ) : null}
+            </div>
+          </Reveal>
+        </div>
+      </section>
     </>
   );
 }

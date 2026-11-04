@@ -1,13 +1,14 @@
 # On Call Trailers
 
-Marketing site for On Call Trailers, a self-service trailer hire business in Sydney. Built with Next.js (App Router), Tailwind CSS v4 and `motion`. Bookings, payments, ID checks and lock codes are handled by the client's [Lockii](https://www.lockii.app) account through its embedded booking widget.
+Marketing site for On Call Trailers, a self-service trailer hire business in Sydney. Built with Next.js (App Router, static export), Tailwind CSS v4 and `motion`. The design system lives in `src/styles/`: brand tokens in `tokens.css`, base rules in `base.css`, components and motion in `site.css`. Bookings, payments, ID checks and lock codes are handled by the client's [Lockii](https://www.lockii.app) account through its embedded booking widget.
 
 ## Run it
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build && npm run start
+npm run build      # static export to out/ (what Vercel serves: see vercel.json)
+npm run start      # serves out/ locally
 ```
 
 Checks: `npm run typecheck`, `npm run lint`, `npm run test`.
@@ -19,7 +20,7 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run test`.
 | `NEXT_PUBLIC_LOCKII_ID` | The `data-lockii-id` value from the client's Lockii embed snippet. While empty, the booking section shows a placeholder panel. |
 | `NEXT_PUBLIC_SITE_URL` | Public site URL, used for canonical links, sitemap and structured data. Defaults to `https://www.oncalltrailers.com.au`. |
 
-| `NEXT_PUBLIC_ALLOW_INDEXING` | Set to `true` at launch. Anything else (including unset) serves `noindex` and `Disallow: /` so the placeholder site stays out of search results. |
+| `NEXT_PUBLIC_ALLOW_INDEXING` | The site is indexable by default, matching the live `public/robots.txt`. Set to `false` to serve `noindex` metadata. |
 
 Set these in the hosting provider's environment settings. Never commit real values.
 
@@ -38,11 +39,12 @@ All of these are placeholders and need the client's real details.
 ## Structure
 
 ```
-src/app/            routes, metadata, sitemap, robots
-src/components/     UI, including the animated hero, road trailer and booking journey
+src/app/            routes, metadata, sitemap
+src/styles/         design tokens, base rules, site CSS (motion included)
+src/components/     UI: animated hero, pinned trailer anatomy scene, hire calculators, scroll reveals
 src/data/           site info, fleet, copy and FAQ (edit content here)
 src/lib/estimate.*  hire price estimator and its tests
-public/             logo and social image
+public/             logo, favicon, social image, robots.txt (static files only; pages are generated)
 ```
 
-Animations respect the visitor's reduced-motion setting.
+Animations use transform and opacity only, respect the visitor's reduced-motion setting, and leave all content visible when scripting is off.

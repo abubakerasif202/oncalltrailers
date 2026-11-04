@@ -1,51 +1,107 @@
 import type { Metadata } from 'next';
-import { FleetShowcase } from '@/components/FleetShowcase';
-import { HireEstimator } from '@/components/HireEstimator';
+import Image from 'next/image';
+import Link from 'next/link';
+import trailerSide from '@/assets/trailer-side.webp';
+import { Estimator } from '@/components/Estimator';
+import { ArrowIcon } from '@/components/Icons';
 import { LockiiBooking } from '@/components/LockiiBooking';
-import { Reveal } from '@/components/Reveal';
-import { SectionHeading } from '@/components/SectionHeading';
+import { Lines, Reveal } from '@/components/Reveal';
+import { trailers } from '@/data/trailers';
 
 export const metadata: Metadata = {
   title: 'Trailers',
-  description:
-    'Galvanised tandem cage trailers for self-service hire in Sydney. Check live availability and book online.',
   alternates: { canonical: '/trailers' },
 };
 
+const trailer = trailers[0];
+
 export default function TrailersPage() {
   return (
-    <div className="px-5 pb-24 pt-36 sm:px-8">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading
-          title={
-            <>
-              Our <span className="blue-text">trailers</span>
-            </>
-          }
-          intro="Our galvanised tandem cage trailer, ready for your next load. Book it below."
-        />
-        <FleetShowcase />
+    <>
+      <section className="page-hero">
+        <div className="container">
+          <Lines as="h1" lines={['Our trailers']} />
+          <p className="lead hero__lead">
+            Three galvanised tandem cage trailers. One Sydney pickup location. Plan your next load.
+          </p>
+        </div>
+      </section>
 
-        <section id="book" className="scroll-mt-28 pt-24" aria-labelledby="book-heading">
-          <Reveal className="mb-10 max-w-3xl">
-            <h2 id="book-heading" className="display text-5xl text-white sm:text-7xl">
-              Book your <span className="blue-text">trailer</span>
+      <section className="section--s">
+        <div className="container split split--media" style={{ alignItems: 'center' }}>
+          <Reveal as="figure" kind="plate" className="plate" >
+            <Image
+              src={trailerSide}
+              alt="Galvanised tandem-axle cage trailer parked on wet tarmac in front of the Sydney skyline at night"
+              sizes="(min-width: 1440px) 760px, 100vw"
+            />
+            <figcaption>3 in the fleet</figcaption>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <h2 className="display" style={{ fontSize: 'var(--text-section)' }}>
+              <Link href="/trailers/tandem-cage-trailer" className="link">
+                {trailer.name}
+              </Link>
             </h2>
-            <p className="mt-4 text-lg text-mute">
-              Pick your trailer and time. You will verify your identity and receive your pickup
-              details automatically.
+            <p className="lead" style={{ marginTop: 'var(--space-md)', color: 'var(--color-ink-2)' }}>
+              {trailer.blurb}
             </p>
+            <ul className="tags" style={{ marginTop: 'var(--space-xl)' }}>
+              {trailer.specs.map((spec) => (
+                <li key={spec}>{spec}</li>
+              ))}
+            </ul>
+            <ul className="tags" style={{ marginTop: 'var(--space-sm)' }}>
+              {trailer.goodFor.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="price-line" style={{ marginTop: 'var(--space-xl)' }}>
+              <span className="label">From</span>
+              <span className="fig">${trailer.rate.firstBlockPrice}</span>
+              <span className="label">per hour, demo reference pricing</span>
+            </div>
+            <p className="note" style={{ marginTop: 'var(--space-md)' }}>
+              Demo reference pricing, not an offer. Dimensions and load capacity await confirmation.
+            </p>
+            <div className="actions" style={{ marginTop: 'var(--space-xl)' }}>
+              <a href="#book" className="btn btn--primary">
+                Plan hire
+              </a>
+              <Link href="/trailers/tandem-cage-trailer" className="btn btn--ghost">
+                Explore trailer details
+                <ArrowIcon className="btn__icon" />
+              </Link>
+            </div>
           </Reveal>
-          <LockiiBooking />
-        </section>
+        </div>
+      </section>
 
-        <section className="pt-24" aria-labelledby="estimate-heading">
-          <SectionHeading title={<span id="estimate-heading">Estimate your hire</span>} />
+      <section className="section band" id="book">
+        <div className="container">
+          <div className="section__head split">
+            <Lines as="h2" lines={['Book your', 'trailer']} />
+            <p className="lead" style={{ color: 'var(--color-ink-2)' }}>
+              Explore your trailer options. Live availability, final pricing and collection details will be confirmed
+              when the booking integration is connected.
+            </p>
+          </div>
           <Reveal>
-            <HireEstimator />
+            <LockiiBooking />
           </Reveal>
-        </section>
-      </div>
-    </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="section__head">
+            <Lines as="h2" lines={['Estimate your hire']} />
+          </div>
+          <Reveal>
+            <Estimator />
+          </Reveal>
+        </div>
+      </section>
+    </>
   );
 }

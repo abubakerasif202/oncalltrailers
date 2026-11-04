@@ -1,17 +1,17 @@
 import type { Metadata } from 'next';
 import { FaqList } from '@/components/FaqList';
 import { JsonLd } from '@/components/JsonLd';
+import { Lines } from '@/components/Reveal';
 import { faqs } from '@/data/content';
 
 export const metadata: Metadata = {
   title: 'FAQ',
-  description: 'Answers about self-service pickup, what you need to hire a trailer, extensions and returns.',
   alternates: { canonical: '/faq' },
 };
 
 export default function FaqPage() {
   return (
-    <div className="px-5 pb-24 pt-36 sm:px-8">
+    <>
       <JsonLd
         data={{
           '@context': 'https://schema.org',
@@ -23,12 +23,16 @@ export default function FaqPage() {
           })),
         }}
       />
-      <div className="mx-auto max-w-4xl">
-        <h1 className="display mb-10 text-6xl text-white sm:text-8xl">
-          Frequently asked <span className="blue-text">questions</span>
-        </h1>
-        <FaqList items={faqs} />
-      </div>
-    </div>
+      <section className="page-hero">
+        <div className="container">
+          <Lines as="h1" lines={['Frequently asked', 'questions']} />
+        </div>
+      </section>
+      <section className="section--s">
+        <div className="container">
+          <FaqList items={faqs} />
+        </div>
+      </section>
+    </>
   );
 }

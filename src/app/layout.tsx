@@ -1,31 +1,36 @@
 import type { Metadata, Viewport } from 'next';
-import { Barlow, Barlow_Condensed } from 'next/font/google';
+import localFont from 'next/font/local';
+import { Enhance } from '@/components/Enhance';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
-import { MotionProvider } from '@/components/MotionProvider';
-import { ScrollProgress } from '@/components/ScrollProgress';
 import { StickyBook } from '@/components/StickyBook';
 import { allowIndexing, site } from '@/data/site';
 import './globals.css';
 
-const display = Barlow_Condensed({
-  subsets: ['latin'],
-  weight: ['700', '800'],
-  style: ['italic', 'normal'],
+const display = localFont({
+  src: [
+    { path: './fonts/BarlowCondensed-700.woff2', weight: '700', style: 'normal' },
+    { path: './fonts/BarlowCondensed-800.woff2', weight: '800', style: 'normal' },
+  ],
   variable: '--font-display-next',
   display: 'swap',
+  fallback: ['Arial Narrow', 'Arial'],
 });
 
-const body = Barlow({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+const body = localFont({
+  src: [
+    { path: './fonts/Barlow-400.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/Barlow-500.woff2', weight: '500', style: 'normal' },
+    { path: './fonts/Barlow-600.woff2', weight: '600', style: 'normal' },
+  ],
   variable: '--font-body-next',
   display: 'swap',
+  fallback: ['Arial'],
 });
 
 const description =
-  'Self-service trailer hire in Sydney. Book online, verify once, get your access code and tow away. Galvanised tandem cage trailers.';
+  'Premium self-service trailer hire in Sydney with easy online booking and convenient collection.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -34,8 +39,9 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description,
+  authors: [{ name: 'AB Web Studio' }],
   openGraph: {
-    title: `${site.name} | ${site.tagline}`,
+    title: `${site.name} | Self-service trailer hire in Sydney`,
     description,
     url: site.url,
     siteName: site.name,
@@ -43,19 +49,24 @@ export const metadata: Metadata = {
     type: 'website',
     images: [{ url: '/og.jpg', width: 1200, height: 630, alt: `${site.name} galvanised cage trailer in front of the Sydney skyline` }],
   },
-  alternates: { canonical: '/' },
-  // Stays out of search results until NEXT_PUBLIC_ALLOW_INDEXING=true is set at launch.
+  twitter: { card: 'summary_large_image' },
   robots: allowIndexing ? undefined : { index: false, follow: false },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#04070d',
+  themeColor: '#071322',
   colorScheme: 'dark',
 };
 
+/** Sets the .js flag before first paint so reveal styles only apply when scripting runs. */
+const jsFlag = "document.documentElement.classList.add('js')";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-AU" className={`${display.variable} ${body.variable}`}>
+    <html lang="en-AU" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: jsFlag }} />
+      </head>
       <body>
         <JsonLd
           data={{
@@ -71,19 +82,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ...(site.email ? { email: site.email } : {}),
           }}
         />
-        <MotionProvider>
-          <a
-            href="#main"
-            className="sr-only z-[70] rounded-br-xl bg-electric px-5 py-3 font-bold text-white focus:not-sr-only focus:fixed focus:left-0 focus:top-0"
-          >
-            Skip to main content
-          </a>
-          <ScrollProgress />
-          <Header />
-          <main id="main">{children}</main>
-          <Footer />
-          <StickyBook />
-        </MotionProvider>
+        <a href="#main" className="skip-link">
+          Skip to main content
+        </a>
+        <div className="progress" aria-hidden="true" />
+        <Header />
+        <main id="main">{children}</main>
+        <Footer />
+        <StickyBook />
+        <Enhance />
       </body>
     </html>
   );

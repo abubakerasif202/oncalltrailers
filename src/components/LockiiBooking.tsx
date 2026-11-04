@@ -9,10 +9,11 @@ export function LockiiBooking() {
 
   if (!widgetId) {
     return (
-      <div className="rounded-2xl border border-dashed border-electric/50 bg-panel/60 p-10 text-center">
-        <p className="display text-3xl text-white">Live booking calendar</p>
-        <p className="mx-auto mt-3 max-w-md text-mute">
-          Availability and checkout appear here once the Lockii widget id is connected.
+      <div className="placeholder">
+        <h3 className="display">Booking preview, not yet connected</h3>
+        <p>
+          This is a demonstration website. Live availability, payment and collection access are not enabled. The Lockii
+          booking calendar will appear here once the owner connects their account.
         </p>
       </div>
     );
