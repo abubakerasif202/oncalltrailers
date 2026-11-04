@@ -7,7 +7,15 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .vercel/
+.vercel
 AGENTS.md
 
-.vercel
-.env*
+# Logs and temporary files
+*.log
+scratch/
+.system_generated/
+screenshot-*.png
+
+# OS metadata
+.DS_Store
+Thumbs.db
