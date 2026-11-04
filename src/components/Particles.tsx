@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { MOTION_EVENT, motionAllowed } from '@/lib/motion';
 
 interface Particle {
   x: number;
@@ -19,7 +20,7 @@ export function Particles() {
 
   useEffect(() => {
     const canvas = ref.current;
-    if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!canvas || !motionAllowed()) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -46,7 +47,7 @@ export function Particles() {
     let mouseY = height / 2;
     let hasMouse = false;
     let frame = 0;
-    let running = true;
+    let running = false;
 
     const onResize = () => {
       width = canvas.width = window.innerWidth;
@@ -57,10 +58,18 @@ export function Particles() {
       mouseY = event.clientY;
       hasMouse = true;
     };
-    const onVisibility = () => {
-      running = !document.hidden;
-      if (running) frame = requestAnimationFrame(render);
+    const begin = () => {
+      if (running || document.hidden || !motionAllowed()) return;
+      running = true;
+      frame = requestAnimationFrame(render);
     };
+    const end = () => {
+      running = false;
+      cancelAnimationFrame(frame);
+      ctx.clearRect(0, 0, width, height);
+    };
+    const onVisibility = () => (document.hidden ? end() : begin());
+    const onMotion = () => (motionAllowed() ? begin() : end());
 
     function render() {
       if (!running || !ctx) return;
@@ -100,7 +109,8 @@ export function Particles() {
     window.addEventListener('resize', onResize);
     window.addEventListener('mousemove', onMove, { passive: true });
     document.addEventListener('visibilitychange', onVisibility);
-    frame = requestAnimationFrame(render);
+    window.addEventListener(MOTION_EVENT, onMotion);
+    begin();
 
     return () => {
       running = false;
@@ -108,6 +118,7 @@ export function Particles() {
       window.removeEventListener('resize', onResize);
       window.removeEventListener('mousemove', onMove);
       document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener(MOTION_EVENT, onMotion);
     };
   }, []);
 

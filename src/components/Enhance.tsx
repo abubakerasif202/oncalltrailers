@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
 
 /**
- * Site-wide progressive enhancement, mounted once in the layout: scroll reveals, the road progress rig,
+ * Site-wide progressive enhancement, mounted once in the layout: scroll reveals,
  * magnetic primary buttons, 3D tilt with glare and the hero flashlight.
  * Everything is a no-op when the visitor prefers reduced motion, and pointer effects need a fine pointer.
  */
@@ -35,25 +35,6 @@ export function Enhance() {
       );
       targets.forEach((el) => io.observe(el));
       disconnectReveals = () => io.disconnect();
-    }
-
-    // Road progress rig
-    const rig = document.querySelector<HTMLElement>('.road__rig');
-    let frame = 0;
-    const updateRoad = () => {
-      frame = 0;
-      if (!rig) return;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
-      rig.style.setProperty('--road-x', `${progress * (window.innerWidth - 36)}px`);
-    };
-    const onScroll = () => {
-      if (!frame) frame = requestAnimationFrame(updateRoad);
-    };
-    if (!reduce.matches) {
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll, { passive: true });
-      updateRoad();
     }
 
     // Pointer effects
@@ -127,11 +108,8 @@ export function Enhance() {
 
     return () => {
       disconnectReveals?.();
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
       document.removeEventListener('pointermove', onMove);
       document.removeEventListener('pointerout', onOut);
-      if (frame) cancelAnimationFrame(frame);
     };
   }, [pathname]);
 

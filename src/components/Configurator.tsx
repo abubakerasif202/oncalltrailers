@@ -111,6 +111,7 @@ export function Configurator() {
       <dialog
         ref={dialog}
         className="modal"
+        data-lenis-prevent
         aria-labelledby={`${uid}-modal-title`}
         onClick={(event) => {
           if (event.target === dialog.current) dialog.current?.close();

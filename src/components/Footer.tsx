@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/assets/logo-mark.webp';
 import { navItems, site } from '@/data/site';
+import { MotionToggle } from './MotionToggle';
 
 export function Footer() {
   const tel = site.phone?.replace(/\s/g, '');
@@ -10,7 +11,7 @@ export function Footer() {
       <div className="container">
         <div className="site-footer__grid">
           <div>
-            <Link href="/" className="brand" aria-label={`${site.name}, home`}>
+            <Link href="/" className="brand">
               <Image src={logo} alt="" width={48} height={48} />
               <span className="brand__text">
                 <span className="brand__name">{site.name}</span>
@@ -49,6 +50,7 @@ export function Footer() {
             © 2026 {site.name}. All rights reserved.
             {site.abn ? ` ABN ${site.abn}.` : ''}
           </p>
+          <MotionToggle />
           <a href="https://abwebstudio.com.au" target="_blank" rel="noopener noreferrer" className="link">
             Website by AB Web Studio
           </a>

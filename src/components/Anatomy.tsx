@@ -30,7 +30,9 @@ export function Anatomy() {
     if (!node || !window.matchMedia(PINNED).matches) return;
     const travel = node.offsetHeight - window.innerHeight;
     const top = node.getBoundingClientRect().top + window.scrollY;
-    window.scrollTo({ top: top + (travel * (index + 0.5)) / hotspots.length, behavior: 'smooth' });
+    const target = top + (travel * (index + 0.5)) / hotspots.length;
+    if (window.__lenis) window.__lenis.scrollTo(target, { duration: 1.4 });
+    else window.scrollTo({ top: target, behavior: 'smooth' });
   }, []);
 
   const current = hotspots[active];

@@ -41,7 +41,7 @@ export function Header() {
   return (
     <header className="site-header" data-scrolled={scrolled} data-open={open}>
       <div className="container site-header__bar">
-        <Link href="/" className="brand" aria-label={`${site.name}, home`}>
+        <Link href="/" className="brand">
           <Image src={logo} alt="" width={48} height={48} priority />
           <span className="brand__text">
             <span className="brand__name">{site.name}</span>
@@ -68,7 +68,7 @@ export function Header() {
           {open ? 'Close' : 'Menu'}
         </button>
       </div>
-      <div id="drawer" className="drawer" data-open={open}>
+      <div id="drawer" className="drawer" data-open={open} data-lenis-prevent>
         <div className="drawer__links">
           {drawerLinks.map((item) => (
             <Link key={item.href} href={item.href} className="drawer__link" onClick={() => setOpen(false)}>

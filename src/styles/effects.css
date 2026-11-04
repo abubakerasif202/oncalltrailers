@@ -37,7 +37,7 @@ h1, h2, h3, .display { text-transform: uppercase; }
 [data-tilt][data-hover="true"]::after { opacity: 1; }
 
 /* ---------- 6. radar hotspots and telemetry HUD ---------- */
-.hotspot { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--color-ink); background: color-mix(in oklab, var(--color-electric) 90%, transparent); color: var(--color-ink); font-weight: 700; font-size: 13px; box-shadow: 0 0 20px var(--color-electric), 0 0 35px var(--color-cyan); }
+.hotspot { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--color-ink); background: color-mix(in oklab, var(--color-electric) 90%, transparent); color: var(--color-ink); font-weight: 700; font-size: 13px; box-shadow: 0 0 20px var(--color-electric), 0 0 35px var(--color-cyan); }
 .hotspot::before, .hotspot::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; }
 .hotspot::before { inset: -8px; border: 2px solid var(--color-cyan); animation: radar-wave 2.2s cubic-bezier(0.24, 0, 0.38, 1) infinite; }
 .hotspot::after { inset: -16px; border: 1px dashed color-mix(in oklab, var(--color-electric) 60%, transparent); animation: radar-wave 2.2s cubic-bezier(0.24, 0, 0.38, 1) 0.7s infinite; }
@@ -84,9 +84,12 @@ h1, h2, h3, .display { text-transform: uppercase; }
 
 /* ---------- new: road progress ---------- */
 .progress { display: none; }
-.road { position: fixed; inset: 0 0 auto 0; height: 14px; z-index: var(--z-sticky-nav); pointer-events: none; }
-.road::before { content: ""; position: absolute; inset: 5px 0 auto 0; height: 2px; background: repeating-linear-gradient(90deg, color-mix(in oklab, var(--color-chrome) 45%, transparent) 0 14px, transparent 14px 28px); opacity: 0.5; }
-.road__rig { position: absolute; top: 0; left: 0; width: 28px; height: 14px; color: var(--color-cyan); transform: translateX(var(--road-x, 0px)); filter: drop-shadow(0 0 6px var(--color-cyan)); }
+.road { position: fixed; inset: 0 0 auto 0; height: 14px; z-index: var(--z-modal); pointer-events: none; overflow: clip; }
+.road__dashes { position: absolute; top: 5px; left: 0; width: calc(100% + 28px); height: 2px; opacity: 0.5; background: repeating-linear-gradient(90deg, color-mix(in oklab, var(--color-chrome) 70%, transparent) 0 14px, transparent 14px 28px); will-change: transform; }
+.road__rig { position: absolute; top: 0; left: 0; width: 28px; height: 14px; color: var(--color-cyan); filter: drop-shadow(0 0 6px var(--color-cyan)); will-change: transform; }
+.road__rig svg { display: block; overflow: visible; }
+.road__wheel { transform-box: fill-box; transform-origin: center; }
+.road__trail { position: absolute; right: 100%; top: 6px; width: 90px; height: 2px; opacity: 0; transform-origin: right center; background: linear-gradient(270deg, var(--color-cyan), transparent); }
 
 /* ---------- 11. pinned anatomy overlays ---------- */
 @media (min-width: 61rem) and (prefers-reduced-motion: no-preference) {
@@ -115,3 +118,19 @@ h1, h2, h3, .display { text-transform: uppercase; }
 .modal__list li { display: grid; gap: var(--space-2xs); padding: var(--space-md); border: 1px solid var(--color-rule); background: var(--color-paper-3); color: var(--color-chrome); font-size: var(--text-sm); }
 .modal__list li[data-accent="true"] { border-color: color-mix(in oklab, var(--color-electric) 40%, transparent); background: color-mix(in oklab, var(--color-electric) 12%, var(--color-paper-3)); }
 .modal__list strong { color: var(--color-ink); font-size: var(--text-md); }
+
+/* ---------- paused by the visitor: the Pause animations switch ---------- */
+html[data-motion="off"] *, html[data-motion="off"] *::before, html[data-motion="off"] *::after { animation-play-state: paused !important; }
+html[data-motion="off"] .ambient, html[data-motion="off"] .streak, html[data-motion="off"] .hero__lit { display: none !important; }
+html[data-motion="off"] [data-tilt] { transform: none !important; }
+.motion-toggle { min-height: 44px; padding: var(--space-xs) var(--space-md); background: none; border: 1px solid var(--color-rule-2); color: var(--color-ink-2); font-size: var(--text-sm); font-weight: 500; cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out); }
+.motion-toggle:hover { background: var(--color-paper-2); color: var(--color-ink); }
+.motion-toggle:active { background: var(--color-paper-3); }
+.motion-toggle[aria-pressed="true"] { background: var(--color-paper-3); color: var(--color-ink); }
+
+/* ---------- smooth scroll (Lenis) ---------- */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth iframe { pointer-events: none; }

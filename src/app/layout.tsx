@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import { Enhance } from '@/components/Enhance';
 import { Particles } from '@/components/Particles';
 import { Road } from '@/components/Road';
+import { SmoothScroll } from '@/components/SmoothScroll';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
 import { JsonLd } from '@/components/JsonLd';
@@ -61,7 +62,8 @@ export const viewport: Viewport = {
 };
 
 /** Sets the .js flag before first paint so reveal styles only apply when scripting runs. */
-const jsFlag = "document.documentElement.classList.add('js')";
+const jsFlag =
+  "document.documentElement.classList.add('js');try{if(localStorage.getItem('motion')==='off')document.documentElement.dataset.motion='off'}catch(e){}";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -94,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <StickyBook />
         <Enhance />
+        <SmoothScroll />
       </body>
     </html>
   );
