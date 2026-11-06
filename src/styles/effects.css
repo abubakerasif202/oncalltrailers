@@ -13,45 +13,18 @@ h1, h2, h3, .display { text-transform: uppercase; }
 .stat-line, .label { text-transform: none; }
 
 /* ---------- 1. ambient particles ---------- */
-.ambient { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: var(--z-base); pointer-events: none; opacity: 0.75; }
+.ambient { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: var(--z-base); pointer-events: none; opacity: 0.4; }
 
 /* ---------- 2. chrome shimmer headline ---------- */
 .shimmer-text { background: linear-gradient(110deg, color-mix(in oklab, var(--color-chrome) 70%, var(--color-paper)) 0%, var(--color-ink) 35%, var(--color-cyan) 50%, var(--color-ink) 65%, color-mix(in oklab, var(--color-chrome) 70%, var(--color-paper)) 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: chrome-shimmer 6s var(--ease-in-out) infinite; }
 @keyframes chrome-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-/* ---------- 3. neon border beam ---------- */
-.beam { position: relative; overflow: hidden; isolation: isolate; border-radius: var(--radius-card); padding: 1px; background: var(--color-paper-2); }
-.beam::before { content: ""; position: absolute; z-index: -2; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, transparent, var(--color-electric), var(--color-cyan), transparent 30%); animation: rotate-beam 4s linear infinite; }
-.beam > * { position: relative; z-index: 1; background: var(--color-paper-3); border-radius: var(--radius-card); height: 100%; }
-.beam:hover::before, .beam:focus-within::before { animation-play-state: paused; }
-@keyframes rotate-beam { to { transform: rotate(360deg); } }
-
-/* ---------- 4. laser scanner ---------- */
-.laser { position: absolute; left: 0; right: 0; height: 3px; z-index: 5; pointer-events: none; background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--color-cyan) 30%, transparent) 10%, var(--color-cyan) 50%, color-mix(in oklab, var(--color-cyan) 30%, transparent) 90%, transparent); box-shadow: 0 0 15px var(--color-cyan), 0 0 30px var(--color-electric); animation: laser-sweep 4.5s var(--ease-in-out) infinite; }
-.plate:hover .laser { animation-play-state: paused; }
-@keyframes laser-sweep { 0% { top: 2%; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { top: 96%; opacity: 0; } }
 
 /* ---------- 5. 3D tilt with specular glare ---------- */
 [data-tilt] { position: relative; transform: perspective(1000px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) scale3d(var(--ts, 1), var(--ts, 1), var(--ts, 1)); transition: transform var(--dur-short) var(--ease-out); will-change: transform; }
 [data-tilt]::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; opacity: 0; background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), color-mix(in oklab, var(--color-ink) 18%, transparent), transparent 60%); transition: opacity var(--dur-long) var(--ease-out); z-index: 10; }
 [data-tilt][data-hover="true"]::after { opacity: 1; }
 
-/* ---------- 6. radar hotspots and telemetry HUD ---------- */
-.hotspot { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--color-ink); background: color-mix(in oklab, var(--color-electric) 90%, transparent); color: var(--color-ink); font-weight: 700; font-size: 13px; box-shadow: 0 0 20px var(--color-electric), 0 0 35px var(--color-cyan); }
-.hotspot::before, .hotspot::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; }
-.hotspot::before { inset: -8px; border: 2px solid var(--color-cyan); animation: radar-wave 2.2s cubic-bezier(0.24, 0, 0.38, 1) infinite; }
-.hotspot::after { inset: -16px; border: 1px dashed color-mix(in oklab, var(--color-electric) 60%, transparent); animation: radar-wave 2.2s cubic-bezier(0.24, 0, 0.38, 1) 0.7s infinite; }
-.hotspot:hover, .hotspot[aria-pressed="true"] { background: var(--color-cyan); color: var(--color-accent-ink); box-shadow: 0 0 30px var(--color-cyan), 0 0 50px var(--color-electric); }
-.hotspot:hover::before, .hotspot:focus-visible::before { animation-play-state: paused; }
-@keyframes radar-wave { 0% { transform: scale(0.6); opacity: 1; } 100% { transform: scale(2.2); opacity: 0; } }
-.hud { position: absolute; z-index: 30; width: min(300px, 80%); padding: var(--space-lg); background: color-mix(in oklab, var(--color-paper) 94%, transparent); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border: 1px solid color-mix(in oklab, var(--color-cyan) 50%, transparent); border-radius: var(--radius-card); box-shadow: 0 25px 50px color-mix(in oklab, var(--color-paper) 90%, transparent), 0 0 35px color-mix(in oklab, var(--color-electric) 35%, transparent); pointer-events: none; display: none; }
-.hud p { color: var(--color-chrome); font-size: var(--text-sm); }
-.hud .label { color: var(--color-cyan); font-weight: 600; margin-bottom: var(--space-xs); }
-.hud h3 { font-size: var(--text-xl); margin-bottom: var(--space-xs); }
-
 /* ---------- 7. journey node lift ---------- */
-.lift { transition: transform var(--dur-long) var(--ease-out), border-color var(--dur-long) var(--ease-out), box-shadow var(--dur-long) var(--ease-out); }
-.lift:hover { transform: translateY(-6px); border-color: color-mix(in oklab, var(--color-cyan) 60%, transparent); box-shadow: 0 15px 35px -5px color-mix(in oklab, var(--color-electric) 30%, transparent); }
 
 /* ---------- 8. magnetic button glow ---------- */
 .btn--primary { overflow: hidden; }
@@ -67,61 +40,21 @@ h1, h2, h3, .display { text-transform: uppercase; }
 .hero__lit { position: absolute; inset: 0; opacity: 0; pointer-events: none; filter: brightness(1.9) saturate(1.25) contrast(1.05); -webkit-mask-image: radial-gradient(circle 240px at var(--sx, 70%) var(--sy, 60%), var(--color-paper) 0%, transparent 100%); mask-image: radial-gradient(circle 240px at var(--sx, 70%) var(--sy, 60%), var(--color-paper) 0%, transparent 100%); transition: opacity var(--dur-long) var(--ease-out); }
 .hero__lit > img { width: 100%; height: 100%; object-fit: cover; object-position: 62% 60%; }
 .hero[data-lit="true"] .hero__lit { opacity: 1; }
-.streak { position: absolute; z-index: -1; left: 0; width: 38vw; height: 2px; pointer-events: none; background: linear-gradient(90deg, transparent, var(--color-cyan), transparent); opacity: 0; filter: drop-shadow(0 0 8px var(--color-cyan)); animation: streak 2.6s var(--ease-out) both; }
-.streak:nth-of-type(2) { animation-delay: 0.5s; width: 26vw; }
-.streak:nth-of-type(3) { animation-delay: 0.95s; width: 18vw; }
-@keyframes streak { 0% { transform: translateX(-60vw); opacity: 0; } 20% { opacity: 0.9; } 100% { transform: translateX(120vw); opacity: 0; } }
-
-/* ---------- new: scroll-driven outline marquee ---------- */
-.marquee { overflow: clip; padding-block: var(--space-2xl); border-block: var(--rule-hair) solid var(--color-rule); }
-.marquee__row { display: flex; gap: var(--space-2xl); white-space: nowrap; width: max-content; will-change: transform; }
-.marquee__row + .marquee__row { margin-top: var(--space-md); }
-.marquee__word { font-family: var(--font-display); font-weight: 700; text-transform: uppercase; font-size: clamp(4rem, 12vw, 11rem); line-height: 0.95; letter-spacing: -0.015em; color: transparent; -webkit-text-stroke: 1.5px color-mix(in oklab, var(--color-chrome) 55%, transparent); }
-.marquee__word--solid { color: var(--color-electric); -webkit-text-stroke: 0; }
 
 /* ---------- new: treadplate texture on the bands ---------- */
 .band { background-image: linear-gradient(45deg, color-mix(in oklab, var(--color-ink) 3%, transparent) 25%, transparent 25%, transparent 75%, color-mix(in oklab, var(--color-ink) 3%, transparent) 75%), linear-gradient(-45deg, color-mix(in oklab, var(--color-ink) 3%, transparent) 25%, transparent 25%, transparent 75%, color-mix(in oklab, var(--color-ink) 3%, transparent) 75%); background-size: 28px 28px; }
 
-/* ---------- new: road progress ---------- */
-.progress { display: none; }
-.road { position: fixed; inset: 0 0 auto 0; height: 14px; z-index: var(--z-modal); pointer-events: none; overflow: clip; }
-.road__dashes { position: absolute; top: 5px; left: 0; width: calc(100% + 28px); height: 2px; opacity: 0.5; background: repeating-linear-gradient(90deg, color-mix(in oklab, var(--color-chrome) 70%, transparent) 0 14px, transparent 14px 28px); will-change: transform; }
-.road__rig { position: absolute; top: 0; left: 0; width: 28px; height: 14px; color: var(--color-cyan); filter: drop-shadow(0 0 6px var(--color-cyan)); will-change: transform; }
-.road__rig svg { display: block; overflow: visible; }
-.road__wheel { transform-box: fill-box; transform-origin: center; }
-.road__trail { position: absolute; right: 100%; top: 6px; width: 90px; height: 2px; opacity: 0; transform-origin: right center; background: linear-gradient(270deg, var(--color-cyan), transparent); }
-
-/* ---------- 11. pinned anatomy overlays ---------- */
-@media (min-width: 61rem) and (prefers-reduced-motion: no-preference) {
-  .js .hud { display: block; }
-  .js .anatomy__list { display: none; }
-}
-
 /* ---------- reduced motion: the whole kit goes quiet ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .ambient, .laser, .hotspot::before, .hotspot::after, .streak, .hero__lit, .road { display: none !important; }
+  .ambient, .hero__lit { display: none !important; }
   .shimmer-text { animation: none; background-position: 0 0; }
-  .beam::before { animation: none; }
   [data-tilt] { transform: none !important; }
-  .marquee__row { transform: none !important; }
 }
 @media (hover: none) { .hero__lit { display: none; } }
 
-/* ---------- booking modal ---------- */
-.modal { margin: auto; padding: 0; width: min(42rem, calc(100% - var(--space-lg))); max-height: calc(100svh - var(--space-lg)); overflow: auto; border: 1px solid color-mix(in oklab, var(--color-electric) 40%, transparent); background: var(--color-paper-2); color: var(--color-ink); border-radius: var(--radius-card); }
-.modal::backdrop { background: color-mix(in oklab, var(--color-paper) 85%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.modal[open] { animation: fade-up var(--dur-long) var(--ease-out) both; }
-.modal__body { position: relative; display: grid; gap: var(--space-md); padding: var(--space-xl); }
-.modal__close { position: absolute; top: var(--space-md); right: var(--space-md); width: 44px; height: 44px; border: 1px solid var(--color-rule-2); background: none; color: var(--color-ink); font-size: var(--text-xl); cursor: pointer; transition: background-color var(--dur-short) var(--ease-out); }
-.modal__close:hover { background: var(--color-paper-3); }
-.modal__list { list-style: none; margin: var(--space-md) 0; padding: 0; display: grid; gap: var(--space-md); }
-.modal__list li { display: grid; gap: var(--space-2xs); padding: var(--space-md); border: 1px solid var(--color-rule); background: var(--color-paper-3); color: var(--color-chrome); font-size: var(--text-sm); }
-.modal__list li[data-accent="true"] { border-color: color-mix(in oklab, var(--color-electric) 40%, transparent); background: color-mix(in oklab, var(--color-electric) 12%, var(--color-paper-3)); }
-.modal__list strong { color: var(--color-ink); font-size: var(--text-md); }
-
 /* ---------- paused by the visitor: the Pause animations switch ---------- */
 html[data-motion="off"] *, html[data-motion="off"] *::before, html[data-motion="off"] *::after { animation-play-state: paused !important; }
-html[data-motion="off"] .ambient, html[data-motion="off"] .streak, html[data-motion="off"] .hero__lit { display: none !important; }
+html[data-motion="off"] .ambient, html[data-motion="off"] .hero__lit { display: none !important; }
 html[data-motion="off"] [data-tilt] { transform: none !important; }
 .motion-toggle { min-height: 44px; padding: var(--space-xs) var(--space-md); background: none; border: 1px solid var(--color-rule-2); color: var(--color-ink-2); font-size: var(--text-sm); font-weight: 500; cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out); }
 .motion-toggle:hover { background: var(--color-paper-2); color: var(--color-ink); }
@@ -136,10 +69,9 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth iframe { pointer-events: none; }
 
 /* Portalled Radix surfaces share the existing drawer and reservation styling. */
-.dialog-overlay { position: fixed; inset: 0; z-index: var(--z-modal); background: color-mix(in oklab, var(--color-paper) 85%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.modal { position: fixed; inset: 0; z-index: calc(var(--z-modal) + 1); height: fit-content; }
-.modal__body > .eyebrow { padding-right: 44px; }
 @media (max-width: 60rem) {
   .drawer[data-open="true"] { position: fixed; inset: 76px 0 0; z-index: calc(var(--z-modal) + 1); margin: 0; align-content: start; }
   .drawer__close { display: inline-flex; justify-self: end; }
 }
+
+.dialog-overlay { position: fixed; inset: 0; z-index: var(--z-modal); background: color-mix(in oklab, var(--color-paper) 85%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }

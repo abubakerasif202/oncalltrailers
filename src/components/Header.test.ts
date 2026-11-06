@@ -2,6 +2,7 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
 import { Header } from './Header';
+import { BOOKING_URL } from '@/data/booking';
 import { navItems, site } from '@/data/site';
 
 vi.mock('next/navigation', () => ({ usePathname: () => '/faq' }));
@@ -24,6 +25,8 @@ describe('navigation entry', () => {
     }
     expect(html).toContain('aria-current="page" href="/faq"');
     expect(html).toContain(site.name);
-    expect(html).toContain('href="/trailers#book"');
+    expect(html).toContain(`href="${BOOKING_URL}"`);
+    expect(html).toContain('target="_blank"');
+    expect(html).toContain('rel="noopener noreferrer"');
   });
 });

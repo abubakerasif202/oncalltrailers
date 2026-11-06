@@ -1,4 +1,4 @@
-// TODO(client): still missing: email, pickup address and Instagram (null fields are hidden on the site).
+// Null fields are hidden on the site. Still missing from the owner: email, pickup suburb/address, support hours, Instagram, policy pages.
 export interface SiteInfo {
   name: string;
   tagline: string;

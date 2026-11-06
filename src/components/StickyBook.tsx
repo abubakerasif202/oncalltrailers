@@ -1,12 +1,15 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { telHref } from '@/data/booking';
 import { site } from '@/data/site';
+import { BookingLink } from './BookingLink';
+import { PhoneIcon } from './Icons';
 
-/** A booking bar that slides in once the hero has gone and leaves before the footer. */
+/** A compact booking bar that appears once the hero has gone and leaves before the footer. */
 export function StickyBook() {
   const [visible, setVisible] = useState(false);
+  const tel = telHref(site.phone);
 
   useEffect(() => {
     const update = () => {
@@ -25,11 +28,15 @@ export function StickyBook() {
   }, []);
 
   return (
-    <div className="sticky-book" data-visible={visible} aria-hidden={!visible}>
-      <span>Self-service trailer hire in {site.region}</span>
-      <Link href="/trailers#book" className="btn btn--primary btn--sm" tabIndex={visible ? 0 : -1}>
-        Book now
-      </Link>
+    <div className="sticky-book" data-visible={visible} inert={!visible}>
+      <span>Trailer hire in {site.region}</span>
+      {tel ? (
+        <a href={tel} className="btn btn--ghost btn--sm sticky-book__call" aria-label={`Call ${site.phone}`}>
+          <PhoneIcon className="btn__icon" />
+          <span className="sticky-book__call-text">Call</span>
+        </a>
+      ) : null}
+      <BookingLink className="btn btn--primary btn--sm" short />
     </div>
   );
 }

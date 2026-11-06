@@ -1,23 +1,28 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { BookingLink, BookingNote } from '@/components/BookingLink';
+import { PhoneIcon } from '@/components/Icons';
 import { Lines, Reveal } from '@/components/Reveal';
+import { telHref } from '@/data/booking';
+import { pageMetadata } from '@/data/seo';
 import { site } from '@/data/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'Contact',
-  alternates: { canonical: '/contact' },
-};
+  description: `Call ${site.name} in ${site.region} about trailer hire, availability and pickup.`,
+  path: '/contact',
+});
 
 export default function ContactPage() {
-  const tel = site.phone?.replace(/\s/g, '');
+  const tel = telHref(site.phone);
   return (
     <>
       <section className="page-hero">
         <div className="container">
           <Lines as="h1" lines={['Get in touch']} />
+          <p className="lead hero__lead">Call us about availability, towing suitability or pickup.</p>
         </div>
       </section>
-      <section className="section--s">
+      <section className="section--s" id="enquire">
         <div className="container">
           <Reveal>
             <dl className="contact-list">
@@ -25,7 +30,7 @@ export default function ContactPage() {
                 <div>
                   <dt>Phone</dt>
                   <dd>
-                    <a href={`tel:${tel}`}>{site.phone}</a>
+                    <a href={tel}>{site.phone}</a>
                   </dd>
                 </div>
               ) : null}
@@ -37,18 +42,29 @@ export default function ContactPage() {
                   </dd>
                 </div>
               ) : null}
-              {site.pickupAddress ? (
+              <div>
+                <dt>Pickup</dt>
+                <dd>{site.pickupAddress ?? site.region}</dd>
+              </div>
+              {site.abn ? (
                 <div>
-                  <dt>Pickup</dt>
-                  <dd>{site.pickupAddress}</dd>
+                  <dt>Business</dt>
+                  <dd>
+                    {site.name}, ABN {site.abn}
+                  </dd>
                 </div>
               ) : null}
             </dl>
             <div className="actions" style={{ marginTop: 'var(--space-2xl)' }}>
-              <Link href="/trailers#book" className="btn btn--primary">
-                Book a trailer
-              </Link>
+              <BookingLink />
+              {site.phone && tel ? (
+                <a href={tel} className="btn btn--ghost">
+                  <PhoneIcon className="btn__icon" />
+                  Call {site.phone}
+                </a>
+              ) : null}
             </div>
+            <BookingNote className="note note--spaced" />
           </Reveal>
         </div>
       </section>

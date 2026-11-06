@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import { Enhance } from '@/components/Enhance';
 import { Particles } from '@/components/Particles';
-import { Road } from '@/components/Road';
 import { SmoothScroll } from '@/components/SmoothScroll';
 import { Footer } from '@/components/Footer';
 import { Header } from '@/components/Header';
@@ -33,18 +32,18 @@ const body = localFont({
 });
 
 const description =
-  'Premium self-service trailer hire in Sydney with easy online booking and convenient collection.';
+  'Hire a galvanised tandem cage trailer in Sydney. See the trailer, check availability and book online with On Call Trailers.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} | Self-service trailer hire in Sydney`,
+    default: `${site.name} | Sydney trailer hire`,
     template: `%s | ${site.name}`,
   },
   description,
   authors: [{ name: 'AB Web Studio' }],
   openGraph: {
-    title: `${site.name} | Self-service trailer hire in Sydney`,
+    title: `${site.name} | Sydney trailer hire`,
     description,
     url: site.url,
     siteName: site.name,
@@ -89,7 +88,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="skip-link">
           Skip to main content
         </a>
-        <Road />
         <Particles />
         <Header />
         <main id="main">{children}</main>
