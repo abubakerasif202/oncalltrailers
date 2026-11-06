@@ -3,11 +3,13 @@ import { FaqList } from '@/components/FaqList';
 import { JsonLd } from '@/components/JsonLd';
 import { Lines } from '@/components/Reveal';
 import { faqs } from '@/data/content';
+import { pageMetadata } from '@/data/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: 'FAQ',
-  alternates: { canonical: '/faq' },
-};
+  description: 'Answers about booking, towing, pickup and changes for trailer hire in Sydney.',
+  path: '/faq',
+});
 
 export default function FaqPage() {
   return (

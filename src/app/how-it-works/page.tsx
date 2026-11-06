@@ -1,34 +1,35 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { BookingLink } from '@/components/BookingLink';
 import { PhoneIcon } from '@/components/Icons';
 import { Lines, Reveal } from '@/components/Reveal';
 import { Steps } from '@/components/Steps';
-import { guideSteps, hitchChecklist } from '@/data/content';
+import { telHref } from '@/data/booking';
+import { hitchChecklist, homeSteps } from '@/data/content';
+import { pageMetadata } from '@/data/seo';
 import { site } from '@/data/site';
 
-export const metadata: Metadata = {
-  title: { absolute: `How It Works | ${site.name} Sydney` },
-  alternates: { canonical: '/how-it-works' },
-};
+export const metadata: Metadata = pageMetadata({
+  title: `How It Works | ${site.name} Sydney`,
+  description: 'Book, collect and return a hire trailer in Sydney, plus a general towing checklist.',
+  path: '/how-it-works',
+  absoluteTitle: true,
+});
 
 export default function HowItWorksPage() {
-  const tel = site.phone?.replace(/\s/g, '');
+  const tel = telHref(site.phone);
   return (
     <>
       <section className="page-hero">
         <div className="container">
-          <p className="eyebrow">Frictionless Sydney Trailer Hire</p>
+          <p className="eyebrow">Trailer hire in Sydney</p>
           <Lines as="h1" lines={['How it works']} />
-          <p className="lead hero__lead">
-            Four straightforward steps from booking to collection. Transparent rates, 24/7 smart lockbox access, and
-            road-ready tandem trailers ready when you are.
-          </p>
+          <p className="lead hero__lead">Three steps from booking to return, and a quick towing checklist.</p>
         </div>
       </section>
 
       <section className="section--s">
         <div className="container">
-          <Steps level={2} items={guideSteps} />
+          <Steps level={2} items={homeSteps} />
         </div>
       </section>
 
@@ -36,18 +37,17 @@ export default function HowItWorksPage() {
         <div className="container">
           <div className="section__head split">
             <div>
-              <p className="eyebrow">Safety &amp; Compliance</p>
-              <Lines as="h2" lines={['The 60-Second', 'Hitching Checklist']} />
+              <p className="eyebrow">Towing</p>
+              <Lines as="h2" lines={['Before you', 'drive off.']} />
             </div>
             <p className="lead" style={{ color: 'var(--color-ink-2)' }}>
-              Safety is our primary priority. Before towing onto public Sydney roads, take one minute to verify these
-              essential hitching points:
+              General guidance for any trailer. Follow any extra instructions you are given for your hire.
             </p>
           </div>
           <ol className="checks">
             {hitchChecklist.map((item, index) => (
               <Reveal as="li" delay={index * 0.05} key={item.title}>
-                <span className="mark">✓</span>
+                <span className="mark">{String(index + 1).padStart(2, '0')}</span>
                 <h3 className="display">{item.title}</h3>
                 <p>{item.body}</p>
               </Reveal>
@@ -57,27 +57,15 @@ export default function HowItWorksPage() {
       </section>
 
       <section className="section">
-        <div className="container split">
-          <div>
-            <p className="eyebrow">End of Hire</p>
-            <Lines as="h2" lines={['Straightforward', 'Returns']} />
-          </div>
-          <Reveal>
-            <p className="lead" style={{ color: 'var(--color-ink-2)' }}>
-              Returning is just as easy as pickup. Park in your assigned bay, sweep the trailer floor, lock the coupling,
-              and return the key to the smart lockbox.
-            </p>
-            <div className="actions" style={{ marginTop: 'var(--space-xl)' }}>
-              <Link href="/trailers#book" className="btn btn--primary">
-                Book Your Trailer Now ↗
-              </Link>
-              {site.phone && tel ? (
-                <a href={`tel:${tel}`} className="btn btn--ghost">
-                  <PhoneIcon className="btn__icon" />
-                  Speak With Our Team ({site.phone})
-                </a>
-              ) : null}
-            </div>
+        <div className="container">
+          <Reveal className="actions">
+            <BookingLink />
+            {site.phone && tel ? (
+              <a href={tel} className="btn btn--ghost">
+                <PhoneIcon className="btn__icon" />
+                Call {site.phone}
+              </a>
+            ) : null}
           </Reveal>
         </div>
       </section>

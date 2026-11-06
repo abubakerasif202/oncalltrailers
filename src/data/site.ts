@@ -1,4 +1,4 @@
-// TODO(client): still missing: email, pickup address and Instagram (null fields are hidden on the site).
+// Null fields are hidden on the site. Still missing from the owner: street pickup address, support hours.
 export interface SiteInfo {
   name: string;
   tagline: string;
@@ -8,6 +8,7 @@ export interface SiteInfo {
   abn: string | null;
   email: string | null;
   pickupAddress: string | null;
+  pickupSuburb: string | null;
   instagram: string | null;
 }
 
@@ -18,9 +19,11 @@ export const site: SiteInfo = {
   region: 'Sydney, NSW',
   phone: '+61 490 176 809',
   abn: '80 807 007 887',
-  email: null,
+  email: 'oncalltrailers1@gmail.com',
   pickupAddress: null,
-  instagram: null,
+  /** Suburb only: the listing publishes no street address. */
+  pickupSuburb: 'Haberfield, NSW',
+  instagram: 'https://www.instagram.com/oncalltrailers_/',
 };
 
 /** The live site is indexable today (its robots.txt allows all). Set NEXT_PUBLIC_ALLOW_INDEXING=false to block it. */

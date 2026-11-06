@@ -5,61 +5,61 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 import harbour from '@/assets/hero-harbour.webp';
+import { getBooking } from '@/data/booking';
+import { site } from '@/data/site';
+import { BookingLink } from './BookingLink';
 
-const facts = [
-  { label: 'Fleet', value: 'Three tandem cage trailers' },
-  { label: 'Pickup', value: 'One Sydney location' },
-  { label: 'Booking', value: 'Confirmed through the booking provider' },
-] as const;
-
-/** The first screen: headline over the night-harbour photograph, which drifts slower than the page. */
+/** The first screen: headline over the night-harbour image, which drifts slightly slower than the page. */
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const booking = getBooking();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const mediaY = useTransform(scrollYProgress, [0, 1], ['0%', '14%']);
-  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-8%']);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+  const mediaY = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
+  const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-6%']);
+
+  const facts = [
+    { label: 'Fleet', value: 'Three tandem cage trailers' },
+    { label: 'Pickup', value: `${site.pickupSuburb ?? site.region} · 5 AM – 11:30 PM` },
+    { label: 'Booking', value: `Online at ${booking.host}` },
+  ];
 
   return (
     <section className="hero" ref={ref}>
-      <motion.div className="hero__media" style={{ y: mediaY }} aria-hidden="true">
+      <motion.div className="hero__media" style={{ y: mediaY }}>
         <Image
           src={harbour}
-          alt="Galvanised tandem cage trailer, including its tow hitch and wheels, against Sydney Harbour at night"
-          priority
+          alt="Galvanised tandem cage trailer parked on the waterfront with the Sydney Opera House and Harbour Bridge lit up behind it at night"
+          preload
           sizes="100vw"
         />
-        <div className="hero__lit">
+        <p className="illus-tag">Illustrative image</p>
+        <div className="hero__lit" aria-hidden="true">
           <Image src={harbour} alt="" sizes="100vw" />
         </div>
       </motion.div>
-      <div className="streak" style={{ top: '38%' }} aria-hidden="true" />
-      <div className="streak" style={{ top: '52%' }} aria-hidden="true" />
-      <div className="streak" style={{ top: '66%' }} aria-hidden="true" />
       <div className="hero__shade" aria-hidden="true" />
 
-      <motion.div className="container hero__content" style={{ y: contentY, opacity: contentOpacity }}>
+      <motion.div className="container hero__content" style={{ y: contentY }}>
         <p className="eyebrow" style={{ marginBottom: 0 }}>
-          Sydney · Self-service trailer hire
+          Sydney · Trailer hire
         </p>
         <h1 className="hero__title">
           <span className="line" style={{ '--line-delay': '150ms' } as React.CSSProperties}>
-            <span className="shimmer-text">The right trailer.</span>
+            <span className="shimmer-text">Sydney trailer hire.</span>
           </span>{' '}
           <span className="line" style={{ '--line-delay': '290ms' } as React.CSSProperties}>
             <span className="blue-text">Ready when you are.</span>
           </span>
         </h1>
         <p className="hero__lead">
-          Premium trailer hire with easy online booking and convenient self-service collection.
+          A galvanised tandem cage trailer for house moves, green waste and building supplies. Pick your dates and book
+          online.
         </p>
         <div className="actions">
-          <Link href="/trailers#book" className="btn btn--primary">
-            Find your trailer ↗
+          <BookingLink />
+          <Link href="/trailers/tandem-cage-trailer" className="btn btn--ghost">
+            View trailer
           </Link>
-          <a href="#fleet" className="btn btn--ghost">
-            Explore our fleet
-          </a>
         </div>
       </motion.div>
 

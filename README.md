@@ -1,6 +1,6 @@
 # On Call Trailers
 
-Marketing site for On Call Trailers, a self-service trailer hire business in Sydney. Built with Next.js (App Router, static export), Tailwind CSS v4 and `motion`. The design system lives in `src/styles/`: brand tokens in `tokens.css`, base rules in `base.css`, components and motion in `site.css`. Bookings, payments, ID checks and lock codes are handled by the client's [Lockii](https://www.lockii.app) account through its embedded booking widget.
+Marketing site for On Call Trailers, a self-service trailer hire business in Sydney. Built with Next.js (App Router, static export), Tailwind CSS v4 and `motion`. The design system lives in `src/styles/`: brand tokens in `tokens.css`, base rules in `base.css`, components and motion in `site.css`. Bookings are completed on the owner's external booking page (`src/data/booking.ts`, single source for every booking CTA).
 
 ## Run it
 
@@ -11,13 +11,12 @@ npm run build      # static export to out/ (what Vercel serves: see vercel.json)
 npm run start      # serves out/ locally
 ```
 
-Checks: `npm run typecheck`, `npm run lint`, `npm run test`.
+Checks: `npm run typecheck`, `npm run lint`, `npm run test`. After `npm run build`, `npm run check:claims` scans the exported HTML for demo copy, prices and unverified access or compliance claims.
 
 ## Environment variables
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_LOCKII_ID` | The `data-lockii-id` value from the client's Lockii embed snippet. While empty, the booking section shows a placeholder panel. |
 | `NEXT_PUBLIC_SITE_URL` | Public site URL, used for canonical links, sitemap and structured data. Defaults to `https://www.oncalltrailers.com.au`. |
 
 | `NEXT_PUBLIC_ALLOW_INDEXING` | The site is indexable by default, matching the live `public/robots.txt`. Set to `false` to serve `noindex` metadata. |
@@ -32,7 +31,6 @@ All of these are placeholders and need the client's real details.
 - [ ] **Business details:** `src/data/site.ts`. Phone and ABN are set; still missing email, pickup address and Instagram. Empty fields are hidden on the site.
 - [ ] **FAQ answers:** `src/data/content.ts`, checked against the client's real policies.
 - [ ] **Rental terms and privacy pages:** not included, so no legal text is invented. Add them from the client's documents.
-- [ ] **Lockii widget id:** `NEXT_PUBLIC_LOCKII_ID`.
 - [ ] **Domain:** confirm `NEXT_PUBLIC_SITE_URL`.
 - [ ] **Go live for search:** set `NEXT_PUBLIC_ALLOW_INDEXING=true` and redeploy. Until then the site is `noindex`.
 
