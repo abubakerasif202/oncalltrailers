@@ -7,10 +7,13 @@ import { FaqList } from '@/components/FaqList';
 import { Hero } from '@/components/Hero';
 import { PhoneIcon } from '@/components/Icons';
 import { Lines, Reveal } from '@/components/Reveal';
+import { Rates } from '@/components/Rates';
+import { Reviews } from '@/components/Reviews';
 import { SpecTable } from '@/components/SpecTable';
 import { Steps } from '@/components/Steps';
 import { telHref } from '@/data/booking';
 import { benefits, faqs, homeSteps, preChecks } from '@/data/content';
+import { pickupHours } from '@/data/listing';
 import { site } from '@/data/site';
 import { trailers } from '@/data/trailers';
 
@@ -55,6 +58,7 @@ export default function HomePage() {
                 {trailer.blurb}
               </p>
               <SpecTable rows={trailer.specs} />
+              <Rates />
               <ul className="tags" style={{ marginTop: 'var(--space-lg)' }}>
                 {trailer.goodFor.map((use) => (
                   <li key={use}>{use}</li>
@@ -86,7 +90,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section" id="towing">
+      <section className="section">
+        <div className="container">
+          <div className="section__head">
+            <Reveal as="p" className="eyebrow">
+              Customer reviews
+            </Reveal>
+            <Lines as="h2" lines={['Trusted by', 'local hirers.']} />
+          </div>
+          <Reveal>
+            <Reviews />
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="section band" id="towing">
         <div className="container split split--even">
           <div className="prose">
             <Reveal as="p" className="eyebrow">
@@ -94,7 +112,7 @@ export default function HomePage() {
             </Reveal>
             <Lines as="h2" lines={['Collect in Sydney.', 'Tow with confidence.']} />
             <Reveal as="p" delay={0.1} className="lead-body">
-              Pickup is in {site.region}. Call us for the pickup location and collection details for your hire.
+              Pickup is in {site.pickupSuburb}. Pick-up and return hours are {pickupHours.hours}, {pickupHours.days}.
             </Reveal>
             {site.phone && tel ? (
               <Reveal className="actions" delay={0.15}>
@@ -120,7 +138,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="section--s band">
+      <section className="section--s">
         <div className="container split">
           <div>
             <Reveal as="p" className="eyebrow">

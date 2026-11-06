@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/assets/logo-mark.webp';
 import { telHref } from '@/data/booking';
+import { POLICY_LINKS } from '@/data/listing';
 import { navItems, site } from '@/data/site';
 import { BookingLink } from './BookingLink';
 import { MotionToggle } from './MotionToggle';
@@ -49,7 +50,8 @@ export function Footer() {
                   <a href={`mailto:${site.email}`}>{site.email}</a>
                 </li>
               ) : null}
-              <li>{site.region}</li>
+              <li>{site.pickupSuburb ?? site.region}</li>
+              <li>5:00 AM – 11:30 PM, every day</li>
               <li>
                 <Link href="/contact">Contact details</Link>
               </li>
@@ -60,6 +62,16 @@ export function Footer() {
           <p>
             © 2026 {site.name}.{site.abn ? ` ABN ${site.abn}.` : ''}
           </p>
+          <ul className="footer-policies" aria-label="Hire policies">
+            {POLICY_LINKS.slice(0, 3).map((link) => (
+              <li key={link.href}>
+                <a href={link.href} className="link" target="_blank" rel="noopener noreferrer">
+                  {link.label}
+                  <span className="visually-hidden"> (opens in a new tab)</span>
+                </a>
+              </li>
+            ))}
+          </ul>
           <MotionToggle />
           <a href="https://abwebstudio.com.au" target="_blank" rel="noopener noreferrer" className="link">
             Website by AB Web Studio

@@ -3,6 +3,7 @@ import { BookingLink, BookingNote } from '@/components/BookingLink';
 import { PhoneIcon } from '@/components/Icons';
 import { Lines, Reveal } from '@/components/Reveal';
 import { telHref } from '@/data/booking';
+import { pickupHours } from '@/data/listing';
 import { pageMetadata } from '@/data/seo';
 import { site } from '@/data/site';
 
@@ -44,7 +45,13 @@ export default function ContactPage() {
               ) : null}
               <div>
                 <dt>Pickup</dt>
-                <dd>{site.pickupAddress ?? site.region}</dd>
+                <dd>{site.pickupAddress ?? site.pickupSuburb ?? site.region}</dd>
+              </div>
+              <div>
+                <dt>Pick-up and return</dt>
+                <dd>
+                  {pickupHours.hours}, {pickupHours.days}
+                </dd>
               </div>
               {site.abn ? (
                 <div>

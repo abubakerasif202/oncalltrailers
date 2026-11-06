@@ -19,7 +19,7 @@ export function Hero() {
 
   const facts = [
     { label: 'Fleet', value: 'Three tandem cage trailers' },
-    { label: 'Pickup', value: site.region },
+    { label: 'Pickup', value: `${site.pickupSuburb ?? site.region} · 5 AM – 11:30 PM` },
     { label: 'Booking', value: `Online at ${booking.host}` },
   ];
 

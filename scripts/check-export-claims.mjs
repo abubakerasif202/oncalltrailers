@@ -9,14 +9,16 @@ export const banned = [
   ['integration placeholder', /being connected|not yet connected|awaiting (owner )?confirmation|await confirmation/i],
   ['24/7 access', /24\s*\/\s*7/],
   ['ADR / RMS claims', /\bADR\b|\bRMS\b|certified standards/i],
-  ['smart lockbox / PIN', /lockbox|\bPIN\b|\bSMS\b/i],
+  ['smart lockbox / PIN', /lockbox|(?<!7-)\bPIN\b|\bSMS\b/i],
   ['Lockii', /lockii/i],
-  ['unapproved prices', /\$\s?\d/],
-  ['engineering specs', /\bGTM\b|\bATM\b|8x5|10x5|\d+\s?mm\b|\d{3,4}\s?kg/i],
+  ['legacy specs', /\bGTM\b|8x5|10x5/i],
   ['maintenance claim', /maintenance (logged|after)|maintained after/i],
-  ['protection claims', /roadside|insurance|\bGPS\b|refund|no[- ]bond|bond[- ]free/i],
+  ['protection claims', /insurance|\bGPS\b|refund|no[- ]bond|bond[- ]free/i],
   ['any payload', /any payload/i],
 ];
+
+/** Hire rates the owner has published (listing.ts). Any other dollar amount is unapproved. */
+export const approvedPrices = new Set(['83.86', '77.87', '71.88']);
 
 /** Visible text, meta tags and JSON-LD of one HTML document (scripts other than JSON-LD are dropped). */
 export function extractText(html) {
@@ -45,6 +47,9 @@ export async function scanExport(root = path.resolve('out')) {
     for (const [rule, pattern] of banned) {
       const match = text.match(pattern);
       if (match) findings.push({ file: path.relative(root, file), rule, match: match[0] });
+    }
+    for (const price of text.matchAll(/\$\s?(\d[\d,]*(?:\.\d+)?)/g)) {
+      if (!approvedPrices.has(price[1])) findings.push({ file: path.relative(root, file), rule: 'unapproved prices', match: price[0] });
     }
   }
   return findings;

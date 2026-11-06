@@ -15,14 +15,14 @@ async function site(pages) {
 }
 
 test('passes clean pages', async () => {
-  const root = await site({ 'index.html': '<title>On Call</title><main><p>Hire a trailer. Call us.</p></main>' });
+  const root = await site({ 'index.html': '<title>On Call</title><main><p>Hire a trailer from $71.88 per day. Roadside assistance by NRMA. 2,000 kg ATM.</p></main>' });
   try { assert.deepEqual(await scanExport(root), []); } finally { await rm(root, { recursive: true }); }
 });
 
 test('flags demo copy, prices, access and compliance claims in text, meta and JSON-LD', async () => {
   const root = await site({
     'index.html': '<meta name="description" content="Demo reference pricing"><p>From $5 per hour. 24/7 PIN lockbox. 100% ADR compliant.</p>',
-    'faq/index.html': '<script type="application/ld+json">{"text":"Roadside assistance included"}</script>',
+    'faq/index.html': '<script type="application/ld+json">{"text":"Full insurance and GPS tracking included"}</script>',
     'a.html': '<script>var x="demo $5"</script><p>fine</p>',
   });
   try {

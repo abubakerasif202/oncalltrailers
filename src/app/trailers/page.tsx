@@ -4,13 +4,14 @@ import Link from 'next/link';
 import trailerSide from '@/assets/trailer-side.webp';
 import { BookingLink, BookingNote } from '@/components/BookingLink';
 import { Lines, Reveal } from '@/components/Reveal';
+import { Rates } from '@/components/Rates';
 import { SpecTable } from '@/components/SpecTable';
 import { pageMetadata } from '@/data/seo';
 import { trailers } from '@/data/trailers';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Trailer hire fleet',
-  description: 'Three galvanised tandem cage trailers for hire in Sydney. See the trailer and check availability.',
+  description: 'Three 12x6 galvanised tandem cage trailers for hire in Sydney from $71.88 per day. See the specs and check availability.',
   path: '/trailers',
 });
 
@@ -47,6 +48,7 @@ export default function TrailersPage() {
               {trailer.blurb}
             </p>
             <SpecTable rows={trailer.specs} />
+            <Rates />
             <div className="actions" style={{ marginTop: 'var(--space-xl)' }}>
               <BookingLink />
               <Link href="/trailers/tandem-cage-trailer" className="btn btn--ghost">

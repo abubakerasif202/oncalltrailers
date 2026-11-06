@@ -1,4 +1,4 @@
-// Null fields are hidden on the site. Still missing from the owner: email, pickup suburb/address, support hours, Instagram, policy pages.
+// Null fields are hidden on the site. Still missing from the owner: email, street pickup address, support hours, Instagram.
 export interface SiteInfo {
   name: string;
   tagline: string;
@@ -8,6 +8,7 @@ export interface SiteInfo {
   abn: string | null;
   email: string | null;
   pickupAddress: string | null;
+  pickupSuburb: string | null;
   instagram: string | null;
 }
 
@@ -20,6 +21,8 @@ export const site: SiteInfo = {
   abn: '80 807 007 887',
   email: null,
   pickupAddress: null,
+  /** Suburb only: the listing publishes no street address. */
+  pickupSuburb: 'Haberfield, NSW',
   instagram: null,
 };
 
