@@ -161,3 +161,18 @@ test('routes render without horizontal overflow or runtime errors', async ({ pag
   }
   expect(errors).toEqual([]);
 });
+
+test('every gallery thumbnail is on screen and selectable at this width', async ({ page }) => {
+  await page.goto('/trailers/tandem-cage-trailer');
+  const thumbs = page.locator('.gallery__thumb');
+  expect(await thumbs.count()).toBe(4);
+  for (let i = 0; i < 4; i++) {
+    const box = await thumbs.nth(i).boundingBox();
+    expect(box!.x, `thumb ${i + 1} left edge`).toBeGreaterThanOrEqual(0);
+    expect(box!.x + box!.width, `thumb ${i + 1} right edge`).toBeLessThanOrEqual(page.viewportSize()!.width);
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+    await thumbs.nth(i).click();
+    await expect(thumbs.nth(i)).toHaveAttribute('aria-pressed', 'true');
+    await expect.poll(() => page.evaluate(() => { const a = document.querySelector('.gallery__img[data-active="true"]') as HTMLImageElement | null; return !!a && a.complete && a.naturalWidth > 0; })).toBe(true);
+  }
+});

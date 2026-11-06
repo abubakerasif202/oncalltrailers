@@ -302,3 +302,5 @@
 
 .split--media .fleet__photo { aspect-ratio: 16 / 9; }
 @media (min-width: 61rem) { .split--media .fleet__photo { position: sticky; top: calc(76px + var(--space-lg)); } }
+
+@media (max-width: 40rem) { .gallery__thumbs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-xs); } .gallery__thumb { width: 100%; min-height: 44px; } .gallery__thumb span { padding: 0 var(--space-xs) var(--space-xs); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } }
