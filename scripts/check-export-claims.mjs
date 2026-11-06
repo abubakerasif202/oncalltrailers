@@ -15,6 +15,9 @@ export const banned = [
   ['maintenance claim', /maintenance (logged|after)|maintained after/i],
   ['protection claims', /insurance|\bGPS\b|refund|no[- ]bond|bond[- ]free/i],
   ['any payload', /any payload/i],
+  ['identical specs assumed', /identical (12x6|trailers)|3 identical/i],
+  ['discount rate as standard', /from \$\s?71\.88|from \$\s?77\.87/i],
+  ['blanket cover claim', /fully covered|covered for everything|guaranteed cover/i],
 ];
 
 /** Hire rates the owner has published (listing.ts). Any other dollar amount is unapproved. */

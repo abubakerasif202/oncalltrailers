@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 
-const BOOKING = 'https://www.localtrailerhire.com.au/u/614c78ad-b2b7-4b0e-b4c8-1e266b2caa3d';
+const BOOKING = 'https://www.localtrailerhire.com.au/l/12x6-tandem-cage-box-trailer-haberfield/68a2ad2c-53a0-4737-81db-ad3ed00ef2d8';
 const ROUTES = ['/', '/trailers', '/trailers/tandem-cage-trailer', '/faq', '/how-it-works', '/contact'];
 
 async function expectFocusInside(page: Page, dialog: Locator) {
@@ -15,10 +15,16 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://www.localtrailerhire.com.au/**', (route) => route.abort());
 });
 
-test('mobile menu supports keyboard, focus restoration and navigation', async ({ page, isMobile }) => {
-  test.skip((page.viewportSize()?.width ?? 1440) > 960 && !isMobile, 'Mobile menu is hidden on desktop.');
+test('navigation works at every width: desktop links or the accessible mobile menu', async ({ page }) => {
   await page.goto('/');
+  const wide = (page.viewportSize()?.width ?? 0) > 960;
   const trigger = page.getByRole('button', { name: 'Menu', exact: true });
+  if (wide) {
+    await expect(trigger).toBeHidden();
+    await page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'FAQ' }).click();
+    await expect(page).toHaveURL(/\/faq$/);
+    return;
+  }
   await trigger.focus();
   await page.keyboard.press('Enter');
   const dialog = page.getByRole('dialog', { name: 'Site navigation' });
@@ -32,6 +38,50 @@ test('mobile menu supports keyboard, focus restoration and navigation', async ({
   await dialog.getByRole('link', { name: 'FAQ', exact: true }).click();
   await expect(page).toHaveURL(/\/faq$/);
   await expect(page.getByRole('dialog')).toHaveCount(0);
+});
+
+test('keyboard: skip link is first, focus is visible, and the booking link is reachable', async ({ page, browserName }) => {
+  await page.goto('/');
+  // Safari does not Tab to links unless a system setting is on, so focus it directly there.
+  if (browserName === 'webkit') await page.getByRole('link', { name: 'Skip to main content' }).focus();
+  else await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Skip to main content' })).toBeFocused();
+  const outline = await page.getByRole('link', { name: 'Skip to main content' }).evaluate((el) => getComputedStyle(el).outlineStyle);
+  expect(outline).not.toBe('none');
+  const booking = page.locator('.hero a[data-booking="external"]');
+  await booking.focus();
+  await expect(booking).toBeFocused();
+  expect(await booking.evaluate((el) => getComputedStyle(el).outlineStyle)).not.toBe('none');
+});
+
+test('sticky CTA appears after the hero, stays compact and never covers the footer', async ({ page }) => {
+  await page.goto('/');
+  const bar = page.locator('.sticky-book');
+  await expect(bar).toHaveAttribute('data-visible', 'false');
+  await page.evaluate(() => window.scrollTo(0, innerHeight * 1.5));
+  await expect(bar).toHaveAttribute('data-visible', 'true');
+  const box = await bar.boundingBox();
+  expect(box!.height).toBeLessThanOrEqual(80);
+  const link = bar.locator('a[data-booking="external"]');
+  await expect(link).toBeVisible();
+  await expect(link).toHaveAttribute('href', BOOKING);
+  await page.evaluate(() => document.querySelector('.site-footer')!.scrollIntoView());
+  await expect(bar).toHaveAttribute('data-visible', 'false');
+});
+
+test('fleet and detail pages state rates with their conditions and attribute statistics', async ({ page }) => {
+  await page.goto('/trailers/tandem-cage-trailer');
+  const rates = page.locator('.panel .rates');
+  await expect(rates).toContainText('Short hire');
+  await expect(rates).toContainText('$83.86');
+  await expect(rates).toContainText('total per day');
+  await expect(rates).toContainText('4+ day hire');
+  await expect(rates).toContainText('7+ day hire');
+  await expect(page.locator('.panel')).toContainText('including all fees and taxes');
+  await expect(page.locator('.reviews__stats')).toContainText('This listing');
+  await expect(page.locator('.reviews__stats')).toContainText('Owner profile');
+  await expect(page.getByText('Illustrative 3D renders of the trailer type')).toBeVisible();
+  await expect(page.getByText(/identical/i)).toHaveCount(0);
 });
 
 test('every booking call to action opens the external booking page safely in a new tab', async ({ page }) => {
@@ -72,7 +122,7 @@ test('FAQ items expand and collapse', async ({ page }) => {
 
 test('gallery switches views with the keyboard', async ({ page }) => {
   await page.goto('/trailers/tandem-cage-trailer');
-  const thumb = page.getByRole('button', { name: 'Cage and axle' });
+  const thumb = page.getByRole('button', { name: 'Axle' });
   await thumb.focus();
   await page.keyboard.press('Enter');
   await expect(thumb).toHaveAttribute('aria-pressed', 'true');
@@ -82,7 +132,9 @@ test('gallery switches views with the keyboard', async ({ page }) => {
 test('pause control stops decorative motion and is remembered', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Pause animations' }).click();
+  const pause = page.getByRole('button', { name: 'Pause animations' });
+  await pause.focus(); // smooth scrolling can still be moving the footer button, so activate by keyboard
+  await page.keyboard.press('Enter');
   await expect(page.locator('html')).toHaveAttribute('data-motion', 'off');
   await expect(page.locator('.ambient')).toBeHidden();
   await page.reload();

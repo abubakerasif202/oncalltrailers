@@ -1,4 +1,5 @@
-// Copy states only what the owner has published (see listing.ts). Anything not confirmed is deliberately absent.
+// Copy states only what the owner has published (see listing.ts). Specifications and rates belong to the linked
+// 12x6 listing and are labelled that way. Anything not confirmed is deliberately absent.
 
 export interface Faq {
   q: string;
@@ -9,46 +10,46 @@ export interface Faq {
 export const faqs: readonly Faq[] = [
   {
     q: 'How do I book a trailer?',
-    a: 'Use the Check availability button to open the booking page, enter your pick-up and return times, then sign up or log in to book. You can also call On Call Trailers on the number in the footer.',
+    a: 'Use the Check availability button to open the trailer’s listing on Local Trailer Hire, an external site. Enter your pick-up and return times there, then sign up or log in to book. You can also call On Call Trailers on the number in the footer.',
   },
   {
     q: 'What does it cost?',
-    a: 'Rates are $83.86 per day for a short hire, $77.87 per day for 4+ day hires and $71.88 per day for 7+ day hires. That is the total daily cost including all fees and taxes, as listed on the booking page.',
+    a: 'The 12x6 listing shows $83.86 total per day for a short hire, including all fees and taxes. Lower daily rates apply only to longer hires: $77.87 per day for 4+ day hires and $71.88 per day for 7+ day hires. Enter your dates on the booking page to confirm the price.',
   },
   {
     q: 'Where and when do I collect the trailer?',
-    a: 'Pickup is in Haberfield, NSW. Pick-up and return hours are 5:00 AM to 11:30 PM, Monday to Sunday.',
+    a: 'The listing gives Haberfield, NSW as the pickup location, with pick-up and return hours of 5:00 AM to 11:30 PM, Monday to Sunday. No street address is published here, so call us if you need more detail.',
   },
   {
     q: 'How do I know my vehicle can tow the trailer?',
-    a: 'The trailer has a 2,000 kg ATM (fully loaded), a 670 kg tare and a 1,330 kg payload, with mechanical brakes and a 7-pin flat connector. Check your vehicle’s rated towing capacity and towbar rating against these figures before you book. If you are unsure, call us first.',
+    a: 'The listed 12x6 trailer has a 2,000 kg ATM (fully loaded), a 670 kg tare and a 1,330 kg payload, with mechanical brakes and a 7-pin flat connector. Check your vehicle’s rated towing capacity and towbar rating against these figures before you book. If you are unsure, call us first.',
   },
   {
-    q: 'Is roadside assistance or cover included?',
-    a: 'Australia-wide roadside assistance is provided by NRMA. Trailer Shield, which limits your liability when hiring, is selected at checkout. See the rental terms for full details.',
+    q: 'What roadside assistance and cover are offered?',
+    a: 'The listing states Australia-wide roadside assistance is provided by NRMA, and describes Trailer Shield as a way to limit your liability, with your cover level selected at checkout. This is not a blanket guarantee: cover levels, exclusions and conditions are set out in the rental terms and at checkout.',
   },
   {
     q: 'Can I extend, change or cancel my hire?',
-    a: 'Call On Call Trailers as early as you can. Changes depend on availability, and the rental terms on the booking site set out what applies to your hire.',
+    a: 'Call On Call Trailers as early as you can. Changes depend on availability, and the rental terms on Local Trailer Hire set out what applies to your hire.',
   },
 ] as const;
 
 export const benefits = [
-  { title: 'Three 12x6 trailers', body: 'Identical galvanised tandem cage trailers with a 2,000 kg ATM.' },
-  { title: 'Open 5 AM – 11:30 PM', body: 'Pick-up and return hours, Monday to Sunday.' },
-  { title: 'Roadside assistance', body: 'Australia-wide, provided by NRMA. Trailer Shield cover at checkout.' },
-  { title: '5.00 from 50 reviews', body: 'Super Owner on Local Trailer Hire, 89 hires.' },
+  { title: 'Three cage trailers', body: 'Tandem-axle galvanised cage trailers. The listed 12x6 has a 2,000 kg ATM.' },
+  { title: 'Open 5 AM – 11:30 PM', body: 'Pick-up and return hours on the listing, Monday to Sunday.' },
+  { title: 'Roadside assistance', body: 'Listed as provided by NRMA. Terms and cover levels apply.' },
+  { title: '5.00 from 45 reviews', body: 'On the 12x6 listing at Local Trailer Hire.' },
 ] as const;
 
 export const homeSteps = [
-  { title: 'Book', body: 'Pick your dates on the booking page and sign up or log in to book. Call us if you would rather talk it through.' },
+  { title: 'Book', body: 'Open the listing on Local Trailer Hire, enter your dates, then sign up or log in to book. Call us if you would rather talk it through.' },
   { title: 'Collect', body: 'Pick the trailer up in Haberfield between 5:00 AM and 11:30 PM. Check your towbar, hitch and lights before you leave.' },
-  { title: 'Return', body: 'Bring the trailer back at the agreed time, any day up to 11:30 PM. If plans change, call us as early as you can.' },
+  { title: 'Return', body: 'Bring the trailer back at the agreed time, up to 11:30 PM. If plans change, call us as early as you can.' },
 ] as const;
 
 export const preChecks = [
-  { title: 'Check your vehicle', body: 'The trailer is 2,000 kg ATM with a 670 kg tare. Confirm your vehicle’s towing capacity and towbar rating cover it.' },
-  { title: 'Plan your load', body: 'Payload is 1,330 kg. Spread weight sensibly, secure it to the tie-down rails and keep it within the cage.' },
+  { title: 'Check your vehicle', body: 'The listed 12x6 is 2,000 kg ATM with a 670 kg tare. Confirm your vehicle’s towing capacity and towbar rating cover it.' },
+  { title: 'Plan your load', body: 'The listed payload is 1,330 kg. Spread weight sensibly, secure it to the tie-down rails and keep it within the cage.' },
   { title: 'Ask before you tow', body: 'Not sure about suitability? Call us before you book.' },
 ] as const;
 

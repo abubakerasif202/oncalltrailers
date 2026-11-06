@@ -1,4 +1,4 @@
-// Null fields are hidden on the site. Still missing from the owner: email, street pickup address, support hours, Instagram.
+// Null fields are hidden on the site. Still missing from the owner: email, street pickup address, support hours.
 export interface SiteInfo {
   name: string;
   tagline: string;
@@ -23,7 +23,7 @@ export const site: SiteInfo = {
   pickupAddress: null,
   /** Suburb only: the listing publishes no street address. */
   pickupSuburb: 'Haberfield, NSW',
-  instagram: null,
+  instagram: 'https://www.instagram.com/oncalltrailers_/',
 };
 
 /** The live site is indexable today (its robots.txt allows all). Set NEXT_PUBLIC_ALLOW_INDEXING=false to block it. */

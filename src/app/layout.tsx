@@ -83,6 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ...(site.phone ? { telephone: site.phone } : {}),
             ...(site.abn ? { taxID: site.abn } : {}),
             ...(site.email ? { email: site.email } : {}),
+            ...(site.instagram ? { sameAs: [site.instagram] } : {}),
           }}
         />
         <a href="#main" className="skip-link">

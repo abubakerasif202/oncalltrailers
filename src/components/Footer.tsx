@@ -50,6 +50,14 @@ export function Footer() {
                   <a href={`mailto:${site.email}`}>{site.email}</a>
                 </li>
               ) : null}
+              {site.instagram ? (
+                <li>
+                  <a href={site.instagram} target="_blank" rel="noopener noreferrer">
+                    Instagram @oncalltrailers_
+                    <span className="visually-hidden"> (opens in a new tab)</span>
+                  </a>
+                </li>
+              ) : null}
               <li>{site.pickupSuburb ?? site.region}</li>
               <li>5:00 AM – 11:30 PM, every day</li>
               <li>

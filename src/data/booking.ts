@@ -1,12 +1,13 @@
+import { LISTING_URL, PLATFORM_HOST } from '@/data/listing';
 import { site } from '@/data/site';
 
 /**
  * Single source of truth for every booking call to action.
  *
- * Bookings are completed on the owner's rental platform (an external site), so every CTA says so
- * and opens it in a new tab. The phone number stays available as a second route.
+ * Every booking button goes to the linked 12x6 trailer listing on Local Trailer Hire, an external site,
+ * and opens in a new tab. The phone number stays available as a second route.
  */
-export const BOOKING_URL = 'https://www.localtrailerhire.com.au/u/614c78ad-b2b7-4b0e-b4c8-1e266b2caa3d';
+export const BOOKING_URL = LISTING_URL;
 
 export interface Booking {
   /** Main call to action label. */
@@ -29,7 +30,7 @@ export function getBooking(): Booking {
     label: 'Check availability',
     shortLabel: 'Book now',
     href: BOOKING_URL,
-    host: new URL(BOOKING_URL).hostname.replace(/^www\./, ''),
+    host: PLATFORM_HOST,
     tel: telHref(site.phone),
   };
 }

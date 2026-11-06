@@ -18,7 +18,7 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   projects: [
-    ...[375, 768, 1024, 1440].map((width) => ({
+    ...[360, 390, 430, 768, 1440].map((width) => ({
       name: `chromium-${width}`,
       use: { browserName: 'chromium' as const, viewport: { width, height: 900 } },
     })),

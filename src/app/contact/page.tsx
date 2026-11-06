@@ -43,6 +43,17 @@ export default function ContactPage() {
                   </dd>
                 </div>
               ) : null}
+              {site.instagram ? (
+                <div>
+                  <dt>Instagram</dt>
+                  <dd>
+                    <a href={site.instagram} target="_blank" rel="noopener noreferrer">
+                      @oncalltrailers_
+                      <span className="visually-hidden"> (opens in a new tab)</span>
+                    </a>
+                  </dd>
+                </div>
+              ) : null}
               <div>
                 <dt>Pickup</dt>
                 <dd>{site.pickupAddress ?? site.pickupSuburb ?? site.region}</dd>

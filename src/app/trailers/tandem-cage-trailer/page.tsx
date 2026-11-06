@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import harbour from '@/assets/hero-harbour.webp';
-import trailerSide from '@/assets/trailer-side.webp';
+import render1 from '@/assets/renders/trailer-1.webp';
+import render2 from '@/assets/renders/trailer-2.webp';
+import render3 from '@/assets/renders/trailer-3.webp';
+import render4 from '@/assets/renders/trailer-4.webp';
 import { BookingLink, BookingNote } from '@/components/BookingLink';
 import { PhoneIcon } from '@/components/Icons';
 import { Rates } from '@/components/Rates';
@@ -11,34 +13,26 @@ import { SpecTable } from '@/components/SpecTable';
 import { TrailerGallery } from '@/components/TrailerGallery';
 import { telHref } from '@/data/booking';
 import { hitchChecklist } from '@/data/content';
-import { cover, pickupHours, POLICY_LINKS } from '@/data/listing';
+import { cover, coverNote, LISTING_NAME, pickupHours, POLICY_LINKS } from '@/data/listing';
 import { pageMetadata } from '@/data/seo';
 import { site } from '@/data/site';
 import { trailers } from '@/data/trailers';
 
 export const metadata: Metadata = pageMetadata({
-  title: '12x6 Tandem Cage Trailer hire in Sydney',
+  title: 'Tandem Cage Trailer hire in Sydney',
   description:
-    'Hire a 12x6 galvanised tandem cage trailer in Sydney from $71.88 per day. 2,000 kg ATM, 1,330 kg payload. Pickup in Haberfield, 5 AM to 11:30 PM.',
+    'Tandem cage trailer hire in Sydney. The listed 12x6 has a 2,000 kg ATM and 1,330 kg payload, $83.86 per day for a short hire. Pickup in Haberfield.',
   path: '/trailers/tandem-cage-trailer',
 });
 
 const trailer = trailers[0];
 
-// Swap these for the 3D renders in src/assets/renders/ when they are ready (see the image brief).
+// Illustrative 3D renders. They show the trailer type, not the condition of any individual trailer.
 const images = [
-  {
-    src: harbour,
-    label: 'Full trailer',
-    alt: 'Illustration of a galvanised tandem cage trailer with tow hitch, jockey wheel and tandem wheels, on the waterfront at night with the Sydney skyline behind',
-    position: '62% 60%',
-  },
-  {
-    src: trailerSide,
-    label: 'Cage and axle',
-    alt: 'Illustration of the mesh cage sides, diamond-plate body and tandem wheels of the galvanised trailer',
-    position: '75% 50%',
-  },
+  { src: render1, label: 'Front', alt: 'Illustrative 3D render of a galvanised tandem cage trailer from the front: drawbar, coupling, jockey wheel, spare wheel, diamond-plate body and mesh cage' },
+  { src: render2, label: 'Rear', alt: 'Illustrative 3D render of the trailer from the rear: tailgate, rear lights, tandem wheels with mudguards and mesh cage' },
+  { src: render3, label: 'Load area', alt: 'Illustrative 3D render looking down into the load area: diamond-plate floor enclosed by the mesh cage' },
+  { src: render4, label: 'Axle', alt: 'Illustrative 3D render close-up of the tandem axle with white steel wheels, mudguards and diamond-plate side' },
 ];
 
 export default function TrailerPage() {
@@ -50,7 +44,7 @@ export default function TrailerPage() {
           <Link href="/trailers" className="link back">
             ← Back to the trailer
           </Link>
-          <p className="eyebrow">{trailer.quantity} in the fleet · {site.pickupSuburb}</p>
+          <p className="eyebrow">{trailer.quantity} tandem cage trailers · {site.pickupSuburb}</p>
           <Lines as="h1" lines={['Tandem Cage', 'Trailer']} />
           <p className="lead hero__lead">{trailer.blurb}</p>
         </div>
@@ -59,6 +53,10 @@ export default function TrailerPage() {
       <section className="section--s">
         <div className="container">
           <TrailerGallery images={images} />
+          <p className="note note--spaced">
+            Illustrative 3D renders of the trailer type. They are not photographs and do not show the condition of any
+            individual trailer.
+          </p>
         </div>
       </section>
 
@@ -74,14 +72,17 @@ export default function TrailerPage() {
                 ))}
               </ul>
               <h3 className="display detail__sub">Specifications</h3>
-              <SpecTable rows={trailer.specs} />
+              <p className="note" style={{ marginTop: 'var(--space-sm)' }}>
+                As published for the listing “{LISTING_NAME}” on Local Trailer Hire.
+              </p>
+              <SpecTable rows={trailer.specs} caption={`Specifications for ${LISTING_NAME}`} />
               <h3 className="display detail__sub">Features</h3>
               <ul className="tags" style={{ marginTop: 'var(--space-md)' }}>
                 {trailer.features.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>
-              <h3 className="display detail__sub">Cover and assistance</h3>
+              <h3 className="display detail__sub">Roadside assistance and cover</h3>
               <dl className="specs-list">
                 {cover.map((item) => (
                   <div key={item.title}>
@@ -90,6 +91,7 @@ export default function TrailerPage() {
                   </div>
                 ))}
               </dl>
+              <p className="note note--spaced">{coverNote}</p>
             </Reveal>
           </div>
           <Reveal as="aside" className="panel" delay={0.1}>
@@ -141,8 +143,8 @@ export default function TrailerPage() {
             </Reveal>
             <Lines as="h2" lines={['General towing', 'checklist.']} />
             <p className="lead" style={{ color: 'var(--color-ink-2)' }}>
-              General guidance for any trailer. Check your vehicle’s towing limits against the 2,000 kg ATM before you
-              book, and read the rental terms for your hire.
+              General guidance for any trailer. Check your vehicle’s towing limits against the listed 2,000 kg ATM
+              before you book, and read the rental terms for your hire.
             </p>
           </div>
           <ol className="checks">

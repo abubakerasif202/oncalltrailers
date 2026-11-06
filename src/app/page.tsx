@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import harbour from '@/assets/hero-harbour.webp';
-import trailerSide from '@/assets/trailer-side.webp';
+import trailerRender from '@/assets/renders/trailer-1.webp';
 import { BookingLink, BookingNote } from '@/components/BookingLink';
 import { FaqList } from '@/components/FaqList';
 import { Hero } from '@/components/Hero';
@@ -13,7 +13,7 @@ import { SpecTable } from '@/components/SpecTable';
 import { Steps } from '@/components/Steps';
 import { telHref } from '@/data/booking';
 import { benefits, faqs, homeSteps, preChecks } from '@/data/content';
-import { pickupHours } from '@/data/listing';
+import { LISTING_NAME, pickupHours } from '@/data/listing';
 import { site } from '@/data/site';
 import { trailers } from '@/data/trailers';
 
@@ -42,11 +42,11 @@ export default function HomePage() {
           <div className="fleet__grid fleet__grid--media">
             <Reveal as="figure" kind="plate" className="plate fleet__photo">
               <Image
-                src={trailerSide}
-                alt="Galvanised tandem-axle cage trailer with mesh cage sides, parked on wet tarmac at night"
+                src={trailerRender}
+                alt="3D render of the galvanised tandem cage trailer with mesh cage sides, spare wheel and jockey wheel"
                 sizes="(min-width: 1440px) 760px, 100vw"
               />
-              <figcaption>{trailer.quantity} identical trailers in the fleet</figcaption>
+              <figcaption>Illustrative 3D render · {trailer.quantity} tandem cage trailers in the fleet</figcaption>
             </Reveal>
             <Reveal delay={0.1} className="fleet__copy">
               <h2 className="display">
@@ -57,7 +57,8 @@ export default function HomePage() {
               <p className="lead" style={{ marginTop: 'var(--space-md)', color: 'var(--color-ink-2)' }}>
                 {trailer.blurb}
               </p>
-              <SpecTable rows={trailer.specs} />
+              <SpecTable rows={trailer.specs} caption={`Specifications for ${LISTING_NAME}`} />
+              <p className="note note--spaced">Specifications and rates are for the listed “{LISTING_NAME}” on Local Trailer Hire.</p>
               <Rates />
               <ul className="tags" style={{ marginTop: 'var(--space-lg)' }}>
                 {trailer.goodFor.map((use) => (

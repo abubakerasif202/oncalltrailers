@@ -32,6 +32,7 @@ export function Hero() {
           preload
           sizes="100vw"
         />
+        <p className="illus-tag">Illustrative image</p>
         <div className="hero__lit" aria-hidden="true">
           <Image src={harbour} alt="" sizes="100vw" />
         </div>
