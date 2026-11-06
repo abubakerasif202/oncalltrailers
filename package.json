@@ -11,7 +11,7 @@
     "build": "next build && node scripts/normalize-export.mjs",
     "start": "npx serve out",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --ignore-pattern \"assets/**\" --ignore-pattern \".remember/tmp/**\"",
+    "lint": "eslint . --ignore-pattern \".remember/tmp/**\"",
     "test": "vitest run && node --test scripts/normalize-export.test.mjs scripts/check-export-claims.test.mjs",
     "check:claims": "node scripts/check-export-claims.mjs",
     "test:e2e": "playwright test",
