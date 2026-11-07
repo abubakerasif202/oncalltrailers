@@ -3,23 +3,6 @@
  * they compose with the pointer tilt on `transform`). Every loop stops for prefers-reduced-motion and for the
  * site's own pause switch (html[data-motion="off"]). */
 
-/* ---------- hero: three-trailer lineup ---------- */
-/* The text sits first; the lineup follows in flow and is pulled up under it, so the dark upper band of the image sits
- * behind the headline and no trailer is ever cropped or covered by copy. */
-.hero--fleet { display: flex; flex-direction: column; min-height: 0; overflow: clip; }
-.hero--fleet .hero__content { order: 1; position: relative; z-index: 2; padding-top: calc(76px + var(--space-xl)); padding-bottom: 0; }
-.hero--fleet .hero__title { max-width: none; font-size: clamp(2.5rem, 4.9vw, 4.75rem); }
-.hero--fleet .hero__lead { max-width: 44ch; }
-.hero--fleet .hero__media { order: 2; position: relative; inset: auto; z-index: 0; height: auto; width: min(100%, 1240px); margin: calc(-1 * min(12.5vw, 160px)) auto 0; aspect-ratio: 16 / 9; -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 24%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent), linear-gradient(to bottom, transparent, #000 24%); mask-composite: intersect; }
-.hero--fleet .hero__media picture { display: contents; }
-.hero--fleet .hero__media img { width: 100%; height: 100%; object-fit: cover; animation: settle 2.4s var(--ease-out) both; }
-.hero--fleet .hero__shade { background: linear-gradient(to bottom, var(--color-paper) 0%, transparent 22%), linear-gradient(to top, var(--color-paper) 0%, transparent 14%); }
-.hero--fleet .illus-tag { top: auto; bottom: var(--space-md); right: var(--space-md); }
-.hero--fleet .hero__facts { z-index: 2; }
-@media (max-width: 43.75rem) {
-  .hero--fleet .hero__title { font-size: clamp(2.25rem, 11.5vw, 3.5rem); }
-  .hero--fleet .hero__media { width: 100%; aspect-ratio: 768 / 1376; margin-top: -44vw; -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%); mask-image: linear-gradient(to bottom, transparent, #000 18%); }
-}
 /* ---------- fleet cards ---------- */
 .fleet-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-xl); grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); }
 .fleet-card-wrap { display: grid; min-width: 0; }

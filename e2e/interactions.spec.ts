@@ -122,7 +122,9 @@ test('hero shows the headline, a visible booking action and the trailer', async 
   await expect(explore).toHaveAttribute('href', '#fleet');
   // The booking action keeps the approved route.
   await expect(page.locator('.hero').getByRole('link', { name: /Book a Trailer/ })).toHaveAttribute('href', BOOKING);
-  await expect(page.getByRole('img', { name: /three galvanised trailers.*motorcycle trailer.*cage box trailer.*car trailer/i })).toBeVisible();
+  // The night-harbour background (Opera House and Harbour Bridge) and its flashlight shine layer stay in the hero.
+  await expect(page.getByRole('img', { name: /tandem cage trailer.*Sydney Opera House.*Harbour Bridge/i })).toBeVisible();
+  await expect(page.locator('.hero .hero__lit')).toHaveCount(1);
 });
 
 test('phone links use a valid tel: href', async ({ page }) => {
