@@ -7,6 +7,7 @@ import path from 'node:path';
 import sharp from 'sharp';
 
 const src = path.resolve('design-assets/3d-render-pack-original');
+const heroSrc = path.resolve('design-assets/waterfront-hero-original');
 const out = path.resolve('public/images/trailers');
 
 /** [source file, output name, widths to emit, webp quality] */
@@ -23,6 +24,13 @@ const jobs = [
 ];
 
 await mkdir(out, { recursive: true });
+
+// Home hero: the generated Sydney waterfront scene with all three trailers. Widths up to 1920 are resized from the 2560 file.
+for (const width of [640, 1024, 1376, 1920]) {
+  const info = await sharp(path.join(heroSrc, 'waterfront-lineup-v3-2560.png')).resize({ width }).webp({ quality: 78, effort: 5 }).toFile(path.join(out, `hero-waterfront-${width}.webp`));
+  console.log(`hero-waterfront-${width}.webp ${info.width}x${info.height} ${(info.size / 1024).toFixed(0)} KB`);
+}
+
 for (const [file, name, widths, quality] of jobs) {
   const meta = await sharp(path.join(src, file)).metadata();
   for (const width of widths) {

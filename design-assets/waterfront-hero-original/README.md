@@ -1,0 +1,2 @@
+Chosen hero background from the supplied AI-generated waterfront pack (illustrative render: Sydney Opera House and Harbour Bridge at night with the three trailers on a wet wharf). Kept as a source backup, not served. Website variants are built by scripts/build-trailer-images.mjs into public/images/trailers/hero-waterfront-*. The generator's native size is 1376x768; the 2560 file is an upscale.
+The trailers in this picture are generated, not photographs of the fleet, and are not evidence of any specification.

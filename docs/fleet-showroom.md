@@ -8,7 +8,7 @@ untouched (see `lockii-integration.md`).
 
 | Page | Notes |
 | --- | --- |
-| `/` | Night-harbour hero (Opera House and Harbour Bridge, with the flashlight shine) carrying the new headline, then fleet cards, comparison table and the existing sections |
+| `/` | Sydney waterfront hero (Opera House and Harbour Bridge at night, all three trailers on the wharf, with the flashlight shine) carrying the new headline, then fleet cards, comparison table and the existing sections |
 | `/trailers` | Fleet cards and comparison |
 | `/trailers/tandem-cage-trailer` | 12x6 cage box trailer (existing URL kept) |
 | `/trailers/motorcycle-trailer` | Motorcycle x3 Trailer: indexable, in the sitemap |
@@ -47,8 +47,12 @@ removes `noindex`. Add any new approved price to `approvedPrices` in `scripts/ch
 
 Originals are kept in `design-assets/3d-render-pack-original/` (not served). `node scripts/build-trailer-images.mjs`
 writes the responsive WebP set to `public/images/trailers/` (cutouts keep transparency). Pages use `srcSet`, explicit
-width and height, lazy loading below the fold, and a single high-priority hero image. On phones the home hero uses the
-portrait poster so all three trailers stay in frame.
+width and height, lazy loading below the fold, and a single high-priority hero image.
+
+The home hero uses the generated Sydney waterfront scene (source in `design-assets/waterfront-hero-original/`) with the
+three trailers, the pointer shine and the scroll drift. On wide screens the headline sits in the scene's dark sky and
+the skyline starts below it; on phones a 4:3 crop sits under the text. It is an illustrative render: its trailers are
+generated and are not evidence of any specification. The lineup renders from the original pack are not used.
 
 ## Motion
 
