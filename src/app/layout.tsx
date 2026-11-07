@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
+import { BookingAnalytics } from '@/components/BookingAnalytics';
 import { Enhance } from '@/components/Enhance';
 import { Particles } from '@/components/Particles';
 import { SmoothScroll } from '@/components/SmoothScroll';
@@ -95,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
         <StickyBook />
         <Enhance />
+        <BookingAnalytics />
         <SmoothScroll />
       </body>
     </html>

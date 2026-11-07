@@ -1,7 +1,7 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 
 const BOOKING = 'https://www.localtrailerhire.com.au/l/12x6-tandem-cage-box-trailer-haberfield/68a2ad2c-53a0-4737-81db-ad3ed00ef2d8';
-const ROUTES = ['/', '/trailers', '/trailers/tandem-cage-trailer', '/faq', '/how-it-works', '/contact'];
+const ROUTES = ['/', '/trailers', '/trailers/tandem-cage-trailer', '/faq', '/how-it-works', '/contact', '/book', '/manage-booking'];
 
 async function expectFocusInside(page: Page, dialog: Locator) {
   for (const key of ['Shift+Tab', ...Array<string>(10).fill('Tab')]) {
@@ -10,9 +10,17 @@ async function expectFocusInside(page: Page, dialog: Locator) {
   }
 }
 
+const providerRequests = new WeakMap<Page, string[]>();
+
 test.beforeEach(async ({ page }) => {
-  // The suite never touches the external booking site.
+  // The suite never touches the external booking site or the online-booking widget provider.
   await page.route('https://www.localtrailerhire.com.au/**', (route) => route.abort());
+  const seen: string[] = [];
+  providerRequests.set(page, seen);
+  await page.route('https://book.lockii.app/**', (route) => {
+    seen.push(route.request().url());
+    return route.abort();
+  });
 });
 
 test('navigation works at every width: desktop links or the accessible mobile menu', async ({ page }) => {
@@ -175,4 +183,56 @@ test('every gallery thumbnail is on screen and selectable at this width', async 
     await expect(thumbs.nth(i)).toHaveAttribute('aria-pressed', 'true');
     await expect.poll(() => page.evaluate(() => { const a = document.querySelector('.gallery__img[data-active="true"]') as HTMLImageElement | null; return !!a && a.complete && a.naturalWidth > 0; })).toBe(true);
   }
+});
+test('production isolation: the widget flag is off, so no widget script, markup or request exists on any route', async ({ page }) => {
+  for (const route of ROUTES) {
+    await page.goto(route);
+    await expect(page.locator('main h1')).toBeVisible();
+    expect(await page.content(), `${route} has no widget traces`).not.toMatch(/book\.lockii\.app|<lockii-|lockii-widget|data-lockii/i);
+    await expect(page.locator('script[src*="lockii"], .lockii-stage, .lockii-slot')).toHaveCount(0);
+  }
+  expect(providerRequests.get(page)).toEqual([]);
+});
+
+test('planned booking routes are holding pages: noindex, out of the sitemap, and out of the navigation', async ({ page, request }) => {
+  for (const route of ['/book', '/manage-booking']) {
+    await page.goto(route);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+    await expect(page.locator(`main a[href="${BOOKING}"]`).first()).toBeVisible();
+    await expect(page.locator('nav a[href="/book"], nav a[href="/manage-booking"], footer a[href="/book"]')).toHaveCount(0);
+  }
+  const sitemap = await (await request.get('/sitemap.xml')).text();
+  expect(sitemap).not.toMatch(/\/book|\/manage-booking/);
+});
+
+test('structured data keeps exactly one LocalBusiness block and gains no widget schema on every route', async ({ page }) => {
+  for (const route of ROUTES) {
+    await page.goto(route);
+    const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+    expect(blocks.filter((b) => JSON.parse(b)['@type'] === 'LocalBusiness'), route).toHaveLength(1);
+    await expect(page.locator('script[data-lockii-schema]')).toHaveCount(0);
+  }
+});
+
+test('booking clicks emit separate funnel events and never a completed-booking event', async ({ page }) => {
+  await page.goto('/trailers/tandem-cage-trailer');
+  await page.evaluate(() => {
+    const w = window as unknown as { __events: { event: string }[] };
+    w.__events = [];
+    window.addEventListener('oct:track', (e) => w.__events.push((e as CustomEvent).detail));
+    document.addEventListener('click', (e) => { if ((e.target as Element).closest('a[target="_blank"]')) e.preventDefault(); }, true);
+  });
+  await page.locator('.panel a[data-booking="external"]').click();
+  const events = (await page.evaluate(() => (window as unknown as { __events: { event: string }[] }).__events)).map((e) => e.event).filter((name) => name !== 'trailer_detail_view');
+  expect(events).toEqual(['booking_cta_click', 'local_trailer_hire_click']);
+});
+
+test('the trailer detail view event fires once on load', async ({ page }) => {
+  await page.addInitScript(() => {
+    const w = window as unknown as { __events: { event: string }[] };
+    w.__events = [];
+    window.addEventListener('oct:track', (e) => w.__events.push((e as CustomEvent).detail));
+  });
+  await page.goto('/trailers/tandem-cage-trailer');
+  await expect.poll(() => page.evaluate(() => (window as unknown as { __events: { event: string }[] }).__events.map((e) => e.event))).toEqual(['trailer_detail_view']);
 });

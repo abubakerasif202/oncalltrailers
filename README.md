@@ -21,6 +21,9 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run test`. After `npm run buil
 
 | `NEXT_PUBLIC_ALLOW_INDEXING` | The site is indexable by default, matching the live `public/robots.txt`. Set to `false` to serve `noindex` metadata. |
 
+| `NEXT_PUBLIC_LOCKII_MODE` | Online booking widget. Unset means off (production). `preview` renders it inside a click-blocking shield on a protected Preview deployment only. See `docs/lockii-integration.md`. |
+
+
 Set these in the hosting provider's environment settings. Never commit real values.
 
 ## Before launch

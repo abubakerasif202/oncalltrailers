@@ -6,6 +6,9 @@ import render3 from '@/assets/renders/trailer-3.webp';
 import render4 from '@/assets/renders/trailer-4.webp';
 import { BookingLink, BookingNote } from '@/components/BookingLink';
 import { PhoneIcon } from '@/components/Icons';
+import { LockiiSlot } from '@/components/LockiiSlot';
+import { TrackView } from '@/components/TrackView';
+import { LOCKII } from '@/data/lockii';
 import { Rates } from '@/components/Rates';
 import { Lines, Reveal } from '@/components/Reveal';
 import { Reviews } from '@/components/Reviews';
@@ -39,6 +42,7 @@ export default function TrailerPage() {
   const tel = telHref(site.phone);
   return (
     <>
+      <TrackView event="trailer_detail_view" params={{ trailer: trailer.slug }} />
       <section className="page-hero">
         <div className="container">
           <Link href="/trailers" className="link back">
@@ -107,6 +111,12 @@ export default function TrailerPage() {
               ) : null}
             </div>
             <BookingNote />
+            <LockiiSlot
+              tag="lockii-checkout-button"
+              title="12x6 cage box trailer booking button preview"
+              attributes={{ product_id: LOCKII.products.cage }}
+              minHeight={96}
+            />
             <dl className="panel__list">
               <div>
                 <dt>Pickup</dt>

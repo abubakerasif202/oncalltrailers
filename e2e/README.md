@@ -48,10 +48,10 @@ HTML results are in `playwright-report/`; screenshots and retry traces are in
 
 ## Booking boundary
 
-The build inherits the existing environment configuration. Without
-`NEXT_PUBLIC_LOCKII_ID`, the explicit disconnected/demo state must render.
-With an ID, the tests check the provider script URL, ID attribute and selector.
-Provider requests are stubbed with inert JavaScript: this suite never submits a
-reservation, calls the live provider, charges a payment or proves availability.
-Unit tests cover both configuration branches using an explicitly non-live ID.
-Real-device Safari/Android and live provider/payment verification remain separate.
+The default suite builds the production configuration: the online-booking widget is off, and the suite asserts no widget
+script, markup or request exists on any route. Requests to the widget provider and Local Trailer Hire are aborted.
+
+`npm run test:e2e:lockii` builds a preview (`NEXT_PUBLIC_LOCKII_MODE=preview`) on port 43188 and runs `e2e-lockii/`. The
+provider script is replaced by an inert stub that records clicks; the suite proves the shield blocks them. Both suites build
+into `out/`, so run them one after the other. Neither suite submits a reservation, charges a payment or proves
+availability. Real-device Safari/Android and live provider/payment verification remain separate.

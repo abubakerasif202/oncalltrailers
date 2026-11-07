@@ -39,4 +39,4 @@ createServer(async (request, response) => {
     console.error('Static QA server request failed:', error.code ?? error.name);
     response.writeHead(500).end();
   }
-}).listen(43187, '127.0.0.1');
+}).listen(Number(process.env.E2E_PORT ?? 43187), '127.0.0.1');

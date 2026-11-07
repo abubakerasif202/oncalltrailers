@@ -25,3 +25,8 @@ Thumbs.db
 /test-results/
 .env*
 !.env.example
+/test-results-lockii/
+
+# Preview screenshots show the provider's unapproved prices
+/docs/lockii/screenshots/
+.gstack/

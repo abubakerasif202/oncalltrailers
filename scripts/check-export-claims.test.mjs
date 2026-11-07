@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { scanExport } from './check-export-claims.mjs';
+import { scanExport, scanWidgetIsolation } from './check-export-claims.mjs';
 
 async function site(pages) {
   const root = await mkdtemp(path.join(tmpdir(), 'claims-'));
@@ -32,4 +32,18 @@ test('flags demo copy, prices, access and compliance claims in text, meta and JS
     }
     assert.equal((await scanExport(root)).some((f) => f.file === 'a.html'), false, 'scripts are not visible text');
   } finally { await rm(root, { recursive: true }); }
+});
+
+test('widget isolation flags provider traces in pages and bundles but not clean exports', async () => {
+  const dirty = await site({
+    'book.html': '<main><p>ok</p></main>',
+    '_next/static/chunk.js': 'load("https://book.lockii.app/widget.js")',
+    'x/index.html': '<lockii-browse></lockii-browse>',
+  });
+  const clean = await site({ 'index.html': '<main>Hire a trailer</main>', '_next/a.js': 'console.log(1)' });
+  try {
+    const files = (await scanWidgetIsolation(dirty)).map((f) => f.file.replaceAll('\\', '/')).sort();
+    assert.deepEqual(files, ['_next/static/chunk.js', 'x/index.html']);
+    assert.deepEqual(await scanWidgetIsolation(clean), []);
+  } finally { await rm(dirty, { recursive: true }); await rm(clean, { recursive: true }); }
 });
