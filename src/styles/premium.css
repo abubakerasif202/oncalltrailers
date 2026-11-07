@@ -187,3 +187,17 @@
 @media (max-width: 60rem) {
   .hero__media > img, .hero__lit > img { object-fit: contain; object-position: center bottom; }
 }
+/* Centred review stage with a six-second reading progress bar. */
+.review-stage { max-width: 850px; margin-inline: auto; }
+.review-stage .review-controls { justify-content: center; flex-wrap: wrap; }
+.review-stage .reviews__carousel { display: grid; overflow: hidden; padding: 8px 0 24px; }
+.review-stage .reviews__carousel > li { grid-area: 1 / 1; width: 100%; min-width: 0; text-align: center; opacity: 0; visibility: hidden; transform: translateX(24px); transition: opacity .45s ease, transform .45s ease, visibility .45s; }
+.review-stage .reviews__carousel > li[data-active="true"] { opacity: 1; visibility: visible; transform: none; }
+.review-stage blockquote { font-size: clamp(1.2rem, 2vw, 1.6rem); }
+.review-stage .label { margin-top: 24px; color: var(--color-chrome); }
+.review-progress { height: 3px; background: var(--color-rule); overflow: hidden; }
+.review-progress span { display: block; height: 100%; background: var(--color-cyan); transform-origin: left; animation: review-reading 6s linear both; animation-play-state: paused; }
+.review-progress span[data-running="true"] { animation-play-state: running; }
+.review-position { text-align: center; color: var(--color-muted); font-size: .8rem; margin-top: 12px; font-variant-numeric: tabular-nums; }
+@keyframes review-reading { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media(prefers-reduced-motion: reduce) { .review-stage .reviews__carousel > li { transition: none; transform: none; } .review-progress span { animation: none; transform: scaleX(1); } }
