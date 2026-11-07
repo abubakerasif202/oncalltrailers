@@ -43,6 +43,8 @@ export function Enhance() {
       el.style.setProperty('--tx', '0deg');
       el.style.setProperty('--ty', '0deg');
       el.style.setProperty('--ts', '1');
+      el.style.setProperty('--px', '0');
+      el.style.setProperty('--py', '0');
       el.dataset.hover = 'false';
     };
     const hero = document.querySelector<HTMLElement>('.hero');
@@ -69,6 +71,8 @@ export function Enhance() {
           card.style.setProperty('--tx', `${((y - box.height / 2) / (box.height / 2)) * -6}deg`);
           card.style.setProperty('--ty', `${((x - box.width / 2) / (box.width / 2)) * 6}deg`);
           card.style.setProperty('--ts', '1.015');
+          card.style.setProperty('--px', String((x - box.width / 2) / (box.width / 2)));
+          card.style.setProperty('--py', String((y - box.height / 2) / (box.height / 2)));
           card.style.setProperty('--gx', `${x}px`);
           card.style.setProperty('--gy', `${y}px`);
           card.dataset.hover = 'true';

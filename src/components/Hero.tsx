@@ -1,41 +1,49 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'motion/react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useRef } from 'react';
-import harbour from '@/assets/hero-harbour.webp';
 import { getBooking } from '@/data/booking';
+import { fleetImages, imageUrl, largestUrl, srcSetOf } from '@/data/fleetImages';
 import { site } from '@/data/site';
 import { BookingLink } from './BookingLink';
+import { ArrowIcon } from './Icons';
 
-/** The first screen: headline over the night-harbour image, which drifts slightly slower than the page. */
+const HERO_ALT =
+  'Illustrative 3D render of three galvanised trailers side by side on a dark, wet studio floor: a motorcycle trailer, a cage box trailer and a car trailer';
+
+/** The first screen: headline over the three-trailer lineup, which drifts slightly slower than the page. */
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const booking = getBooking();
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const mediaY = useTransform(scrollYProgress, [0, 1], ['0%', '10%']);
+  const mediaY = useTransform(scrollYProgress, [0, 1], ['0%', '8%']);
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-6%']);
 
   const facts = [
-    { label: 'Fleet', value: 'Three tandem cage trailers' },
+    { label: 'Fleet', value: 'Cage, motorcycle and car trailers' },
     { label: 'Pickup', value: `${site.pickupSuburb ?? site.region} · 5 AM – 11:30 PM` },
     { label: 'Booking', value: `Online at ${booking.host}` },
   ];
 
   return (
-    <section className="hero" ref={ref}>
+    <section className="hero hero--fleet" ref={ref}>
       <motion.div className="hero__media" style={{ y: mediaY }}>
-        <Image
-          src={harbour}
-          alt="Galvanised tandem cage trailer parked on the waterfront with the Sydney Opera House and Harbour Bridge lit up behind it at night"
-          preload
-          sizes="100vw"
-        />
+        {/* Art direction: the portrait poster keeps all three trailers in frame on phones; the landscape lineup fills wider screens. */}
+        <picture>
+          <source media="(max-width: 700px)" srcSet={fleetImages.lineupPortrait.widths.map((w) => `${imageUrl(fleetImages.lineupPortrait, w)} ${w}w`).join(', ')} sizes="100vw" />
+          <img
+            src={largestUrl(fleetImages.lineup)}
+            srcSet={srcSetOf(fleetImages.lineup)}
+            sizes="100vw"
+            width={fleetImages.lineup.width}
+            height={fleetImages.lineup.height}
+            alt={HERO_ALT}
+            loading="eager"
+            decoding="sync"
+            fetchPriority="high"
+          />
+        </picture>
         <p className="illus-tag">Illustrative image</p>
-        <div className="hero__lit" aria-hidden="true">
-          <Image src={harbour} alt="" sizes="100vw" />
-        </div>
       </motion.div>
       <div className="hero__shade" aria-hidden="true" />
 
@@ -45,21 +53,21 @@ export function Hero() {
         </p>
         <h1 className="hero__title">
           <span className="line" style={{ '--line-delay': '150ms' } as React.CSSProperties}>
-            <span className="shimmer-text">Sydney trailer hire.</span>
+            <span className="shimmer-text">Three trailers.</span>
           </span>{' '}
           <span className="line" style={{ '--line-delay': '290ms' } as React.CSSProperties}>
-            <span className="blue-text">Ready when you are.</span>
+            <span className="blue-text">Endless possibilities.</span>
           </span>
         </h1>
         <p className="hero__lead">
-          A galvanised tandem cage trailer for house moves, green waste and building supplies. Pick your dates and book
-          online.
+          From moving equipment to transporting motorcycles and cars, find the right trailer for your next job.
         </p>
         <div className="actions">
-          <BookingLink />
-          <Link href="/trailers/tandem-cage-trailer" className="btn btn--ghost">
-            View trailer
-          </Link>
+          <a href="#fleet" className="btn btn--primary">
+            Explore Our Trailers
+            <ArrowIcon className="btn__icon" />
+          </a>
+          <BookingLink className="btn btn--ghost">Book a Trailer</BookingLink>
         </div>
       </motion.div>
 

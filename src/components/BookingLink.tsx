@@ -8,14 +8,16 @@ interface BookingLinkProps {
   children?: ReactNode;
   short?: boolean;
   tabIndex?: number;
+  /** A different trailer's listing on the same booking platform. Omit for the default listing. */
+  href?: string;
 }
 
 /** Every booking button on the site: an external link to the trailer listing that says where it goes. */
-export function BookingLink({ className = 'btn btn--primary', children, short, tabIndex }: BookingLinkProps) {
+export function BookingLink({ className = 'btn btn--primary', children, short, tabIndex, href }: BookingLinkProps) {
   const booking = getBooking();
   return (
     <a
-      href={booking.href}
+      href={href ?? booking.href}
       className={className}
       target="_blank"
       rel="noopener noreferrer"

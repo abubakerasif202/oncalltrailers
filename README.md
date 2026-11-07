@@ -49,3 +49,7 @@ public/             logo, favicon, social image, robots.txt (static files only; 
 ```
 
 Animations use transform and opacity only, respect the visitor's reduced-motion setting, and leave all content visible when scripting is off.
+
+## Fleet showroom
+
+Three trailer types (cage, motorcycle, car) driven by src/data/fleet.ts. See docs/fleet-showroom.md for sources, what is unconfirmed, and how to publish the car trailer once verified.

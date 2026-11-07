@@ -44,7 +44,7 @@ test('the script stays single across client-side navigation and all widgets use 
   // Client-side navigation only (no reload): /book → home → trailer page. A page-level marker proves no reload.
   await page.evaluate(() => { (window as unknown as { __noReload: boolean }).__noReload = true; });
   await page.locator('.site-header a.brand').first().click();
-  await page.locator('.hero').getByRole('link', { name: 'View trailer' }).click();
+  await page.locator('#fleet').getByRole('link', { name: /Explore Trailer.*Cage Box/ }).click();
   await expect(page).toHaveURL(/\/trailers\/tandem-cage-trailer$/);
   expect(await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload)).toBe(true);
   await expect(page.locator(`lockii-checkout-button[product_id="${CAGE}"]`)).toHaveCount(1);

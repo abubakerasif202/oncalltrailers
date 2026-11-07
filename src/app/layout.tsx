@@ -33,7 +33,7 @@ const body = localFont({
 });
 
 const description =
-  'Hire a galvanised tandem cage trailer in Sydney. See the trailer, check availability and book online with On Call Trailers.';
+  'Trailer hire in Sydney: galvanised cage box and motorcycle trailers to book online, and car trailer enquiries, from On Call Trailers.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),

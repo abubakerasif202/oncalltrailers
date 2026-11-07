@@ -30,3 +30,6 @@ Thumbs.db
 # Preview screenshots show the provider's unapproved prices
 /docs/lockii/screenshots/
 .gstack/
+
+# Source zips are kept locally; extracted originals live in design-assets/
+/oncall-trailers-*.zip

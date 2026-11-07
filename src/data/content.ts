@@ -9,6 +9,10 @@ export interface Faq {
 /** The first four also appear on the home page; all are on /faq. */
 export const faqs: readonly Faq[] = [
   {
+    q: 'Which trailers can I hire?',
+    a: 'The 12x6 cage box trailer and the Motorcycle x3 Trailer each have a listing on Local Trailer Hire. A car trailer is also planned: its size, rate and booking route are not confirmed yet, so please call or use the contact page to ask about it.',
+  },
+  {
     q: 'How do I book a trailer?',
     a: 'Use the Check availability button to open the trailer’s listing on Local Trailer Hire, an external site. Enter your pick-up and return times there, then sign up or log in to book. You can also call On Call Trailers on the number in the footer.',
   },
@@ -35,9 +39,9 @@ export const faqs: readonly Faq[] = [
 ] as const;
 
 export const benefits = [
-  { title: 'Three cage trailers', body: 'Tandem-axle galvanised cage trailers. The listed 12x6 has a 2,000 kg ATM.' },
+  { title: 'Cage and motorcycle trailers', body: 'Book the 12x6 cage trailer or the Motorcycle x3 trailer. The car trailer is on enquiry.' },
   { title: 'Open 5 AM – 11:30 PM', body: 'Pick-up and return hours on the listing, Monday to Sunday.' },
-  { title: 'Roadside assistance', body: 'Listed as provided by NRMA. Terms and cover levels apply.' },
+  { title: 'Roadside assistance', body: 'Listed for the 12x6 cage trailer as provided by NRMA. Terms and cover levels apply.' },
   { title: '5.00 from 45 reviews', body: 'On the 12x6 listing at Local Trailer Hire.' },
 ] as const;
 
