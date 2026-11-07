@@ -113,9 +113,10 @@ export default function TrailerPage() {
             <BookingNote />
             <LockiiSlot
               tag="lockii-checkout-button"
-              title="12x6 cage box trailer booking button preview"
+              title="12x6 cage box trailer booking button"
               attributes={{ product_id: LOCKII.products.cage }}
               minHeight={96}
+              previewOnly
             />
             <dl className="panel__list">
               <div>

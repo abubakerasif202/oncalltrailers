@@ -5,6 +5,8 @@ const CAGE = 'product_01a19102-9dd1-77ba-8a1e-b873a4e37fe4';
 const MOTORCYCLE = 'product_01a19103-22b0-738d-a605-047c6ab43ad8';
 const LTH = 'https://www.localtrailerhire.com.au/l/12x6-tandem-cage-box-trailer-haberfield/68a2ad2c-53a0-4737-81db-ad3ed00ef2d8';
 
+test.skip(process.env.LOCKII_E2E_MODE === 'live', 'preview-build tests');
+
 type Mode = 'stub' | 'blocked' | 'hang';
 
 /** Every provider request is intercepted: nothing in this suite reaches the real widget or booking site. */
@@ -82,7 +84,7 @@ test('frames get an accessible name', async ({ page }) => {
   await interceptProviders(page);
   await page.goto('/book');
   const frame = page.locator('.lockii-host iframe').first();
-  await expect(frame).toHaveAttribute('title', 'Trailer availability preview');
+  await expect(frame).toHaveAttribute('title', 'Trailer availability');
 });
 
 for (const mode of ['blocked', 'hang'] as const) {

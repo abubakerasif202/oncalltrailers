@@ -2,6 +2,7 @@
 
 import Script from 'next/script';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { track } from '@/lib/analytics';
 
 export interface LockiiEmbedProps {
   /** Widget element to create, e.g. the browse, account or checkout-button element. */
@@ -32,6 +33,19 @@ const DEFINE_TIMEOUT_MS = 10_000;
 export function LockiiEmbed({ tag, attributes, title, script, shielded, fallback, minHeight }: LockiiEmbedProps) {
   const host = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<Status>('loading');
+
+  // Live only: one event when the booking widget is first seen. Seeing it is entry to the flow, never a booking.
+  useEffect(() => {
+    const frame = host.current?.parentElement;
+    if (shielded || status !== 'ready' || !frame) return;
+    const observer = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      track('lockii_flow_entry', { widget: tag, path: window.location.pathname });
+      observer.disconnect();
+    });
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, [shielded, status, tag]);
 
   // A script that is blocked, stalled or never defines its element must not leave the page loading forever.
   useEffect(() => {

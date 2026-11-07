@@ -24,15 +24,26 @@ export const LOCKII = {
 } as const;
 
 /**
- * off     – no widget script, no widget markup. This is the production behaviour.
- * preview – the widget renders inside a shield that blocks every click, key press and tab stop, so it
- *           can be reviewed without any transactional interaction. There is deliberately no "live" mode:
- *           enabling real checkout is a separate, owner-approved change (see docs/lockii-integration.md).
+ * off     – no widget script, no widget markup. The default.
+ * preview – the widget renders inside a shield that blocks every click, key press and tab stop, so it can be
+ *           reviewed without any transactional interaction. Never reachable in a Vercel production environment.
+ * live    – the widget is interactive and its analytics are on. Needs BOTH NEXT_PUBLIC_LOCKII_MODE=live and
+ *           NEXT_PUBLIC_LOCKII_OWNER_APPROVED=true. Without the approval flag a live request falls back to preview
+ *           (or off in production), so a single stray variable can never open real checkout.
  */
-export type LockiiMode = 'off' | 'preview';
+export type LockiiMode = 'off' | 'preview' | 'live';
 
-/** Resolved at build time. Unset, unknown or Vercel-production environments always resolve to "off". */
+/** Resolved at build time from the environment. Unset or unknown values always resolve to "off". */
 export function getLockiiMode(env: Readonly<Record<string, string | undefined>> = process.env): LockiiMode {
-  if (env.VERCEL_ENV === 'production') return 'off';
-  return env.NEXT_PUBLIC_LOCKII_MODE === 'preview' ? 'preview' : 'off';
+  const production = env.VERCEL_ENV === 'production';
+  const approved = env.NEXT_PUBLIC_LOCKII_OWNER_APPROVED === 'true';
+  switch (env.NEXT_PUBLIC_LOCKII_MODE) {
+    case 'live':
+      if (approved) return 'live';
+      return production ? 'off' : 'preview';
+    case 'preview':
+      return production ? 'off' : 'preview';
+    default:
+      return 'off';
+  }
 }

@@ -80,13 +80,13 @@ export async function scanWidgetIsolation(root = path.resolve('out')) {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
-  const previewBuild = process.env.NEXT_PUBLIC_LOCKII_MODE === 'preview';
-  const findings = [...(await scanExport()), ...(previewBuild ? [] : await scanWidgetIsolation())];
+  const widgetBuild = ['preview', 'live'].includes(process.env.NEXT_PUBLIC_LOCKII_MODE ?? '');
+  const findings = [...(await scanExport()), ...(widgetBuild ? [] : await scanWidgetIsolation())];
   if (findings.length) {
     console.error(findings.map((f) => `${f.file}: ${f.rule} -> "${f.match}"`).join('\n'));
     process.exit(1);
   }
   console.log(
-    `Export claims check passed: no demo, price, access or compliance claims found${previewBuild ? ' (preview build: widget isolation not checked)' : ', and no booking widget code in the export'}.`,
+    `Export claims check passed: no demo, price, access or compliance claims found${widgetBuild ? ' (widget build: widget isolation not checked)' : ', and no booking widget code in the export'}.`,
   );
 }

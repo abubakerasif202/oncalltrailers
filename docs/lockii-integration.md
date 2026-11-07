@@ -1,9 +1,31 @@
 # Online booking integration: status, blockers and launch plan
 
-Status: **preview-ready, not launch-ready.** The site is technically prepared for the online booking widget, but it
-ships switched off. Customers keep booking through Local Trailer Hire. Nothing here changes provider prices, stock,
-payments, integrations, locks or booking policy, and no checkout, booking record or payment is created by the site or
-its tests.
+Status: **live on an unlisted page, at the owner's explicit request, with the release blockers below still open.**
+Customers still book through Local Trailer Hire everywhere on the site. Nothing here changes provider prices, stock,
+payments, integrations, locks or booking policy, and no checkout, booking record or payment is created by the site's
+tests.
+
+## Live mode
+
+| Mode | Set with | Behaviour |
+| --- | --- | --- |
+| `off` (default) | nothing | no widget script, markup or request anywhere |
+| `preview` | `NEXT_PUBLIC_LOCKII_MODE=preview` | shielded widget, never reachable in Vercel production |
+| `live` | `NEXT_PUBLIC_LOCKII_MODE=live` **and** `NEXT_PUBLIC_LOCKII_OWNER_APPROVED=true` | interactive widget, widget analytics on |
+
+A live request without the exact approval value falls back to preview (or off in production). Approval alone does
+nothing.
+
+Live is enabled in Vercel Production on 2026-11-07 on the owner's instruction ("for now make live, no customer will
+come, I will handle"). What that means:
+
+- The widget is live **only on `/book` and `/manage-booking`**. Both stay `noindex`, out of the sitemap and out of the
+  header, footer and sticky bar, so only people given the link reach them.
+- The indexed trailer page deliberately does **not** host the widget in live mode, because it would show the
+  provider's own price ($85.00) beside the site's $83.86.
+- The owner accepts the open blockers below, including the price mismatch, unverified payments, no connected locks and
+  unproven stock sync, and will handle any booking that arrives. Do not link, advertise or index these pages until
+  those blockers are closed.
 
 ## What is built
 
@@ -157,7 +179,8 @@ The widget does not push to `dataLayer`; it only reads consent entries from it. 
 
 ## Rollback
 
-1. In Vercel, remove or set `NEXT_PUBLIC_LOCKII_MODE` to `off`, then redeploy. Every widget script, element and route
+1. In Vercel, delete `NEXT_PUBLIC_LOCKII_OWNER_APPROVED` (this alone drops live back to off in production) and set
+   `NEXT_PUBLIC_LOCKII_MODE` to `off` or delete it, then redeploy. Every widget script, element and route
    body disappears; `/book` and `/manage-booking` return to holding pages.
 2. If a live change shipped, redeploy the previous Production deployment from Vercel (Instant Rollback), or revert the
    merge commit and push.

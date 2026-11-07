@@ -8,7 +8,8 @@
 export type TrackedEvent =
   | 'trailer_detail_view'
   | 'booking_cta_click'
-  | 'local_trailer_hire_click';
+  | 'local_trailer_hire_click'
+  | 'lockii_flow_entry';
 
 export type TrackParams = Record<string, string | number | boolean>;
 

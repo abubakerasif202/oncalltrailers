@@ -20,16 +20,19 @@ export const metadata: Metadata = {
 
 export default function ManageBookingPage() {
   const tel = telHref(site.phone);
-  const preview = getLockiiMode() === 'preview';
+  const mode = getLockiiMode();
+  const widget = mode !== 'off';
   return (
     <>
       <section className="page-hero">
         <div className="container">
           <Lines as="h1" lines={['Manage a', 'booking']} />
           <p className="lead hero__lead">
-            {preview
+            {mode === 'preview'
               ? 'A preview of the planned booking account page. Nothing on this page can be changed yet.'
-              : 'Bookings made through the trailer’s listing are managed there. Call us if you need help.'}
+              : mode === 'live'
+                ? 'Sign in to see or change a booking made on this website, or call us if you need help.'
+                : 'Bookings made through the trailer’s listing are managed there. Call us if you need help.'}
           </p>
         </div>
       </section>
@@ -37,8 +40,8 @@ export default function ManageBookingPage() {
       <section className="section--s">
         <div className="container split split--detail">
           <div>
-            {preview ? (
-              <LockiiSlot tag="lockii-account" title="Booking account preview" minHeight={420} />
+            {widget ? (
+              <LockiiSlot tag="lockii-account" title="Booking account" minHeight={420} />
             ) : (
               <Reveal>
                 <h2 className="display detail__sub">Changing a booking</h2>

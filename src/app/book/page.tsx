@@ -21,7 +21,9 @@ export const metadata: Metadata = {
 
 export default function BookPage() {
   const tel = telHref(site.phone);
-  const preview = getLockiiMode() === 'preview';
+  const mode = getLockiiMode();
+  const widget = mode !== 'off';
+  const preview = mode === 'preview';
   return (
     <>
       <section className="page-hero">
@@ -29,9 +31,11 @@ export default function BookPage() {
           <p className="eyebrow">Pickup in {site.pickupSuburb}</p>
           <Lines as="h1" lines={['Book a', 'trailer']} />
           <p className="lead hero__lead">
-            {preview
-              ? 'A preview of the planned booking page. Nothing on this page can be booked yet.'
-              : 'Online booking on this website is not open yet. Booking is available now through the trailer’s listing.'}
+            {mode === 'live'
+              ? 'Choose your trailer and dates to book online. You can also book through the trailer’s listing or call us.'
+              : preview
+                ? 'A preview of the planned booking page. Nothing on this page can be booked yet.'
+                : 'Online booking on this website is not open yet. Booking is available now through the trailer’s listing.'}
           </p>
         </div>
       </section>
@@ -39,12 +43,12 @@ export default function BookPage() {
       <section className="section--s">
         <div className="container split split--detail">
           <div>
-            {preview ? (
+            {widget ? (
               <>
                 <Reveal>
                   <h2 className="display detail__sub">Available trailers</h2>
                 </Reveal>
-                <LockiiSlot tag="lockii-browse" title="Trailer availability preview" minHeight={520} />
+                <LockiiSlot tag="lockii-browse" title="Trailer availability" minHeight={520} />
               </>
             ) : (
               <Reveal>
@@ -57,8 +61,8 @@ export default function BookPage() {
             )}
           </div>
           <Reveal as="aside" className="panel" delay={0.1}>
-            <h3 className="display">Book now</h3>
-            <p>Booking is completed on the trailer’s listing.</p>
+            <h3 className="display">{mode === 'live' ? 'Other ways to book' : 'Book now'}</h3>
+            <p>{mode === 'live' ? 'Prefer to book on the trailer’s listing, or to talk first? Both are open.' : 'Booking is completed on the trailer’s listing.'}</p>
             <div className="actions">
               <BookingLink />
               {site.phone && tel ? (
@@ -97,7 +101,7 @@ export default function BookPage() {
                 <h3 className="display">12x6 cage box trailer</h3>
                 <LockiiSlot
                   tag="lockii-checkout-button"
-                  title="12x6 cage box trailer booking button preview"
+                  title="12x6 cage box trailer booking button"
                   attributes={{ product_id: LOCKII.products.cage }}
                   minHeight={96}
                 />
@@ -106,7 +110,7 @@ export default function BookPage() {
                 <h3 className="display">Motorcycle trailer (not yet listed on this site)</h3>
                 <LockiiSlot
                   tag="lockii-checkout-button"
-                  title="Motorcycle trailer booking button preview"
+                  title="Motorcycle trailer booking button"
                   attributes={{ product_id: LOCKII.products.motorcycle }}
                   minHeight={96}
                 />

@@ -5,7 +5,8 @@ import { defineConfig } from '@playwright/test';
  * widget provider is stubbed or aborted inside the tests. Run after the default suite (both build into out/):
  *   npm run test:e2e:lockii
  */
-const PORT = 43188;
+const LIVE = process.env.LOCKII_E2E_MODE === 'live';
+const PORT = LIVE ? 43190 : 43188;
 
 export default defineConfig({
   testDir: './e2e-lockii',
@@ -23,7 +24,9 @@ export default defineConfig({
   })),
   webServer: {
     command: 'npm run build && node e2e/serve.mjs',
-    env: { NEXT_PUBLIC_LOCKII_MODE: 'preview', E2E_PORT: String(PORT) },
+    env: LIVE
+      ? { NEXT_PUBLIC_LOCKII_MODE: 'live', NEXT_PUBLIC_LOCKII_OWNER_APPROVED: 'true', E2E_PORT: String(PORT) }
+      : { NEXT_PUBLIC_LOCKII_MODE: 'preview', E2E_PORT: String(PORT) },
     url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: false,
     timeout: 180_000,
