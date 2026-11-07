@@ -28,7 +28,7 @@ export function Hero() {
       <motion.div className="hero__media" style={{ y: mediaY }}>
         <TrailerImage
           image={waterfrontHero}
-          alt="Galvanised cage trailer against a Sydney Harbour night scene"
+          alt="Three galvanised trailers on the Sydney waterfront with vivid blue, cyan and purple lighting on the Opera House and Harbour Bridge"
           sizes="100vw"
           priority
         />

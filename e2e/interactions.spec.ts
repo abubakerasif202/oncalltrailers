@@ -123,7 +123,7 @@ test('hero shows the headline, a visible booking action and the trailer', async 
   // The booking action keeps the approved route.
   await expect(page.locator('.hero').getByRole('link', { name: /Book a Trailer/ })).toHaveAttribute('href', BOOKING);
   // The harbour background and its flashlight shine layer.
-  await expect(page.getByRole('img', { name: /galvanised cage trailer against a Sydney Harbour night scene/i })).toBeVisible();
+  await expect(page.getByRole('img', { name: /three galvanised trailers on the Sydney waterfront/i })).toBeVisible();
   await expect(page.locator('.hero .hero__lit')).toHaveCount(1);
 });
 

@@ -17,8 +17,8 @@ const HERO = [640, 1024, 1376] as const;
 const SIDE = [600, 900, 1200] as const;
 const CUTOUT = [480, 768, 1024] as const;
 
-/** Home hero: generated Sydney Harbour scene with a tandem cage trailer. */
-export const waterfrontHero = set('hero-harbour-night', [640, 1024, 1376, 1774], 1774, 887);
+/** Home hero: original three-trailer waterfront composition with enhanced architectural lighting. */
+export const waterfrontHero = set('hero-waterfront-vivid', [640, 1024, 1376, 1672], 1672, 941);
 
 export const fleetImages = {
   cageHero: set('cage-hero', HERO, 1376, 768),
