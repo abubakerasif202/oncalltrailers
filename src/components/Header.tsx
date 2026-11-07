@@ -9,12 +9,12 @@ import { AnimatedDialogContent } from './AnimatedDialogContent';
 import logo from '@/assets/logo-mark.webp';
 import { telHref } from '@/data/booking';
 import { navItems, site } from '@/data/site';
-import { BookingLink } from './BookingLink';
+import { ContextualBookingLink } from './ContextualBookingLink';
 import { PhoneIcon } from './Icons';
 
 const drawerLinks = [
   { href: '/', label: 'Home' },
-  { href: '/trailers', label: 'Our Trailer' },
+  { href: '/trailers', label: 'Our Trailers' },
   { href: '/how-it-works', label: 'How It Works' },
   { href: '/#towing', label: 'Pickup & Towing' },
   { href: '/faq', label: 'FAQ' },
@@ -60,7 +60,7 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <BookingLink className="btn btn--primary btn--sm" short />
+        <ContextualBookingLink className="btn btn--primary btn--sm" short />
         <Dialog.Trigger asChild>
           <button type="button" className="menu-btn">Menu</button>
         </Dialog.Trigger>
@@ -94,7 +94,7 @@ export function Header() {
               Call {site.phone}
             </a>
           ) : null}
-          <BookingLink />
+          <ContextualBookingLink />
         </div>
       </AnimatedDialogContent>
     </header>

@@ -16,12 +16,21 @@ export const banned = [
   ['protection claims', /insurance|\bGPS\b|refund|no[- ]bond|bond[- ]free/i],
   ['any payload', /any payload/i],
   ['identical specs assumed', /identical (12x6|trailers)|3 identical/i],
-  ['discount rate as standard', /from \$\s?71\.88|from \$\s?77\.87/i],
+  ['discount rate as standard', /from \$\s?71\.88|from \$\s?77\.87|from \$\s?33\.54|from \$\s?35\.94/i],
   ['blanket cover claim', /fully covered|covered for everything|guaranteed cover/i],
 ];
 
 /** Hire rates the owner has published (listing.ts). Any other dollar amount is unapproved. */
-export const approvedPrices = new Set(['83.86', '77.87', '71.88']);
+export const approvedPrices = new Set([
+  // 12x6 cage trailer listing (src/data/listing.ts)
+  '83.86',
+  '77.87',
+  '71.88',
+  // Motorcycle x3 Trailer listing, retrieved 2026-11-07 (src/data/motorcycleListing.ts)
+  '38.34',
+  '35.94',
+  '33.54',
+]);
 
 /** Visible text, meta tags and JSON-LD of one HTML document (scripts other than JSON-LD are dropped). */
 export function extractText(html) {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { telHref } from '@/data/booking';
 import { site } from '@/data/site';
-import { BookingLink } from './BookingLink';
+import { ContextualBookingLink } from './ContextualBookingLink';
 import { PhoneIcon } from './Icons';
 
 /** A compact booking bar that appears once the hero has gone and leaves before the footer. */
@@ -36,7 +36,7 @@ export function StickyBook() {
           <span className="sticky-book__call-text">Call</span>
         </a>
       ) : null}
-      <BookingLink className="btn btn--primary btn--sm" short />
+      <ContextualBookingLink className="btn btn--primary btn--sm" short />
     </div>
   );
 }

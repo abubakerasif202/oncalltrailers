@@ -1,23 +1,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import harbour from '@/assets/hero-harbour.webp';
-import trailerRender from '@/assets/renders/trailer-1.webp';
-import { BookingLink, BookingNote } from '@/components/BookingLink';
+import { BookingLink } from '@/components/BookingLink';
 import { FaqList } from '@/components/FaqList';
+import { FleetComparison } from '@/components/FleetComparison';
+import { FleetSection } from '@/components/FleetSection';
 import { Hero } from '@/components/Hero';
 import { PhoneIcon } from '@/components/Icons';
 import { Lines, Reveal } from '@/components/Reveal';
-import { Rates } from '@/components/Rates';
 import { Reviews } from '@/components/Reviews';
-import { SpecTable } from '@/components/SpecTable';
 import { Steps } from '@/components/Steps';
 import { telHref } from '@/data/booking';
 import { benefits, faqs, homeSteps, preChecks } from '@/data/content';
-import { LISTING_NAME, pickupHours } from '@/data/listing';
+import { pickupHours } from '@/data/listing';
 import { site } from '@/data/site';
-import { trailers } from '@/data/trailers';
-
-const trailer = trailers[0];
 
 export default function HomePage() {
   const tel = telHref(site.phone);
@@ -36,46 +32,9 @@ export default function HomePage() {
         </ul>
       </section>
 
-      <section className="section" id="fleet">
-        <div className="container fleet">
-          <Reveal as="p" className="eyebrow">The trailer</Reveal>
-          <div className="fleet__grid fleet__grid--media">
-            <Reveal as="figure" kind="plate" className="plate fleet__photo">
-              <Image
-                src={trailerRender}
-                alt="3D render of the galvanised tandem cage trailer with mesh cage sides, spare wheel and jockey wheel"
-                sizes="(min-width: 1440px) 760px, 100vw"
-              />
-              <figcaption>Illustrative 3D render · {trailer.quantity} tandem cage trailers in the fleet</figcaption>
-            </Reveal>
-            <Reveal delay={0.1} className="fleet__copy">
-              <h2 className="display">
-                <Link href="/trailers/tandem-cage-trailer" className="link">
-                  {trailer.name}
-                </Link>
-              </h2>
-              <p className="lead" style={{ marginTop: 'var(--space-md)', color: 'var(--color-ink-2)' }}>
-                {trailer.blurb}
-              </p>
-              <SpecTable rows={trailer.specs} caption={`Specifications for ${LISTING_NAME}`} />
-              <p className="note note--spaced">Specifications and rates are for the listed “{LISTING_NAME}” on Local Trailer Hire.</p>
-              <Rates />
-              <ul className="tags" style={{ marginTop: 'var(--space-lg)' }}>
-                {trailer.goodFor.map((use) => (
-                  <li key={use}>{use}</li>
-                ))}
-              </ul>
-              <div className="actions" style={{ marginTop: 'var(--space-xl)' }}>
-                <BookingLink />
-                <Link href="/trailers/tandem-cage-trailer" className="btn btn--ghost">
-                  Trailer details
-                </Link>
-              </div>
-              <BookingNote className="note note--spaced" />
-            </Reveal>
-          </div>
-        </div>
-      </section>
+      <FleetSection />
+
+      <FleetComparison />
 
       <section className="section band">
         <div className="container">

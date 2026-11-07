@@ -2,6 +2,8 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 
 const BOOKING = 'https://www.localtrailerhire.com.au/l/12x6-tandem-cage-box-trailer-haberfield/68a2ad2c-53a0-4737-81db-ad3ed00ef2d8';
 const ROUTES = ['/', '/trailers', '/trailers/tandem-cage-trailer', '/faq', '/how-it-works', '/contact', '/book', '/manage-booking'];
+const FLEET_ROUTES = ['/trailers/tandem-cage-trailer', '/trailers/motorcycle-trailer', '/trailers/car-trailer'];
+const ALL_ROUTES = [...new Set([...ROUTES, ...FLEET_ROUTES])];
 
 async function expectFocusInside(page: Page, dialog: Locator) {
   for (const key of ['Shift+Tab', ...Array<string>(10).fill('Tab')]) {
@@ -101,17 +103,26 @@ test('every booking call to action opens the external booking page safely in a n
       await expect(link).toHaveAttribute('target', '_blank');
       await expect(link).toHaveAttribute('rel', /noopener/);
     }
-    await expect(page.locator('a[href="/trailers#book"], a[href="/contact#enquire"]')).toHaveCount(0);
+    // No dead-end or misleading booking loops. The car trailer's honest "Enquire" link to the contact page is allowed,
+    // but a contact link must never be dressed up as a booking action.
+    await expect(page.locator('a[href="/trailers#book"]')).toHaveCount(0);
+    for (const link of await page.locator('a[href="/contact#enquire"]').all()) {
+      expect(await link.textContent(), `${route} contact link label`).toMatch(/^\s*Enquire/);
+    }
   }
 });
 
 test('hero shows the headline, a visible booking action and the trailer', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Sydney trailer hire.');
-  const cta = page.locator('.hero').getByRole('link', { name: /Check availability/ });
-  await expect(cta).toBeInViewport();
-  await expect(page.locator('.hero').getByRole('link', { name: 'View trailer' })).toHaveAttribute('href', '/trailers/tandem-cage-trailer');
-  await expect(page.getByRole('img', { name: /tandem cage trailer.*Sydney Opera House/i })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Three trailers.');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Endless possibilities.');
+  await expect(page.locator('.hero__lead')).toContainText('find the right trailer for your next job');
+  const explore = page.locator('.hero').getByRole('link', { name: 'Explore Our Trailers' });
+  await expect(explore).toBeInViewport();
+  await expect(explore).toHaveAttribute('href', '#fleet');
+  // The booking action keeps the approved route.
+  await expect(page.locator('.hero').getByRole('link', { name: /Book a Trailer/ })).toHaveAttribute('href', BOOKING);
+  await expect(page.getByRole('img', { name: /three galvanised trailers.*motorcycle trailer.*cage box trailer.*car trailer/i })).toBeVisible();
 });
 
 test('phone links use a valid tel: href', async ({ page }) => {
@@ -130,7 +141,7 @@ test('FAQ items expand and collapse', async ({ page }) => {
 
 test('gallery switches views with the keyboard', async ({ page }) => {
   await page.goto('/trailers/tandem-cage-trailer');
-  const thumb = page.getByRole('button', { name: 'Axle' });
+  const thumb = page.getByRole('button', { name: 'Side view' });
   await thumb.focus();
   await page.keyboard.press('Enter');
   await expect(thumb).toHaveAttribute('aria-pressed', 'true');
@@ -161,7 +172,7 @@ test('routes render without horizontal overflow or runtime errors', async ({ pag
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
-  for (const route of ROUTES) {
+  for (const route of ALL_ROUTES) {
     const response = await page.goto(route);
     expect(response?.status()).toBe(200);
     await expect(page.locator('main h1')).toBeVisible();
@@ -170,22 +181,26 @@ test('routes render without horizontal overflow or runtime errors', async ({ pag
   expect(errors).toEqual([]);
 });
 
-test('every gallery thumbnail is on screen and selectable at this width', async ({ page }) => {
-  await page.goto('/trailers/tandem-cage-trailer');
-  const thumbs = page.locator('.gallery__thumb');
-  expect(await thumbs.count()).toBe(4);
-  for (let i = 0; i < 4; i++) {
-    const box = await thumbs.nth(i).boundingBox();
-    expect(box!.x, `thumb ${i + 1} left edge`).toBeGreaterThanOrEqual(0);
-    expect(box!.x + box!.width, `thumb ${i + 1} right edge`).toBeLessThanOrEqual(page.viewportSize()!.width);
-    expect(box!.height).toBeGreaterThanOrEqual(44);
-    await thumbs.nth(i).click();
-    await expect(thumbs.nth(i)).toHaveAttribute('aria-pressed', 'true');
-    await expect.poll(() => page.evaluate(() => { const a = document.querySelector('.gallery__img[data-active="true"]') as HTMLImageElement | null; return !!a && a.complete && a.naturalWidth > 0; })).toBe(true);
-  }
-});
+for (const route of FLEET_ROUTES) {
+  test(`every gallery thumbnail on ${route} is on screen and selectable at this width`, async ({ page }) => {
+    await page.goto(route);
+    const thumbs = page.locator('.gallery__thumb');
+    expect(await thumbs.count()).toBe(3);
+    for (let i = 0; i < 3; i++) {
+      await thumbs.nth(i).scrollIntoViewIfNeeded();
+      const box = await thumbs.nth(i).boundingBox();
+      expect(box!.x, `thumb ${i + 1} left edge`).toBeGreaterThanOrEqual(0);
+      expect(box!.x + box!.width, `thumb ${i + 1} right edge`).toBeLessThanOrEqual(page.viewportSize()!.width);
+      expect(box!.height).toBeGreaterThanOrEqual(44);
+      await thumbs.nth(i).click();
+      await expect(thumbs.nth(i)).toHaveAttribute('aria-pressed', 'true');
+      await expect.poll(() => page.evaluate(() => { const a = document.querySelector('.gallery__img[data-active="true"]') as HTMLImageElement | null; return !!a && a.complete && a.naturalWidth > 0; })).toBe(true);
+    }
+  });
+}
+
 test('production isolation: the widget flag is off, so no widget script, markup or request exists on any route', async ({ page }) => {
-  for (const route of ROUTES) {
+  for (const route of ALL_ROUTES) {
     await page.goto(route);
     await expect(page.locator('main h1')).toBeVisible();
     expect(await page.content(), `${route} has no widget traces`).not.toMatch(/book\.lockii\.app|<lockii-|lockii-widget|data-lockii/i);
@@ -206,7 +221,7 @@ test('planned booking routes are holding pages: noindex, out of the sitemap, and
 });
 
 test('structured data keeps exactly one LocalBusiness block and gains no widget schema on every route', async ({ page }) => {
-  for (const route of ROUTES) {
+  for (const route of ALL_ROUTES) {
     await page.goto(route);
     const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
     expect(blocks.filter((b) => JSON.parse(b)['@type'] === 'LocalBusiness'), route).toHaveLength(1);

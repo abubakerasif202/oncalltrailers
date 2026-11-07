@@ -4,7 +4,7 @@ import logo from '@/assets/logo-mark.webp';
 import { telHref } from '@/data/booking';
 import { POLICY_LINKS } from '@/data/listing';
 import { navItems, site } from '@/data/site';
-import { BookingLink } from './BookingLink';
+import { ContextualBookingLink } from './ContextualBookingLink';
 import { MotionToggle } from './MotionToggle';
 
 export function Footer() {
@@ -24,7 +24,7 @@ export function Footer() {
               Trailer hire in {site.region}.
             </p>
             <div className="actions" style={{ marginTop: 'var(--space-lg)' }}>
-              <BookingLink className="btn btn--primary btn--sm" />
+              <ContextualBookingLink className="btn btn--primary btn--sm" />
             </div>
           </div>
           <nav aria-label="Footer">
