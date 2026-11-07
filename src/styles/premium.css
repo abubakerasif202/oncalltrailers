@@ -1,0 +1,185 @@
+/* Automotive editorial finish, layered after the existing component styles. */
+:root {
+  --color-lime: #d1f76c;
+}
+
+.site-header {
+  background: linear-gradient(180deg, rgb(4 12 25 / 96%), rgb(4 12 25 / 60%));
+  border-bottom-color: rgb(169 194 222 / 12%);
+}
+
+.hero {
+  display: grid;
+  min-height: max(760px, 94svh);
+  align-items: center;
+  background: #030d18;
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  margin: 0;
+  aspect-ratio: auto;
+  mask-image: none;
+  -webkit-mask-image: none;
+}
+
+.hero__media > img,
+.hero__lit > img {
+  object-position: 65% 50%;
+}
+
+.hero__shade {
+  background: linear-gradient(90deg, rgb(3 13 24 / 96%) 0%, rgb(3 13 24 / 84%) 26%, rgb(3 13 24 / 32%) 55%, transparent 78%),
+    linear-gradient(0deg, #030d18 0%, transparent 26%, transparent 82%, rgb(3 13 24 / 40%));
+}
+
+.hero__content {
+  width: 100%;
+  padding-block: 160px 180px;
+  gap: 28px;
+  align-self: center;
+}
+
+.hero__content > * {
+  max-width: 560px;
+}
+
+.hero__title {
+  font-size: clamp(3.4rem, 5.1vw, 5.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+
+.hero__lead {
+  max-width: 36ch;
+  color: #d0dce8;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.7;
+}
+
+.hero__facts {
+  justify-content: flex-start;
+  bottom: 36px;
+  gap: 0;
+}
+
+.hero__facts > div {
+  padding: 14px 32px;
+  border-left: 1px solid rgb(151 185 214 / 30%);
+  background: rgb(4 15 29 / 72%);
+}
+
+.hero__facts dt {
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  font-size: 0.65rem;
+  color: #a7bbd0;
+}
+
+.hero__facts dd { margin-top: 5px; }
+.eyebrow { letter-spacing: 0.17em; }
+.hero .eyebrow { color: var(--color-lime); }
+.btn { border-radius: 3px; }
+.btn--primary { box-shadow: 0 8px 28px rgb(25 114 246 / 20%); }
+.hero .btn--ghost { background: rgb(4 15 29 / 72%); }
+
+.section__head h2,
+.section--s h2 {
+  letter-spacing: -0.025em;
+}
+
+.benefits {
+  border-block: 1px solid rgb(143 180 215 / 18%);
+  background: #0a1727;
+}
+
+.benefits__title { color: #e4edf6; }
+.band { background-image: none; }
+.section.band { border-block: 1px solid rgb(143 180 215 / 12%); }
+.fleet-cards { gap: clamp(16px, 2.2vw, 32px); }
+.fleet-card {
+  background: #0c1a2b;
+  box-shadow: inset 0 0 0 1px rgb(143 180 215 / 22%);
+}
+.fleet-card::before { background: #4a93ff; width: 64px; }
+.fleet-card__art {
+  aspect-ratio: 1.2;
+  background: radial-gradient(ellipse at 50% 80%, rgb(41 107 184 / 20%), transparent 65%), #071321;
+  border-bottom: 1px solid rgb(143 180 215 / 13%);
+}
+.fleet-card__number { font-size: 3.25rem; opacity: 0.75; }
+.fleet-card__body { padding: 28px; gap: 20px; }
+.fleet-card__name { font-size: clamp(1.6rem, 2vw, 2.1rem); }
+.fleet-card__price { color: #edf5fc; }
+.fleet-card__specs { border-color: rgb(143 180 215 / 18%); }
+.fleet-card__actions { gap: 10px; }
+.checks .mark,
+.steps .num { color: var(--color-lime); }
+.checks--compact li { padding-block: 28px; }
+.reviews__stats { border-color: rgb(143 180 215 / 25%); }
+.reviews__list blockquote { line-height: 1.7; }
+.faq summary { min-height: 84px; }
+.faq details[open] summary { color: #91c2ff; }
+.closing { border-top: 1px solid rgb(143 180 215 / 18%); }
+.closing h2 { letter-spacing: -0.035em; }
+.site-footer { background: #040d18; }
+.site-footer__grid { padding-bottom: 32px; }
+
+@media (min-width: 60.001rem) and (max-width: 78rem) {
+  .hero__content > * { max-width: 470px; }
+  .hero__title { font-size: 4rem; }
+  .hero__content .actions { max-width: 520px; gap: 12px; }
+  .hero .btn { padding-inline: 22px; }
+}
+
+@media (max-width: 60rem) {
+  .hero { min-height: 820px; align-items: start; }
+  .hero__media { inset: auto 0 0; height: 440px; aspect-ratio: auto; }
+  .hero__media > img,
+  .hero__lit > img { object-position: 74% 50%; }
+  .hero__shade {
+    background: linear-gradient(180deg, #030d18 0%, #030d18 40%, rgb(3 13 24 / 65%) 53%, transparent 70%),
+      linear-gradient(0deg, #030d18, transparent 17%);
+  }
+  .hero__content { align-self: start; padding-block: 120px 380px; gap: 22px; }
+  .hero__content > * { max-width: 620px; }
+  .hero__title { font-size: clamp(3rem, 8.5vw, 4.5rem); }
+  .hero__lead { max-width: 40ch; font-size: 1rem; line-height: 1.6; }
+  .hero__facts { display: none; }
+  .hero .actions { max-width: 540px; gap: 10px; }
+  .hero .actions .btn { font-size: 0.875rem; padding-inline: 12px; min-height: 52px; }
+  .fleet-card__body { padding: 24px; }
+  .faq summary { min-height: 76px; }
+}
+
+@media (max-width: 30rem) {
+  .hero { min-height: 780px; }
+  .hero__content { padding-top: 112px; padding-bottom: 330px; gap: 20px; }
+  .hero__title { font-size: clamp(2.65rem, 11.3vw, 3.35rem); }
+  .hero__media { height: 360px; }
+  .hero__shade {
+    background: linear-gradient(180deg, #030d18 0%, #030d18 44%, rgb(3 13 24 / 60%) 57%, transparent 75%),
+      linear-gradient(0deg, #030d18, transparent 17%);
+  }
+  .hero .actions .btn { font-size: 0.8rem; gap: 7px; padding-inline: 10px; }
+  .fleet-card__art { aspect-ratio: 1.35; }
+  .fleet-card__body { padding: 22px; }
+  .closing h2 { font-size: clamp(3rem, 14vw, 5rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__media { will-change: auto; }
+}
+/* Manual review browsing never steals focus or auto-advances. */
+.review-controls { display:flex; align-items:center; justify-content:flex-end; gap:16px; margin:24px 0; color:var(--color-muted); }
+.review-controls button { min-width:48px; min-height:48px; padding:8px; }
+.reviews__list.reviews__carousel { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; gap:24px; padding:8px 0 24px; scrollbar-color:var(--color-accent) var(--color-paper-2); }
+.reviews__carousel > li { flex:0 0 calc(50% - 12px); scroll-snap-align:start; padding:32px; border:1px solid var(--color-rule); background:var(--color-paper-2); }
+.reviews__carousel:focus-visible { outline:2px solid var(--color-focus); outline-offset:6px; }
+@media(max-width:40rem) { .reviews__carousel > li {flex-basis:90%; padding:24px;} .review-controls {justify-content:space-between;} }
+.direct-booking {display:flex;align-items:center;justify-content:space-between;gap:24px;padding-block:24px;border-bottom:1px solid var(--color-rule);}
+.direct-booking p {color:var(--color-muted);max-width:60ch;}
+.direct-booking .btn {flex-shrink:0;}
+@media(max-width:40rem){.direct-booking {flex-direction:column;align-items:stretch;gap:16px;}}

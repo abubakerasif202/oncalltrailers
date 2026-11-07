@@ -114,7 +114,7 @@ test('every booking call to action opens the external booking page safely in a n
 
 test('hero shows the headline, a visible booking action and the trailer', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('Three trailers.');
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Ready to move.');
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Endless possibilities.');
   await expect(page.locator('.hero__lead')).toContainText('find the right trailer for your next job');
   const explore = page.locator('.hero').getByRole('link', { name: 'Explore Our Trailers' });
@@ -122,8 +122,8 @@ test('hero shows the headline, a visible booking action and the trailer', async 
   await expect(explore).toHaveAttribute('href', '#fleet');
   // The booking action keeps the approved route.
   await expect(page.locator('.hero').getByRole('link', { name: /Book a Trailer/ })).toHaveAttribute('href', BOOKING);
-  // The Sydney waterfront background (Opera House and Harbour Bridge) with all three trailers, and its flashlight shine layer.
-  await expect(page.getByRole('img', { name: /three galvanised trailers.*Sydney Opera House.*Harbour Bridge/i })).toBeVisible();
+  // The harbour background and its flashlight shine layer.
+  await expect(page.getByRole('img', { name: /galvanised cage trailer against a Sydney Harbour night scene/i })).toBeVisible();
   await expect(page.locator('.hero .hero__lit')).toHaveCount(1);
 });
 

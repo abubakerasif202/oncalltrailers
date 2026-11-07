@@ -6,6 +6,7 @@ import { FaqList } from '@/components/FaqList';
 import { FleetComparison } from '@/components/FleetComparison';
 import { FleetSection } from '@/components/FleetSection';
 import { Hero } from '@/components/Hero';
+import { ContactRail, HomeGallery, TrustStrip } from '@/components/HomeEnhancements';
 import { PhoneIcon } from '@/components/Icons';
 import { Lines, Reveal } from '@/components/Reveal';
 import { Reviews } from '@/components/Reviews';
@@ -13,6 +14,7 @@ import { Steps } from '@/components/Steps';
 import { telHref } from '@/data/booking';
 import { benefits, faqs, homeSteps, preChecks } from '@/data/content';
 import { pickupHours } from '@/data/listing';
+import { getLockiiMode } from '@/data/lockii';
 import { site } from '@/data/site';
 
 export default function HomePage() {
@@ -20,6 +22,13 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <TrustStrip />
+      {getLockiiMode() === 'live' ? (
+        <div className="container direct-booking">
+          <p>Prefer to book direct? Choose your dates with Lockii. Your final price is shown before payment.</p>
+          <Link href="/book" className="btn btn--ghost">Direct online booking</Link>
+        </div>
+      ) : null}
 
       <section className="benefits" aria-label="Why hire from On Call Trailers">
         <ul className="container benefits__list">
@@ -35,6 +44,7 @@ export default function HomePage() {
       <FleetSection />
 
       <FleetComparison />
+      <HomeGallery />
 
       <section className="section band">
         <div className="container">
@@ -117,6 +127,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <ContactRail />
       <section className="closing">
         <div className="closing__media" aria-hidden="true">
           <Image src={harbour} alt="" sizes="100vw" loading="lazy" />

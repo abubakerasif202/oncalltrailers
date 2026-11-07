@@ -18,7 +18,7 @@ export function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '-6%']);
 
   const facts = [
-    { label: 'Fleet', value: 'Cage, motorcycle and car trailers' },
+    { label: 'Trailer', value: '12 × 6 tandem cage trailer' },
     { label: 'Pickup', value: `${site.pickupSuburb ?? site.region} · 5 AM – 11:30 PM` },
     { label: 'Booking', value: `Online at ${booking.host}` },
   ];
@@ -28,11 +28,10 @@ export function Hero() {
       <motion.div className="hero__media" style={{ y: mediaY }}>
         <TrailerImage
           image={waterfrontHero}
-          alt="Illustrative 3D render of three galvanised trailers lined up on a wet Sydney waterfront wharf at night, with the Sydney Opera House and Harbour Bridge lit up across the harbour"
+          alt="Galvanised cage trailer against a Sydney Harbour night scene"
           sizes="100vw"
           priority
         />
-        <p className="illus-tag">Illustrative image</p>
         <div className="hero__lit" aria-hidden="true">
           <TrailerImage image={waterfrontHero} alt="" decorative sizes="100vw" />
         </div>
@@ -45,7 +44,7 @@ export function Hero() {
         </p>
         <h1 className="hero__title">
           <span className="line" style={{ '--line-delay': '150ms' } as React.CSSProperties}>
-            <span className="shimmer-text">Three trailers.</span>
+            <span className="shimmer-text">Ready to move.</span>
           </span>{' '}
           <span className="line" style={{ '--line-delay': '290ms' } as React.CSSProperties}>
             <span className="blue-text">Endless possibilities.</span>
