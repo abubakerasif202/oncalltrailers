@@ -58,11 +58,35 @@ export async function scanExport(root = path.resolve('out')) {
   return findings;
 }
 
+async function* exportedFiles(dir) {
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) yield* exportedFiles(full);
+    else if (/\.(html|js|txt|xml|json)$/.test(entry.name)) yield full;
+  }
+}
+
+/**
+ * Production isolation: a build with the booking widget off must carry no trace of the widget provider
+ * (script, element names or URL) in any exported page or bundle. Returns [{ file, rule, match }].
+ */
+export async function scanWidgetIsolation(root = path.resolve('out')) {
+  const findings = [];
+  for await (const file of exportedFiles(root)) {
+    const match = (await readFile(file, 'utf8')).match(/book\.lockii\.app|<lockii-|lockii-widget|data-lockii/i);
+    if (match) findings.push({ file: path.relative(root, file), rule: 'widget isolation', match: match[0] });
+  }
+  return findings;
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
-  const findings = await scanExport();
+  const widgetBuild = ['preview', 'live'].includes(process.env.NEXT_PUBLIC_LOCKII_MODE ?? '');
+  const findings = [...(await scanExport()), ...(widgetBuild ? [] : await scanWidgetIsolation())];
   if (findings.length) {
     console.error(findings.map((f) => `${f.file}: ${f.rule} -> "${f.match}"`).join('\n'));
     process.exit(1);
   }
-  console.log('Export claims check passed: no demo, price, access or compliance claims found.');
+  console.log(
+    `Export claims check passed: no demo, price, access or compliance claims found${widgetBuild ? ' (widget build: widget isolation not checked)' : ', and no booking widget code in the export'}.`,
+  );
 }
