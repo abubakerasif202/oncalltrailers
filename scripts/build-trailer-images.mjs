@@ -20,8 +20,6 @@ const jobs = [
   ['oncall-car-trailer-hero.jpg', 'car-hero', [640, 1024, 1376], 80],
   ['oncall-car-trailer-side.jpg', 'car-side', [600, 900, 1200], 80],
   ['oncall-car-trailer-cutout.png', 'car-cutout', [480, 768, 1024], 82],
-  ['oncall-trailers-lineup.jpg', 'lineup', [640, 1024, 1376], 78],
-  ['oncall-trailers-vertical-poster.jpg', 'lineup-portrait', [480, 768], 78],
 ];
 
 await mkdir(out, { recursive: true });

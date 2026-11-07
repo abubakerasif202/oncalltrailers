@@ -8,7 +8,7 @@ untouched (see `lockii-integration.md`).
 
 | Page | Notes |
 | --- | --- |
-| `/` | Three-trailer hero, fleet cards, comparison table, then the existing sections |
+| `/` | Night-harbour hero (Opera House and Harbour Bridge, with the flashlight shine) carrying the new headline, then fleet cards, comparison table and the existing sections |
 | `/trailers` | Fleet cards and comparison |
 | `/trailers/tandem-cage-trailer` | 12x6 cage box trailer (existing URL kept) |
 | `/trailers/motorcycle-trailer` | Motorcycle x3 Trailer: indexable, in the sitemap |

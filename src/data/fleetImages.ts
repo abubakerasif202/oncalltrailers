@@ -27,8 +27,6 @@ export const fleetImages = {
   carHero: set('car-hero', HERO, 1376, 768),
   carSide: set('car-side', SIDE, 1200, 896),
   carCutout: set('car-cutout', CUTOUT, 1024, 1024),
-  lineup: set('lineup', HERO, 1376, 768),
-  lineupPortrait: set('lineup-portrait', [480, 768], 768, 1376),
 } as const;
 
 export const imageUrl = (image: ImageSet, width: number): string => `/images/trailers/${image.name}-${width}.webp`;
