@@ -1,13 +1,13 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'motion/react';
-import Image from 'next/image';
 import { useRef } from 'react';
-import harbour from '@/assets/hero-harbour.webp';
 import { getBooking } from '@/data/booking';
+import { waterfrontHero } from '@/data/fleetImages';
 import { site } from '@/data/site';
 import { BookingLink } from './BookingLink';
 import { ArrowIcon } from './Icons';
+import { TrailerImage } from './TrailerImage';
 
 /** The first screen: headline over the night-harbour image, which drifts slightly slower than the page. */
 export function Hero() {
@@ -26,15 +26,15 @@ export function Hero() {
   return (
     <section className="hero" ref={ref}>
       <motion.div className="hero__media" style={{ y: mediaY }}>
-        <Image
-          src={harbour}
-          alt="Galvanised tandem cage trailer parked on the waterfront with the Sydney Opera House and Harbour Bridge lit up behind it at night"
-          preload
+        <TrailerImage
+          image={waterfrontHero}
+          alt="Illustrative 3D render of three galvanised trailers lined up on a wet Sydney waterfront wharf at night, with the Sydney Opera House and Harbour Bridge lit up across the harbour"
           sizes="100vw"
+          priority
         />
         <p className="illus-tag">Illustrative image</p>
         <div className="hero__lit" aria-hidden="true">
-          <Image src={harbour} alt="" sizes="100vw" />
+          <TrailerImage image={waterfrontHero} alt="" decorative sizes="100vw" />
         </div>
       </motion.div>
       <div className="hero__shade" aria-hidden="true" />
